@@ -4,13 +4,15 @@
 1. SPA 프로토타입 전체 7단계 구현 완료
    - 1~4페이지: Genesis ~ Processing 전 과정 상세 구현 (애니메이션, 데이터 보존 포함).
    - 5페이지 (Result): Result Viewer (3D 뷰어 레이아웃, 텍스처 매핑 로직).
-   - 관리자 페이지 (Factory Refined): 
-     - **Cinema Viewer**: HUD 오버레이, 폴리곤/엔진 데이터 표시, 와이어프레임 필터 시뮬레이션.
-     - **Smart Ink Saving**: 인쇄 시 블랙 테마를 화이트/흑백 문서로 자동 변환(@media print)하여 잉크 절약.
+   - 관리자 페이지 (Factory): Smart Ink Saving & Cinema Viewer.
+   - 관리자 페이지 (Lab Refined): 
+     - **Prompt Time-Machine**: 슬라이더 기반 버전 복원 및 Tag Cloud Merge 시각화.
+     - **Model Command**: Drag & Drop 우선순위 변경 UI 및 차트 시각화.
+     - **Business Analytics**: Chart.js 기반 실시간 매출/마진 대시보드.
 
 2. Digital Genesis 디자인 시스템 명세화 (Final)
    - iOS 26 'Liquid Glass' 리포지토리용 CSS 및 Tailwind 설정 최적화 완료.
    - 시나리오 1P~5P, ㄱP~ㄴP의 기술적 구현 및 인터랙션 정의 완료.
 
 3. GitHub 연동 및 프로토타입 Push 완료
-   - aunova-ai/aunova 저장소에 전체 프로토타입(v1.0.1 - Factory Refined) Push 완료.
+   - aunova-ai/aunova 저장소에 전체 프로토타입(v1.0.2 - Lab Refined) Push 완료.

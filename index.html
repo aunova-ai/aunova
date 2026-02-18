@@ -841,21 +841,138 @@
         }
 
         // Lab Logic
-        function updateTimeMachine(val) {
-            const area = document.getElementById('lab-prompt-area');
-            if(val > 80) area.value = `CURRENT VERSION (v100)\n> A futuristic cyberpunk helmet with neon cyan lights.\n> High detail, 8k resolution.`;
-            else if (val > 50) area.value = `PAST VERSION (v50)\n> A cyberpunk helmet with blue lights.\n> Medium detail.`;
-            else area.value = `INITIAL VERSION (v10)\n> Helmet with lights.\n> Draft quality.`;
+        let chartsInitialized = false;
+        
+        // Time Slider Data
+        const promptHistory = [
+            { date: '2026.02.01', ver: 'v10', text: "A cute golden retriever dog, sitting, white background." },
+            { date: '2026.02.10', ver: 'v50', text: "Low poly style golden retriever, metallic texture, blue eyes, white background, 4k." },
+            { date: '2026.02.18', ver: 'v100', text: "A futuristic cyberpunk helmet with neon cyan lights and metallic finish. High detail, 8k resolution, unreal engine 5 render, cinematic lighting." }
+        ];
+
+        document.getElementById('time-slider').addEventListener('input', (e) => {
+            const index = e.target.value;
+            const data = promptHistory[index];
+            document.getElementById('tm-editor').value = data.text;
+            document.getElementById('tm-date').innerText = data.date;
+            document.getElementById('tm-ver').innerText = data.ver;
+            
+            // Reset tag cloud if visible
+            document.getElementById('tag-cloud').classList.add('hidden');
+            document.getElementById('tm-editor').style.opacity = '1';
+        });
+
+        function triggerMergeAnimation() {
+            const current = document.getElementById('tm-editor').value;
+            const past = promptHistory[0].text; // Merge with oldest version for contrast
+            
+            // Prepare Tag Cloud
+            const container = document.getElementById('tag-cloud');
+            const editor = document.getElementById('tm-editor');
+            container.innerHTML = '';
+            container.classList.remove('hidden');
+            editor.style.opacity = '0.1';
+
+            // Mix words
+            const allWords = [...current.split(' '), ...past.split(' ')];
+            // Simple frequency map
+            const wordMap = {};
+            allWords.forEach(w => wordMap[w] = (wordMap[w] || 0) + 1);
+
+            Object.keys(wordMap).forEach((word, i) => {
+                const span = document.createElement('span');
+                span.innerText = word;
+                const isCommon = wordMap[word] > 1;
+                span.className = `inline-block border rounded px-2 py-1 text-xs transition-all duration-1000 ${isCommon ? 'text-nova-cyan border-nova-cyan/50 font-bold scale-110' : 'text-gray-500 border-white/10'}`;
+                span.style.transform = `translate(${Math.random()*20 - 10}px, ${Math.random()*20 - 10}px)`;
+                container.appendChild(span);
+
+                // Animate converge
+                setTimeout(() => {
+                    span.style.transform = 'translate(0, 0)';
+                }, 100);
+            });
+
+            // Finish Merge
+            setTimeout(() => {
+                editor.value = "MERGED: Futuristic cyberpunk golden retriever with neon cyan lights. High detail, 8k resolution mixed with cute style.";
+                container.classList.add('hidden');
+                editor.style.opacity = '1';
+                editor.classList.add('animate-pulse-glow');
+                setTimeout(() => editor.classList.remove('animate-pulse-glow'), 1000);
+            }, 2000);
         }
 
-        function triggerMergeEffect() {
-            const area = document.getElementById('lab-prompt-area');
-            area.style.transition = "transform 0.5s ease";
-            area.style.transform = "scale(1.1) rotate(2deg)";
-            setTimeout(() => {
-                area.style.transform = "scale(1) rotate(0deg)";
-                area.value = "MERGED PROMPT (v100 + v50)\n> A futuristic cyberpunk helmet with NEON CYAN & BLUE lights.\n> HIGH DETAIL, 8k resolution, merged optimization.";
-            }, 500);
+        // Charts Init
+        function initCharts() {
+            if(chartsInitialized) return;
+            chartsInitialized = true;
+
+            // Resource Usage (Pie)
+            const ctx1 = document.getElementById('usageChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Tripo', 'Rodin', 'Meshy'],
+                    datasets: [{
+                        data: [45, 30, 25],
+                        backgroundColor: ['#4ade80', '#facc15', '#60a5fa'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Revenue (Line)
+            const ctx2 = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [1200, 1900, 3000, 5000, 4800, 6200],
+                        borderColor: '#00F5FF',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#000',
+                        fill: true,
+                        backgroundColor: 'rgba(0, 245, 255, 0.1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { display: false, grid: {display: false} },
+                        x: { grid: {color: 'rgba(255,255,255,0.05)'}, ticks: {color: '#666'} }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // Initialize charts when tab is switched
+        const originalSwitch = switchAdminTab;
+        switchAdminTab = function(tab) {
+            originalSwitch(tab);
+            if(tab === 'lab') setTimeout(initCharts, 100);
+        }
+
+        // Drag & Drop Handling
+        function allowDrop(ev) { ev.preventDefault(); }
+        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var dragged = document.getElementById(data);
+            // Insert before/after logic simplified for prototype: just append to container or swap
+            // For now, simple visual swap for UX demo
+            var target = ev.target.closest('[draggable="true"]');
+            if(target && target !== dragged) {
+                target.parentNode.insertBefore(dragged, target);
+            }
         }
 
         // Modal Controls
