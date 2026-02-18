@@ -109,16 +109,63 @@
             to { opacity: 1; }
         }
 
-        /* Admin Print Styles */
+        /* Admin Print Styles - Smart Ink Saving */
         @media print {
-            body { background: white !important; color: black !important; }
-            .no-print, .liquid-glass, header, #cursor, #admin-nav { display: none !important; }
-            .print-only { display: block !important; }
-            #admin-factory-table { display: block !important; width: 100%; border-collapse: collapse; }
-            #admin-factory-table th, #admin-factory-table td { border: 1px solid #000; padding: 8px; color: black; }
-            #admin-page { padding: 0 !important; margin: 0 !important; }
+            body { 
+                background: white !important; 
+                color: black !important; 
+                -webkit-print-color-adjust: exact; 
+            }
+            /* Hide non-printable areas */
+            .no-print, header, #cursor, #admin-header, #intro-overlay { 
+                display: none !important; 
+            }
+            /* Reset Layout for Print */
+            #admin-page { 
+                display: block !important; 
+                min-height: auto !important; 
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            #admin-factory { 
+                display: block !important; 
+                height: auto !important;
+                width: 100% !important;
+            }
+            /* Only show the Order List logic layout */
+            #admin-factory > div:first-child { 
+                width: 100% !important; 
+                border: none !important;
+            }
+            #admin-factory > div:last-child {
+                display: none !important; /* Hide Cinema Viewer */
+            }
+            
+            /* Table Styling for Print */
+            #order-table {
+                width: 100% !important;
+                border: 2px solid #000 !important;
+                font-size: 12px !important;
+            }
+            #order-table th, #order-table td {
+                color: black !important;
+                border: 1px solid #000 !important;
+                padding: 8px !important;
+            }
+            #order-table thead {
+                background: #eee !important;
+                color: black !important;
+                font-weight: bold !important;
+            }
+            
+            /* Force reveal specific print-only headers */
+            .print-only { 
+                display: block !important; 
+                text-align: center;
+                margin-bottom: 20px;
+            }
         }
-        .print-only { display: none; }
 
         /* Range Slider Styling */
         input[type=range] {
@@ -426,101 +473,138 @@
             </div>
         </section>
 
-        <!-- Admin Page (Updated) -->
-        <section id="admin-page" class="spa-page hidden min-h-screen p-8 bg-[#0A0A0B]">
-            <!-- Admin Headers -->
-            <div id="admin-nav" class="flex justify-between items-center mb-8">
-                <h1 class="text-2xl font-mono text-nova-cyan font-bold">AUNOVA_ADMIN <span class="text-gray-600 text-sm ml-2">v.2.0.4</span></h1>
-                <div class="flex bg-white/10 rounded-lg p-1">
-                    <button onclick="switchAdminTab('factory')" id="btn-factory" class="px-6 py-2 rounded font-bold text-sm bg-nova-cyan text-black shadow-lg">Factory (ㄱ)</button>
-                    <button onclick="switchAdminTab('lab')" id="btn-lab" class="px-6 py-2 rounded font-bold text-sm text-gray-400 hover:text-white">The Lab (ㄴ)</button>
+        <!-- Admin Page (Updated: Factory Focused) -->
+        <section id="admin-page" class="spa-page hidden min-h-screen bg-[#0A0A0B] text-white overflow-hidden">
+            <!-- Admin Header -->
+            <header id="admin-header" class="h-16 flex items-center justify-between px-6 border-b border-white/10 bg-black/50 backdrop-blur-xl fixed w-full top-0 z-50">
+                <div class="flex items-center gap-4">
+                    <div class="w-8 h-8 rounded bg-gradient-to-br from-nova-cyan to-blue-600 flex items-center justify-center font-bold text-black text-xs">A</div>
+                    <span class="font-mono font-bold text-lg tracking-wider">AUNOVA <span class="text-nova-cyan">FACTORY</span> [ADMIN]</span>
                 </div>
-            </div>
+                <!-- Toggle Switch -->
+                <div class="flex items-center gap-3 bg-white/5 rounded-full p-1 border border-white/10">
+                    <button onclick="switchAdminTab('factory')" id="btn-factory" class="px-4 py-1.5 rounded-full text-xs font-bold bg-nova-cyan text-black shadow-lg transition-all">Factory (ㄱ)</button>
+                    <button onclick="switchAdminTab('lab')" id="btn-lab" class="px-4 py-1.5 rounded-full text-xs font-bold text-gray-400 hover:text-white transition-all">The Lab (ㄴ)</button>
+                </div>
+            </header>
 
-            <!-- ㄱ: The Factory -->
-            <div id="admin-factory" class="grid grid-cols-[300px_1fr] gap-6 h-[80vh]">
-                <!-- Order List -->
-                <div class="bg-white/5 border border-white/10 rounded-xl p-4 overflow-hidden flex flex-col">
-                    <div class="flex justify-between mb-4 no-print">
-                        <h2 class="font-bold text-sm text-gray-400">ORDER QUEUE</h2>
-                        <button onclick="window.print()" class="text-xs bg-gray-700 hover:bg-white hover:text-black px-3 py-1 rounded transition-colors">🖨 Print Order</button>
+            <!-- Factory Content Layout -->
+            <div id="admin-factory" class="pt-16 grid grid-cols-[3fr_7fr] h-screen">
+                
+                <!-- Left Panel: Order Control -->
+                <div class="border-r border-white/10 bg-[#0A0A0B] flex flex-col h-full">
+                    <!-- Control Bar -->
+                    <div class="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
+                        <h2 class="font-mono text-xs font-bold text-gray-400 ml-2">ORDER QUEUE (24)</h2>
+                        <button onclick="window.print()" class="flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white text-white hover:text-black rounded text-xs font-bold transition-colors border border-white/20">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            작업지시서 인쇄
+                        </button>
                     </div>
-                    <div class="overflow-y-auto font-mono text-xs">
-                        <table class="w-full text-left" id="admin-factory-table">
-                            <thead class="text-gray-500 border-b border-gray-700">
-                                <tr><th class="py-2">ID</th><th>USER</th><th>STATUS</th></tr>
+
+                    <!-- Data Table -->
+                    <div class="flex-1 overflow-auto hide-scrollbar p-0">
+                        <table class="w-full text-left border-collapse" id="order-table">
+                            <thead class="bg-white/5 text-gray-400 font-mono text-[10px] sticky top-0 backdrop-blur-md">
+                                <tr>
+                                    <th class="p-3 border-b border-white/10">No.</th>
+                                    <th class="p-3 border-b border-white/10">Status</th>
+                                    <th class="p-3 border-b border-white/10">Title / ID</th>
+                                    <th class="p-3 border-b border-white/10 text-right">Date</th>
+                                </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-800">
-                                <tr class="hover:bg-white/5 cursor-pointer text-gray-300"><td class="py-3">#2049</td><td>im_kong</td><td class="text-green-400">READY</td></tr>
-                                <tr class="hover:bg-white/5 cursor-pointer text-gray-300"><td class="py-3">#2048</td><td>cyber_v</td><td class="text-yellow-400">PRINT</td></tr>
-                                <tr class="hover:bg-white/5 cursor-pointer text-gray-300"><td class="py-3">#2047</td><td>k_design</td><td class="text-blue-400">SHIP</td></tr>
-                                <tr class="hover:bg-white/5 cursor-pointer text-gray-300"><td class="py-3">#2045</td><td>proto_x</td><td class="text-gray-500">DONE</td></tr>
+                            <tbody class="font-mono text-xs divide-y divide-white/5">
+                                <!-- Row 1 -->
+                                <tr onclick="loadModelToCinema(0)" class="hover:bg-white/10 cursor-pointer transition-colors group">
+                                    <td class="p-3 text-gray-500 group-hover:text-white">#2049</td>
+                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-nova-cyan/20 text-nova-cyan font-bold text-[10px]">완료</span></td>
+                                    <td class="p-3">
+                                        <div class="font-bold text-white">Cyber Dog V3</div>
+                                        <div class="text-[10px] text-gray-500">user_kong</div>
+                                    </td>
+                                    <td class="p-3 text-right text-gray-500">02.18</td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr onclick="loadModelToCinema(1)" class="hover:bg-white/10 cursor-pointer transition-colors group bg-white/[0.02]">
+                                    <td class="p-3 text-gray-500 group-hover:text-white">#2048</td>
+                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-gray-700 text-gray-300 font-bold text-[10px]">대기</span></td>
+                                    <td class="p-3">
+                                        <div class="font-bold text-gray-300">Neon Helmet</div>
+                                        <div class="text-[10px] text-gray-500">rider_77</div>
+                                    </td>
+                                    <td class="p-3 text-right text-gray-500">02.18</td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr onclick="loadModelToCinema(2)" class="hover:bg-white/10 cursor-pointer transition-colors group">
+                                    <td class="p-3 text-gray-500 group-hover:text-white">#2047</td>
+                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-red-500/20 text-red-400 font-bold text-[10px] animate-pulse">오류</span></td>
+                                    <td class="p-3">
+                                        <div class="font-bold text-red-300">Faile_Mesh_01</div>
+                                        <div class="text-[10px] text-gray-500">unknown</div>
+                                    </td>
+                                    <td class="p-3 text-right text-gray-500">02.17</td>
+                                </tr>
+                                <!-- More Rows -->
+                                <tr onclick="loadModelToCinema(3)" class="hover:bg-white/10 cursor-pointer transition-colors group bg-white/[0.02]">
+                                    <td class="p-3 text-gray-500 group-hover:text-white">#2046</td>
+                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-bold text-[10px]">출력중</span></td>
+                                    <td class="p-3">
+                                        <div class="font-bold text-gray-300">Mech Arm L</div>
+                                        <div class="text-[10px] text-gray-500">engineer_kim</div>
+                                    </td>
+                                    <td class="p-3 text-right text-gray-500">02.17</td>
+                                </tr>
                             </tbody>
                         </table>
-                        <!-- Print Only Section -->
-                        <div class="print-only">
-                            <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">WORK ORDER #2049</h1>
-                            <p>Model: Dog_V3_Final.stl</p>
-                            <p>Material: Resin (Grey)</p>
-                            <p>Due Date: 2026-02-20</p>
-                        </div>
+                    </div>
+                    
+                    <!-- Print Only Header (Hidden on Screen) -->
+                    <div class="hidden print-only p-8">
+                        <h1 class="text-4xl font-black mb-4 border-b-2 border-black pb-4">Aunova 작업 지시서 - 2026.02.18</h1>
+                        <p class="mb-8 font-mono">담당자: 관리자(Admin) | 출력일시: 2026-02-18 15:30:00</p>
                     </div>
                 </div>
 
-                <!-- Cinema Viewer -->
-                <div class="bg-black border border-white/10 rounded-xl relative overflow-hidden flex items-center justify-center group no-print">
-                    <div class="absolute top-4 left-4 font-mono text-[10px] text-green-500">
-                        POLY: 1,240,492<br>ENG: TRIPO_V2.1<!-- ... -->
+                <!-- Right Panel: Cinema Viewer -->
+                <div class="relative bg-black flex flex-col">
+                    <!-- Main Viewport -->
+                    <div class="flex-1 relative flex items-center justify-center overflow-hidden group">
+                        <!-- HUD Overlay -->
+                        <div class="absolute top-6 left-6 z-20 font-mono text-xs space-y-1 pointer-events-none select-none text-nova-cyan/80">
+                            <div class="flex gap-4"><span class="text-gray-500">POLYGON</span> <span id="hud-poly" class="font-bold drop-shadow-[0_0_5px_rgba(0,245,255,0.5)]">12,400</span></div>
+                            <div class="flex gap-4"><span class="text-gray-500">ENGINE</span> <span id="hud-engine" class="font-bold">Tripo v2.1</span></div>
+                            <div class="flex gap-4"><span class="text-gray-500">MARGIN</span> <span class="font-bold">32%</span></div>
+                            <div class="flex gap-4"><span class="text-gray-500">STATUS</span> <span class="font-bold text-green-400">READY</span></div>
+                        </div>
+
+                        <!-- 3D Model Image (Simulated) -->
+                        <img id="viewer-image" src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800" class="w-[80%] h-[80%] object-contain transition-all duration-300 filter drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+                        
+                        <!-- Grid Overlay -->
+                        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
+                        <div class="absolute inset-0 border-[0.5px] border-white/5 pointer-events-none" style="background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+                        <!-- Wireframe Toggle -->
+                        <button onclick="toggleWireframe()" class="absolute top-6 right-6 z-20 px-4 py-2 bg-black/50 border border-green-500/30 text-green-500 hover:bg-green-500 hover:text-black rounded font-mono text-xs font-bold transition-all backdrop-blur-md">
+                            Toggle Wireframe
+                        </button>
                     </div>
-                    <div class="w-64 h-64 border border-green-500/30 rounded-full flex items-center justify-center animate-pulse-glow">
-                        <span class="text-green-500 font-mono text-xs">3D VIEWER ACTIVE</span>
+
+                    <!-- Thumbnail Strip -->
+                    <div class="h-32 border-t border-white/10 bg-[#050505] p-4 flex gap-4 overflow-x-auto hide-scrollbar items-center">
+                        <div onclick="loadModelToCinema(0)" class="min-w-[5rem] h-20 rounded border border-white/20 bg-white/5 cursor-pointer hover:border-nova-cyan hover:scale-105 transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
+                        <div onclick="loadModelToCinema(1)" class="min-w-[5rem] h-20 rounded border border-white/20 bg-white/5 cursor-pointer hover:border-nova-cyan hover:scale-105 transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1614680376593-902f74cc0d41?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
+                        <div onclick="loadModelToCinema(2)" class="min-w-[5rem] h-20 rounded border border-white/20 bg-white/5 cursor-pointer hover:border-nova-cyan hover:scale-105 transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1512413914633-b5043f4041ea?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover grayscale opacity-50 border-red-500/50"></div>
+                        <div onclick="loadModelToCinema(3)" class="min-w-[5rem] h-20 rounded border border-white/20 bg-white/5 cursor-pointer hover:border-nova-cyan hover:scale-105 transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
                     </div>
-                    <button class="absolute bottom-4 right-4 text-xs font-mono border border-green-500 text-green-500 px-3 py-1 hover:bg-green-500 hover:text-black transition-colors">TOGGLE WIREFRAME</button>
                 </div>
             </div>
 
-            <!-- ㄴ: The Lab -->
-            <div id="admin-lab" class="hidden grid grid-cols-[300px_1fr] gap-6 h-[80vh]">
-                <!-- Model Mgmt -->
-                <div class="bg-white/5 border border-white/10 rounded-xl p-4">
-                    <h2 class="font-bold text-sm text-gray-400 mb-4">MODEL PRIORITY</h2>
-                    <div class="space-y-2">
-                        <div class="p-3 bg-white/10 rounded border border-white/5 cursor-move flex justify-between items-center hover:bg-white/20">
-                            <span class="font-bold text-sm">Tripo v2.0</span>
-                            <span class="text-xs text-green-400">42%</span>
-                        </div>
-                        <div class="p-3 bg-white/10 rounded border border-white/5 cursor-move flex justify-between items-center hover:bg-white/20">
-                            <span class="font-bold text-sm">Rodin Gen-3</span>
-                            <span class="text-xs text-yellow-400">31%</span>
-                        </div>
-                        <div class="p-3 bg-white/10 rounded border border-white/5 cursor-move flex justify-between items-center hover:bg-white/20">
-                            <span class="font-bold text-sm">Meshy Ultra</span>
-                            <span class="text-xs text-blue-400">27%</span>
-                        </div>
-                    </div>
-                    <div class="mt-8">
-                        <h2 class="font-bold text-sm text-gray-400 mb-4">ANALYTICS</h2>
-                        <div class="h-32 bg-white/5 rounded flex items-end justify-between px-2 pb-2 gap-1">
-                            <div class="w-full bg-nova-cyan/20 h-[40%]"></div>
-                            <div class="w-full bg-nova-cyan/40 h-[70%]"></div>
-                            <div class="w-full bg-nova-cyan/60 h-[50%]"></div>
-                            <div class="w-full bg-nova-cyan h-[90%]"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Prompt Engineering (Time Machine) -->
-                <div class="bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col">
-                    <h2 class="font-bold text-sm text-nova-cyan mb-2">PROMPT TIME-MACHINE</h2>
-                    <input type="range" min="0" max="100" value="100" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mb-6" id="time-slider" oninput="updateTimeMachine(this.value)">
-                    
-                    <textarea id="lab-prompt-area" class="w-full flex-1 bg-black/50 border border-white/10 rounded-xl p-4 font-mono text-sm text-gray-300 focus:border-nova-cyan outline-none resize-none transition-all" readonly>
-CURRENT VERSION (v100)
-> A futuristic cyberpunk helmet with neon cyan lights and metallic finish.
-> High detail, 8k resolution, unreal engine 5 render.
-                    </textarea>
-                    
-                    <button class="mt-4 bg-nova-purple text-white font-bold py-3 rounded-lg hover:bg-purple-600 transition-colors" onclick="triggerMergeEffect()">MERGE VERSIONS (Tag Cloud)</button>
+            <!-- Lab (Placeholder for now, just to show tabs work) -->
+            <div id="admin-lab" class="hidden h-screen pt-16 flex items-center justify-center">
+                <div class="text-center">
+                    <h2 class="text-4xl font-bold text-gray-700 animate-pulse">THE LAB Under Construction</h2>
+                    <p class="text-gray-500 mt-4">Prompt Engineering & Analytics Module</p>
                 </div>
             </div>
         </section>
@@ -704,16 +788,59 @@ CURRENT VERSION (v100)
             const btnL = document.getElementById('btn-lab');
 
             if (tab === 'factory') {
-                factory.classList.remove('hidden'); lab.classList.add('hidden');
+                factory.classList.remove('hidden'); factory.classList.add('grid');
+                lab.classList.add('hidden'); lab.classList.remove('grid');
                 btnF.classList.add('bg-nova-cyan', 'text-black', 'shadow-lg'); btnF.classList.remove('text-gray-400', 'bg-transparent');
                 btnL.classList.remove('bg-nova-cyan', 'text-black', 'shadow-lg'); btnL.classList.add('text-gray-400');
             } else {
-                lab.classList.remove('hidden'); factory.classList.add('hidden');
+                lab.classList.remove('hidden'); lab.classList.add('grid');
+                factory.classList.add('hidden'); factory.classList.remove('grid');
                 btnL.classList.add('bg-nova-cyan', 'text-black', 'shadow-lg'); btnL.classList.remove('text-gray-400');
                 btnF.classList.remove('bg-nova-cyan', 'text-black', 'shadow-lg'); btnF.classList.add('text-gray-400', 'bg-transparent');
             }
         }
 
+        // Factory Logic
+        const modelDataDB = [
+            { id: 0, image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800', poly: '12,400', engine: 'Tripo v2.1' },
+            { id: 1, image: 'https://images.unsplash.com/photo-1614680376593-902f74cc0d41?auto=format&fit=crop&q=80&w=800', poly: '45,200', engine: 'Rodin G3' },
+            { id: 2, image: 'https://images.unsplash.com/photo-1512413914633-b5043f4041ea?auto=format&fit=crop&q=80&w=800', poly: 'ERROR', engine: 'Failed' },
+            { id: 3, image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=800', poly: '8,900', engine: 'Meshy Ultra' },
+        ];
+
+        function loadModelToCinema(id) {
+            const data = modelDataDB[id] || modelDataDB[0];
+            const viewer = document.getElementById('viewer-image');
+            const poly = document.getElementById('hud-poly');
+            const engine = document.getElementById('hud-engine');
+            
+            // Visual transition
+            viewer.classList.add('opacity-50', 'scale-95');
+            setTimeout(() => {
+                viewer.src = data.image;
+                poly.innerText = data.poly;
+                engine.innerText = data.engine;
+                viewer.classList.remove('opacity-50', 'scale-95');
+                
+                // Reset wireframe on load
+                isWireframe = false;
+                viewer.style.filter = "drop-shadow(0 0 50px rgba(255,255,255,0.1))";
+            }, 300);
+        }
+
+        let isWireframe = false;
+        function toggleWireframe() {
+            const viewer = document.getElementById('viewer-image');
+            isWireframe = !isWireframe;
+            if (isWireframe) {
+                viewer.style.filter = "grayscale(100%) contrast(150%) brightness(0.8) drop-shadow(0 0 0 white) invert(1)";
+                // Ideally this would involve swapping textures, but filter simulates the 'technical' look.
+            } else {
+                viewer.style.filter = "drop-shadow(0 0 50px rgba(255,255,255,0.1))";
+            }
+        }
+
+        // Lab Logic
         function updateTimeMachine(val) {
             const area = document.getElementById('lab-prompt-area');
             if(val > 80) area.value = `CURRENT VERSION (v100)\n> A futuristic cyberpunk helmet with neon cyan lights.\n> High detail, 8k resolution.`;
