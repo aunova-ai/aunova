@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aunova Omni-Solution | Digital Genesis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --nova-cyan: #00f5ff;
+        --night-black: #0a0a0b;
+      }
+      body {
+        background-color: var(--night-black);
+        color: white;
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+        margin: 0;
+        cursor: none; /* Hide default cursor to use aura */
+      }
+      .liquid-glass {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(25px) saturate(160%);
+        -webkit-backdrop-filter: blur(25px) saturate(160%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+      }
+      #cursor-aura {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: screen;
+      }
+      .nova-star {
+        filter: drop-shadow(0 0 15px var(--nova-cyan));
+        animation: nova-pulse 3s infinite ease-in-out;
+      }
+      @keyframes nova-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+      }
+      .fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <div id="cursor-aura"></div>
+
+    <!-- 1P: Genesis -->
+    <section
+      id="page-1"
+      class="spa-page h-screen flex flex-col items-center justify-center p-8"
+    >
+      <div class="relative flex flex-col items-center">
+        <svg
+          class="nova-star w-32 h-32 mb-8"
+          viewBox="0 0 100 100"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z"
+            fill="var(--nova-cyan)"
+          />
+        </svg>
+        <h1
+          class="text-4xl md:text-6xl font-bold tracking-tighter mb-4 text-center"
+        >
+          AUNOVA <span class="text-[#00F5FF]">OMNI</span>
+        </h1>
+        <p class="text-gray-400 text-lg mb-12">
+          Digital Genesis: The Origin of 3D Synthesis
+        </p>
+        <button
+          onclick="navigateTo('page-2')"
+          class="liquid-glass px-8 py-3 text-lg font-bold hover:bg-white/10 transition-all"
+        >
+          Get Started
+        </button>
+      </div>
+    </section>
+
+    <!-- 2P: Synthesis (Shell) -->
+    <section id="page-2" class="spa-page hidden min-h-screen p-8 fade-in">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-full mt-16">
+        <div class="md:col-span-3 liquid-glass p-6">
+          <h2 class="text-xl font-bold mb-4 border-b border-white/10 pb-2">
+            INPUT PANEL
+          </h2>
+          <div class="space-y-4">
+            <label class="block text-sm text-gray-400">Synthesis Level</label>
+            <div class="flex gap-2">
+              <button
+                class="flex-1 bg-white/10 rounded-full py-1 text-xs border border-white/20"
+              >
+                Lv.1
+              </button>
+              <button
+                class="flex-1 bg-white/10 rounded-full py-1 text-xs border border-white/20"
+              >
+                Lv.3
+              </button>
+              <button
+                class="flex-1 border-[#00F5FF] bg-[#00F5FF]/10 text-[#00F5FF] rounded-full py-1 text-xs border"
+              >
+                Lv.5
+              </button>
+            </div>
+            <input
+              type="text"
+              placeholder="Entry Title"
+              class="w-full bg-black/50 border border-white/10 rounded-lg p-3 outline-none focus:border-[#00F5FF]"
+            />
+            <textarea
+              placeholder="Synthesis Prompt"
+              class="w-full bg-black/50 border border-white/10 rounded-lg p-3 h-32 outline-none focus:border-[#00F5FF]"
+            ></textarea>
+          </div>
+        </div>
+        <div class="md:col-span-6 flex flex-col items-center justify-center">
+          <div
+            class="liquid-glass w-full aspect-square max-w-md flex items-center justify-center relative overflow-hidden"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-[#00F5FF]/20 to-transparent"
+            ></div>
+            <svg
+              class="nova-star w-24 h-24"
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z"
+                fill="var(--nova-cyan)"
+              />
+            </svg>
+          </div>
+          <button
+            onclick="navigateTo('page-3')"
+            class="mt-8 bg-[#00F5FF] text-black font-extrabold px-12 py-4 rounded-full shadow-[0_0_20px_rgba(0,245,255,0.5)] hover:scale-105 transition-transform"
+          >
+            START SYNTHESIS
+          </button>
+        </div>
+        <div class="md:col-span-3 liquid-glass p-6">
+          <h2 class="text-xl font-bold mb-4 border-b border-white/10 pb-2">
+            INFO
+          </h2>
+          <div class="mt-auto pt-48">
+            <p class="text-xs text-gray-500">Total Calculation</p>
+            <p class="text-xl text-gray-400 line-through">200,000 KRW</p>
+            <p class="text-3xl font-bold text-[#00F5FF]">22,000 KRW</p>
+            <p class="text-xs text-[#00F5FF] mt-1">Required Deposit</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3P: Payment (Shell) -->
+    <section
+      id="page-3"
+      class="spa-page hidden h-screen flex items-center justify-center p-8 fade-in"
+    >
+      <div class="liquid-glass p-12 max-w-lg w-full text-center">
+        <h2 class="text-2xl font-bold mb-6 text-[#00F5FF]">
+          CONFIRM SYNTHESIS
+        </h2>
+        <p class="text-gray-300 mb-8 leading-relaxed">
+          총 금액(200,000원) 중
+          <span class="text-white font-bold">보증금(22,000원)</span>만 우선
+          결제됩니다. 생성 후 결과물을 확인하고 잔금을 결제할 수 있습니다.
+        </p>
+        <div class="flex flex-col gap-4">
+          <button
+            onclick="navigateTo('page-4')"
+            class="bg-white text-black font-bold py-3 rounded-lg"
+          >
+            결제 및 생성 시작
+          </button>
+          <button
+            onclick="navigateTo('page-2')"
+            class="text-gray-400 hover:text-white transition-colors"
+          >
+            2P로 돌아가기
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4P: Processing (Shell) -->
+    <section
+      id="page-4"
+      class="spa-page hidden h-screen flex flex-col items-center justify-center p-8 fade-in"
+    >
+      <svg
+        class="animate-spin w-24 h-24 mb-6 text-[#00F5FF]"
+        viewBox="0 0 100 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z"
+          stroke="currentColor"
+          stroke-width="2"
+        />
+      </svg>
+      <h2 class="text-xl tracking-widest text-[#00F5FF] animate-pulse">
+        SYNTHESIZING...
+      </h2>
+      <p class="text-gray-500 mt-2">New generation is coming to life</p>
+      <!-- In a real app, logic would trigger navigateTo('page-5') after completion -->
+      <button
+        id="next-btn"
+        onclick="navigateTo('page-5')"
+        class="mt-12 opacity-0 transition-opacity duration-1000 bg-white/10 px-6 py-2 rounded border border-white/20"
+      >
+        NEXT
+      </button>
+    </section>
+
+    <!-- 5P: Result (Shell) -->
+    <section id="page-5" class="spa-page hidden h-screen p-8 fade-in">
+      <div class="flex h-full gap-6">
+        <div class="w-1/4 liquid-glass p-6">
+          <h3 class="text-sm font-bold text-gray-400 mb-4">GENERATED MODELS</h3>
+          <div class="grid grid-cols-2 gap-2">
+            <div
+              class="aspect-square bg-white/5 rounded-lg border border-white/10"
+            ></div>
+            <div
+              class="aspect-square bg-white/5 rounded-lg border border-white/10"
+            ></div>
+          </div>
+        </div>
+        <div
+          class="flex-1 liquid-glass relative overflow-hidden flex items-center justify-center"
+        >
+          <p class="text-gray-600 text-sm">3D VIEWER INTERACTION SPACE</p>
+        </div>
+        <div class="w-1/4 liquid-glass p-6">
+          <h3 class="text-sm font-bold text-gray-400 mb-4">EXPORT</h3>
+          <button
+            class="w-full bg-[#00F5FF] text-black font-bold py-3 rounded-lg mb-4"
+          >
+            DOWNLOAD (.STL)
+          </button>
+          <button
+            class="w-full border border-white/20 py-3 rounded-lg text-gray-400 hover:text-white transition-colors"
+          >
+            3D PRINT REQUEST
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Cursor Aura Logic
+      const aura = document.getElementById("cursor-aura");
+      document.addEventListener("mousemove", (e) => {
+        aura.style.background = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(0, 245, 255, 0.15) 0%, transparent 80%)`;
+      });
+
+      // Navigation Logic
+      function navigateTo(pageId) {
+        document
+          .querySelectorAll(".spa-page")
+          .forEach((p) => p.classList.add("hidden"));
+        const target = document.getElementById(pageId);
+        target.classList.remove("hidden");
+
+        // Special logic for processing page
+        if (pageId === "page-4") {
+          setTimeout(() => {
+            const btn = document.getElementById("next-btn");
+            if (btn) btn.classList.remove("opacity-0");
+          }, 2500);
+        }
+      }
+    </script>
+  </body>
+</html>
