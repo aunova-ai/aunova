@@ -1,312 +1,312 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aunova Omni-Solution | Digital Genesis</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aunova | Digital Genesis</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'night-black': '#0A0A0B',
+                        'nova-cyan': '#00F5FF',
+                    },
+                    animation: {
+                        'supernova-burst': 'supernova 3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                        'aurora': 'aurora 10s infinite linear',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        supernova: {
+                            '0%': { transform: 'scale(0.5)', opacity: '0', filter: 'blur(10px)' },
+                            '40%': { opacity: '1', filter: 'blur(0px)' },
+                            '70%': { transform: 'scale(1.1)', filter: 'drop-shadow(0 0 30px #00F5FF)' },
+                            '100%': { transform: 'scale(1)', filter: 'drop-shadow(0 0 15px #00F5FF)' }
+                        },
+                        aurora: {
+                            '0%': { transform: 'rotate(0deg) scale(1)', opacity: '0.3' },
+                            '50%': { transform: 'rotate(180deg) scale(1.5)', opacity: '0.5' },
+                            '100%': { transform: 'rotate(360deg) scale(1)', opacity: '0.3' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-      :root {
-        --nova-cyan: #00f5ff;
-        --night-black: #0a0a0b;
-      }
-      body {
-        background-color: var(--night-black);
-        color: white;
-        font-family: "Inter", sans-serif;
-        overflow-x: hidden;
-        margin: 0;
-        cursor: none; /* Hide default cursor to use aura */
-      }
-      .liquid-glass {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(25px) saturate(160%);
-        -webkit-backdrop-filter: blur(25px) saturate(160%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-      }
-      #cursor-aura {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        pointer-events: none;
-        z-index: 9999;
-        mix-blend-mode: screen;
-      }
-      .nova-star {
-        filter: drop-shadow(0 0 15px var(--nova-cyan));
-        animation: nova-pulse 3s infinite ease-in-out;
-      }
-      @keyframes nova-pulse {
-        0%,
-        100% {
-          transform: scale(1);
-          opacity: 0.8;
+        body {
+            background-color: #0A0A0B;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
-        50% {
-          transform: scale(1.1);
-          opacity: 1;
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-      }
-      .fade-in {
-        animation: fadeIn 0.8s ease-out forwards;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 245, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            box-shadow: 0 0 20px 5px #00F5FF;
+            transition: transform 0.1s ease-out;
+            transform: translate(-50%, -50%);
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        #intro-overlay {
+            background: #0A0A0B;
+            transition: opacity 1.5s ease-in-out;
         }
-      }
-      .hidden {
-        display: none !important;
-      }
+        .aurora-bg {
+            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, rgba(0, 245, 255, 0.2) 30%, transparent 70%);
+            filter: blur(60px);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
-  </head>
-  <body class="min-h-screen">
-    <div id="cursor-aura"></div>
+</head>
+<body class="hide-scrollbar">
+    <div id="cursor" class="custom-cursor hidden md:block"></div>
 
-    <!-- 1P: Genesis -->
-    <section
-      id="page-1"
-      class="spa-page h-screen flex flex-col items-center justify-center p-8"
-    >
-      <div class="relative flex flex-col items-center">
-        <svg
-          class="nova-star w-32 h-32 mb-8"
-          viewBox="0 0 100 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z"
-            fill="var(--nova-cyan)"
-          />
-        </svg>
-        <h1
-          class="text-4xl md:text-6xl font-bold tracking-tighter mb-4 text-center"
-        >
-          AUNOVA <span class="text-[#00F5FF]">OMNI</span>
-        </h1>
-        <p class="text-gray-400 text-lg mb-12">
-          Digital Genesis: The Origin of 3D Synthesis
-        </p>
-        <button
-          onclick="navigateTo('page-2')"
-          class="liquid-glass px-8 py-3 text-lg font-bold hover:bg-white/10 transition-all"
-        >
-          Get Started
-        </button>
-      </div>
-    </section>
-
-    <!-- 2P: Synthesis (Shell) -->
-    <section id="page-2" class="spa-page hidden min-h-screen p-8 fade-in">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-full mt-16">
-        <div class="md:col-span-3 liquid-glass p-6">
-          <h2 class="text-xl font-bold mb-4 border-b border-white/10 pb-2">
-            INPUT PANEL
-          </h2>
-          <div class="space-y-4">
-            <label class="block text-sm text-gray-400">Synthesis Level</label>
-            <div class="flex gap-2">
-              <button
-                class="flex-1 bg-white/10 rounded-full py-1 text-xs border border-white/20"
-              >
-                Lv.1
-              </button>
-              <button
-                class="flex-1 bg-white/10 rounded-full py-1 text-xs border border-white/20"
-              >
-                Lv.3
-              </button>
-              <button
-                class="flex-1 border-[#00F5FF] bg-[#00F5FF]/10 text-[#00F5FF] rounded-full py-1 text-xs border"
-              >
-                Lv.5
-              </button>
-            </div>
-            <input
-              type="text"
-              placeholder="Entry Title"
-              class="w-full bg-black/50 border border-white/10 rounded-lg p-3 outline-none focus:border-[#00F5FF]"
-            />
-            <textarea
-              placeholder="Synthesis Prompt"
-              class="w-full bg-black/50 border border-white/10 rounded-lg p-3 h-32 outline-none focus:border-[#00F5FF]"
-            ></textarea>
-          </div>
-        </div>
-        <div class="md:col-span-6 flex flex-col items-center justify-center">
-          <div
-            class="liquid-glass w-full aspect-square max-w-md flex items-center justify-center relative overflow-hidden"
-          >
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-[#00F5FF]/20 to-transparent"
-            ></div>
-            <svg
-              class="nova-star w-24 h-24"
-              viewBox="0 0 100 100"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z"
-                fill="var(--nova-cyan)"
-              />
+    <!-- Intro Overlay -->
+    <div id="intro-overlay" class="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden">
+        <div class="aurora-bg absolute w-[200%] h-[200%] animate-aurora"></div>
+        <div id="intro-logo-container" class="relative z-10 opacity-0 transform scale-50">
+            <svg class="w-32 h-32 md:w-48 md:h-48 text-nova-cyan" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z" fill="currentColor"/>
             </svg>
-          </div>
-          <button
-            onclick="navigateTo('page-3')"
-            class="mt-8 bg-[#00F5FF] text-black font-extrabold px-12 py-4 rounded-full shadow-[0_0_20px_rgba(0,245,255,0.5)] hover:scale-105 transition-transform"
-          >
-            START SYNTHESIS
-          </button>
         </div>
-        <div class="md:col-span-3 liquid-glass p-6">
-          <h2 class="text-xl font-bold mb-4 border-b border-white/10 pb-2">
-            INFO
-          </h2>
-          <div class="mt-auto pt-48">
-            <p class="text-xs text-gray-500">Total Calculation</p>
-            <p class="text-xl text-gray-400 line-through">200,000 KRW</p>
-            <p class="text-3xl font-bold text-[#00F5FF]">22,000 KRW</p>
-            <p class="text-xs text-[#00F5FF] mt-1">Required Deposit</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- 3P: Payment (Shell) -->
-    <section
-      id="page-3"
-      class="spa-page hidden h-screen flex items-center justify-center p-8 fade-in"
-    >
-      <div class="liquid-glass p-12 max-w-lg w-full text-center">
-        <h2 class="text-2xl font-bold mb-6 text-[#00F5FF]">
-          CONFIRM SYNTHESIS
-        </h2>
-        <p class="text-gray-300 mb-8 leading-relaxed">
-          총 금액(200,000원) 중
-          <span class="text-white font-bold">보증금(22,000원)</span>만 우선
-          결제됩니다. 생성 후 결과물을 확인하고 잔금을 결제할 수 있습니다.
-        </p>
-        <div class="flex flex-col gap-4">
-          <button
-            onclick="navigateTo('page-4')"
-            class="bg-white text-black font-bold py-3 rounded-lg"
-          >
-            결제 및 생성 시작
-          </button>
-          <button
-            onclick="navigateTo('page-2')"
-            class="text-gray-400 hover:text-white transition-colors"
-          >
-            2P로 돌아가기
-          </button>
-        </div>
-      </div>
-    </section>
+    <!-- Main Content Shell -->
+    <div id="main-content" class="opacity-0 transition-opacity duration-1000">
+        
+        <!-- Header -->
+        <header class="fixed top-0 left-0 w-full z-40 p-6 flex justify-between items-center transition-all duration-500">
+            <div class="text-2xl font-extrabold tracking-tighter text-nova-cyan">AUNOVA</div>
+            <div class="flex gap-4">
+                <button onclick="openModal()" class="liquid-glass px-6 py-2 rounded-full text-sm font-semibold hover:bg-white/10 transition-all border border-white/10">
+                    로그인 / 회원가입
+                </button>
+            </div>
+        </header>
 
-    <!-- 4P: Processing (Shell) -->
-    <section
-      id="page-4"
-      class="spa-page hidden h-screen flex flex-col items-center justify-center p-8 fade-in"
-    >
-      <svg
-        class="animate-spin w-24 h-24 mb-6 text-[#00F5FF]"
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z"
-          stroke="currentColor"
-          stroke-width="2"
-        />
-      </svg>
-      <h2 class="text-xl tracking-widest text-[#00F5FF] animate-pulse">
-        SYNTHESIZING...
-      </h2>
-      <p class="text-gray-500 mt-2">New generation is coming to life</p>
-      <!-- In a real app, logic would trigger navigateTo('page-5') after completion -->
-      <button
-        id="next-btn"
-        onclick="navigateTo('page-5')"
-        class="mt-12 opacity-0 transition-opacity duration-1000 bg-white/10 px-6 py-2 rounded border border-white/20"
-      >
-        NEXT
-      </button>
-    </section>
+        <!-- SPA Pages -->
+        <!-- Page 1: Hero -->
+        <section id="page-1" class="spa-page relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20">
+            <div class="max-w-4xl mx-auto mb-20 fade-in">
+                <h1 class="text-5xl md:text-8xl font-black tracking-tight leading-none mb-6">
+                    DIGITAL GENESIS:<br/>
+                    <span class="text-nova-cyan">14일의 공정을 24시간으로.</span>
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">
+                    AI 기반의 혁신적인 3D 합성 솔루션이 당신의 창의적 한계를 넘어서게 합니다.
+                </p>
+                <div class="flex flex-col items-center animate-float">
+                    <p class="text-nova-cyan text-sm tracking-widest uppercase mb-2">Scroll to Explore</p>
+                    <svg class="w-6 h-6 text-nova-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </div>
+            </div>
 
-    <!-- 5P: Result (Shell) -->
-    <section id="page-5" class="spa-page hidden h-screen p-8 fade-in">
-      <div class="flex h-full gap-6">
-        <div class="w-1/4 liquid-glass p-6">
-          <h3 class="text-sm font-bold text-gray-400 mb-4">GENERATED MODELS</h3>
-          <div class="grid grid-cols-2 gap-2">
-            <div
-              class="aspect-square bg-white/5 rounded-lg border border-white/10"
-            ></div>
-            <div
-              class="aspect-square bg-white/5 rounded-lg border border-white/10"
-            ></div>
-          </div>
+            <!-- Video Showcase Section -->
+            <div id="video-showcase" class="w-full max-w-6xl mx-auto px-4 py-24 opacity-0 transform translate-y-10 transition-all duration-1000">
+                <div class="liquid-glass rounded-3xl overflow-hidden aspect-video relative group">
+                    <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=2000" alt="Showcase" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all">
+                        <div class="text-nova-cyan p-4 rounded-full border border-nova-cyan/50 bg-black/40">
+                            <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <div class="liquid-glass p-6 rounded-2xl">
+                        <h3 class="text-nova-cyan font-bold mb-2">Lv.1 High-Speed</h3>
+                        <p class="text-gray-400 text-sm">기초 형태 모델링을 단 몇 분 만에 완료합니다.</p>
+                    </div>
+                    <div class="liquid-glass p-6 rounded-2xl">
+                        <h3 class="text-nova-cyan font-bold mb-2">Advanced Texture</h3>
+                        <p class="text-gray-400 text-sm">물질의 질감을 실사에 가깝게 합성해 냅니다.</p>
+                    </div>
+                    <div class="liquid-glass p-6 rounded-2xl">
+                        <h3 class="text-nova-cyan font-bold mb-2">Multi-Format Export</h3>
+                        <p class="text-gray-400 text-sm">STL, OBJ, PLY 등 다양한 포맷을 지원합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Nav -->
+            <footer class="w-full py-12 flex justify-center gap-12 text-gray-500 text-sm">
+                <a href="#" class="hover:text-nova-cyan transition-colors uppercase tracking-widest">User Gallery</a>
+                <a href="#" class="hover:text-nova-cyan transition-colors uppercase tracking-widest">Reviews & Promo</a>
+            </footer>
+        </section>
+
+        <!-- Other Pages (Shells) -->
+        <section id="page-2" class="spa-page hidden min-h-screen p-8 flex items-center justify-center text-nova-cyan text-4xl font-bold">Page 2: Synthesis (Under Construction)</section>
+        <section id="admin-page" class="spa-page hidden min-h-screen p-8 flex items-center justify-center text-white text-4xl font-bold">Admin Page: The Factory (Under Construction)</section>
+
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="liquid-glass w-full max-w-md rounded-3xl overflow-hidden relative z-10 transition-all duration-500 transform scale-95 opacity-0" id="modal-container">
+            <!-- Tabs -->
+            <div class="flex border-b border-white/10">
+                <button onclick="switchTab('login')" id="tab-login" class="flex-1 py-4 text-sm font-bold border-b-2 border-nova-cyan text-white">로그인</button>
+                <button onclick="switchTab('signup')" id="tab-signup" class="flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-gray-500">회원가입</button>
+            </div>
+            
+            <div class="p-8">
+                <!-- Login Form -->
+                <form id="login-form" onsubmit="handleAuth(event, 'login')" class="space-y-4">
+                    <input type="email" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-nova-cyan transition-all" required>
+                    <input type="password" placeholder="Password" id="login-pw" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-nova-cyan transition-all" required>
+                    <button type="submit" class="w-full bg-nova-cyan text-black font-extrabold py-4 rounded-xl hover:brightness-110 transition-all">로그인</button>
+                    <div class="flex items-center gap-4 py-4"><div class="flex-1 h-px bg-white/10"></div><span class="text-xs text-gray-500">Or continue with</span><div class="flex-1 h-px bg-white/10"></div></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button type="button" class="liquid-glass py-3 rounded-xl flex items-center justify-center gap-2 text-sm hover:bg-white/10">
+                            <div class="w-4 h-4 bg-[#2DB400] rounded-sm"></div> Naver
+                        </button>
+                        <button type="button" class="liquid-glass py-3 rounded-xl flex items-center justify-center gap-2 text-sm hover:bg-white/10 text-white">
+                            <img src="https://www.google.com/favicon.ico" class="w-4 h-4"> Google
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="signup-form" onsubmit="handleAuth(event, 'signup')" class="hidden space-y-4">
+                    <input type="email" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-nova-cyan transition-all" required>
+                    <input type="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-nova-cyan transition-all" required>
+                    
+                    <!-- Payment Info -->
+                    <div class="pt-4 border-t border-white/10 mt-4">
+                        <p class="text-xs font-bold text-nova-cyan mb-3">결제 정보 등록 (필수)</p>
+                        <input type="text" placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-nova-cyan transition-all text-sm mb-2">
+                        <p class="text-[10px] text-gray-500">서비스 이용 시 보증금과 최종 금액이 이 카드로 결제됩니다.</p>
+                    </div>
+
+                    <button type="submit" class="w-full bg-nova-cyan text-black font-extrabold py-4 rounded-xl hover:brightness-110 transition-all">회원가입 완료</button>
+                </form>
+            </div>
         </div>
-        <div
-          class="flex-1 liquid-glass relative overflow-hidden flex items-center justify-center"
-        >
-          <p class="text-gray-600 text-sm">3D VIEWER INTERACTION SPACE</p>
-        </div>
-        <div class="w-1/4 liquid-glass p-6">
-          <h3 class="text-sm font-bold text-gray-400 mb-4">EXPORT</h3>
-          <button
-            class="w-full bg-[#00F5FF] text-black font-bold py-3 rounded-lg mb-4"
-          >
-            DOWNLOAD (.STL)
-          </button>
-          <button
-            class="w-full border border-white/20 py-3 rounded-lg text-gray-400 hover:text-white transition-colors"
-          >
-            3D PRINT REQUEST
-          </button>
-        </div>
-      </div>
-    </section>
+    </div>
 
     <script>
-      // Cursor Aura Logic
-      const aura = document.getElementById("cursor-aura");
-      document.addEventListener("mousemove", (e) => {
-        aura.style.background = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(0, 245, 255, 0.15) 0%, transparent 80%)`;
-      });
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
 
-      // Navigation Logic
-      function navigateTo(pageId) {
-        document
-          .querySelectorAll(".spa-page")
-          .forEach((p) => p.classList.add("hidden"));
-        const target = document.getElementById(pageId);
-        target.classList.remove("hidden");
+        // Intro Sequence
+        window.onload = () => {
+            const logo = document.getElementById('intro-logo-container');
+            const overlay = document.getElementById('intro-overlay');
+            const main = document.getElementById('main-content');
+            
+            // Start burst animation
+            logo.classList.add('animate-supernova-burst');
+            logo.style.opacity = '1';
+            logo.style.transform = 'scale(1)';
 
-        // Special logic for processing page
-        if (pageId === "page-4") {
-          setTimeout(() => {
-            const btn = document.getElementById("next-btn");
-            if (btn) btn.classList.remove("opacity-0");
-          }, 2500);
+            // Fade out intro after 3s
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    main.classList.remove('opacity-0');
+                }, 1500);
+            }, 3000);
+        };
+
+        // Scroll Interaction
+        window.addEventListener('scroll', () => {
+            const showcase = document.getElementById('video-showcase');
+            const rect = showcase.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.8) {
+                showcase.classList.remove('opacity-0', 'translate-y-10');
+            }
+        });
+
+        // Modal Controls
+        function openModal() {
+            const modal = document.getElementById('auth-modal');
+            const container = document.getElementById('modal-container');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                container.classList.remove('scale-95', 'opacity-0');
+            }, 10);
         }
-      }
+
+        function closeModal() {
+            const container = document.getElementById('modal-container');
+            const modal = document.getElementById('auth-modal');
+            container.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 500);
+        }
+
+        function switchTab(tab) {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.classList.replace('text-gray-500', 'text-white');
+                tabLogin.classList.replace('border-transparent', 'border-nova-cyan');
+                tabSignup.classList.replace('text-white', 'text-gray-500');
+                tabSignup.classList.replace('border-nova-cyan', 'border-transparent');
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                tabSignup.classList.replace('text-gray-500', 'text-white');
+                tabSignup.classList.replace('border-transparent', 'border-nova-cyan');
+                tabLogin.classList.replace('text-white', 'text-gray-500');
+                tabLogin.classList.replace('border-nova-cyan', 'border-transparent');
+            }
+        }
+
+        function handleAuth(e, type) {
+            e.preventDefault();
+            const pwInput = document.getElementById('login-pw');
+            
+            if (type === 'login' && pwInput.value === 'aunova3123') {
+                alert('관리자 모드로 이동합니다.');
+                navigateTo('admin-page');
+            } else {
+                alert(type === 'login' ? '환영합니다!' : '회원가입이 완료되었습니다!');
+                navigateTo('page-2');
+            }
+            closeModal();
+        }
+
+        // SPA Navigation
+        function navigateTo(pageId) {
+            document.querySelectorAll('.spa-page').forEach(p => p.classList.add('hidden'));
+            const target = document.getElementById(pageId);
+            target.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
     </script>
-  </body>
+</body>
 </html>
