@@ -1,1002 +1,826 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aunova | Digital Genesis</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'night-black': '#0A0A0B',
-                        'nova-cyan': '#00F5FF',
-                        'nova-purple': '#8B5CF6',
-                    },
-                    animation: {
-                        'supernova-burst': 'supernova 3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
-                        'aurora': 'aurora 10s infinite linear',
-                        'float': 'float 4s ease-in-out infinite',
-                        'spin-slow': 'spin 4s linear infinite',
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                        'pulse-glow': 'pulseGlow 2s infinite',
-                    },
-                    keyframes: {
-                        supernova: {
-                            '0%': { transform: 'scale(0.5)', opacity: '0', filter: 'blur(10px)' },
-                            '40%': { opacity: '1', filter: 'blur(0px)' },
-                            '70%': { transform: 'scale(1.1)', filter: 'drop-shadow(0 0 30px #00F5FF)' },
-                            '100%': { transform: 'scale(1)', filter: 'drop-shadow(0 0 15px #00F5FF)' }
-                        },
-                        aurora: {
-                            '0%': { transform: 'rotate(0deg) scale(1)', opacity: '0.3' },
-                            '50%': { transform: 'rotate(180deg) scale(1.5)', opacity: '0.5' },
-                            '100%': { transform: 'rotate(360deg) scale(1)', opacity: '0.3' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' }
-                        },
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        },
-                        pulseGlow: {
-                            '0%, 100%': { filter: 'drop-shadow(0 0 15px #00F5FF)', transform: 'scale(1)' },
-                            '50%': { filter: 'drop-shadow(0 0 30px #00F5FF)', transform: 'scale(1.05)' }
-                        }
-                    },
-                    fontFamily: {
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #0A0A0B;
-            color: white;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
-        .liquid-glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: rgba(0, 245, 255, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            box-shadow: 0 0 20px 5px #00F5FF;
-            transition: transform 0.1s ease-out;
-            transform: translate(-50%, -50%);
-        }
-        #intro-overlay {
-            background: #0A0A0B;
-            transition: opacity 1.5s ease-in-out;
-        }
-        .aurora-bg {
-            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, rgba(0, 245, 255, 0.2) 30%, transparent 70%);
-            filter: blur(60px);
-        }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .morph-active {
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .level-tab-active {
-            background: rgba(0, 245, 255, 0.2);
-            color: #00F5FF;
-            border-color: #00F5FF;
-            box-shadow: 0 0 15px rgba(0, 245, 255, 0.3);
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Admin Print Styles - Smart Ink Saving */
-        @media print {
-            body { 
-                background: white !important; 
-                color: black !important; 
-                -webkit-print-color-adjust: exact; 
-            }
-            /* Hide non-printable areas */
-            .no-print, header, #cursor, #admin-header, #intro-overlay { 
-                display: none !important; 
-            }
-            /* Reset Layout for Print */
-            #admin-page { 
-                display: block !important; 
-                min-height: auto !important; 
-                background: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            #admin-factory { 
-                display: block !important; 
-                height: auto !important;
-                width: 100% !important;
-            }
-            /* Only show the Order List logic layout */
-            #admin-factory > div:first-child { 
-                width: 100% !important; 
-                border: none !important;
-            }
-            #admin-factory > div:last-child {
-                display: none !important; /* Hide Cinema Viewer */
-            }
-            
-            /* Table Styling for Print */
-            #order-table {
-                width: 100% !important;
-                border: 2px solid #000 !important;
-                font-size: 12px !important;
-            }
-            #order-table th, #order-table td {
-                color: black !important;
-                border: 1px solid #000 !important;
-                padding: 8px !important;
-            }
-            #order-table thead {
-                background: #eee !important;
-                color: black !important;
-                font-weight: bold !important;
-            }
-            
-            /* Force reveal specific print-only headers */
-            .print-only { 
-                display: block !important; 
-                text-align: center;
-                margin-bottom: 20px;
-            }
-        }
-
-        /* Range Slider Styling */
-        input[type=range] {
-            -webkit-appearance: none;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #00F5FF;
-            cursor: pointer;
-            margin-top: -8px;
-            box-shadow: 0 0 10px #00F5FF;
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: rgba(255,255,255,0.2);
-            border-radius: 2px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aunova | Digital Genesis</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{colors:{'nova-cyan':'#00F5FF','deep-black':'#0A0A0B'},fontFamily:{sans:['Suit','sans-serif'],mono:['JetBrains Mono','monospace']},animation:{'pulse-glow':'pulse-glow 2s infinite','float':'float 3s ease-in-out infinite','spin-fast':'spin 0.6s linear infinite'},keyframes:{'pulse-glow':{'0%,100%':{filter:'drop-shadow(0 0 5px #00F5FF) brightness(1)'},'50%':{filter:'drop-shadow(0 0 25px #00F5FF) brightness(1.4)'}},'float':{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-8px)'}}}}}}
+</script>
+<link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body,html{background:#0A0A0B!important;color:#fff;margin:0;padding:0;font-family:'Suit',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.hide-scrollbar::-webkit-scrollbar{display:none}
+.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+.liquid-glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.spa-page{display:none}
+.spa-page.active{display:flex}
+.custom-cursor{width:20px;height:20px;border:2px solid #00F5FF;border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s;mix-blend-mode:difference}
+.cursor-aura{width:80px;height:80px;background:radial-gradient(circle,rgba(0,245,255,0.08),transparent 70%);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .3s ease-out,top .3s ease-out}
+.btn-glass{@apply px-6 py-3 rounded-xl text-sm font-bold tracking-wider transition-all duration-300}
+.btn-glass:hover{background:rgba(0,245,255,0.1);border-color:rgba(0,245,255,0.4)}
+input[type="range"]{accent-color:#00F5FF}
+@media print{body{background:#fff!important;color:#000!important}.no-print{display:none!important}.print-only{display:block!important}*{color:#000!important;background:transparent!important;border-color:#ccc!important;box-shadow:none!important}}
+</style>
 </head>
 <body class="hide-scrollbar">
-    <div id="cursor" class="custom-cursor hidden md:block"></div>
+<div id="cursor" class="custom-cursor hidden md:block"></div>
+<div id="cursor-aura" class="cursor-aura hidden md:block"></div>
 
-    <!-- Intro Overlay -->
-    <div id="intro-overlay" class="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden">
-        <div class="aurora-bg absolute w-[200%] h-[200%] animate-aurora"></div>
-        <div id="intro-logo-container" class="relative z-10 opacity-0 transform scale-50">
-            <svg class="w-32 h-32 md:w-48 md:h-48 text-nova-cyan" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z" fill="currentColor"/>
-            </svg>
+<!-- ═══════════ 0P: THE VOID (INTRO) ═══════════ -->
+<div id="page-0" class="fixed inset-0 z-[100] flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-[1500ms] ease-in-out" style="background-color: #030308;">
+<!-- Deep Space Background Image -->
+<div class="absolute inset-0" style="background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80') center/cover no-repeat; opacity: 0.35;"></div>
+<!-- Dark Vignette Overlay -->
+<div class="absolute inset-0" style="background: radial-gradient(ellipse at center, transparent 20%, rgba(3,3,8,0.85) 70%, rgba(3,3,8,1) 100%);"></div>
+<audio id="sfx-boom" preload="auto"><source src="https://assets.mixkit.co/sfx/preview/mixkit-cinematic-impact-boom-726.mp3" type="audio/mpeg"></audio>
+<audio id="sfx-ambient" preload="auto" loop><source src="https://assets.mixkit.co/sfx/preview/mixkit-deep-space-hum-2169.mp3" type="audio/mpeg"></audio>
+<div id="intro-flash" class="absolute inset-0 bg-white opacity-0 transition-opacity duration-[800ms] ease-in-out pointer-events-none z-20"></div>
+<div id="intro-logo-wrap" class="relative z-10 flex flex-col items-center animate-pulse-glow transition-all duration-700 mt-16">
+  <!-- Image Slot (나중에 이미지로 교체) -->
+  <div id="intro-image-slot" class="w-[340px] h-[340px] md:w-[460px] md:h-[460px] rounded-2xl border border-dashed border-white/10 flex items-center justify-center relative overflow-hidden mb-8">
+    <svg viewBox="0 0 200 200" class="w-64 h-64 md:w-80 md:h-80 drop-shadow-[0_0_25px_rgba(0,245,255,0.5)] opacity-30" fill="none">
+      <circle cx="100" cy="100" r="90" stroke="rgba(150,150,150,0.3)" stroke-width="1.5"/>
+      <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
+      <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
+      <polygon points="30,30 120,80 170,170 80,120" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
+      <polygon points="170,30 120,120 30,170 80,80" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+    <p class="absolute bottom-3 text-[10px] text-gray-600 tracking-wider">IMAGE SLOT</p>
+  </div>
+  <h1 class="text-3xl md:text-5xl font-mono font-bold tracking-[0.3em] text-nova-cyan drop-shadow-[0_0_15px_rgba(0,245,255,0.6)]">AUNOVA</h1>
+  <div class="w-20 h-[1px] bg-gradient-to-r from-transparent via-nova-cyan to-transparent my-4 opacity-60"></div>
+  <p class="text-sm tracking-[0.5em] text-gray-500 opacity-50">DIGITAL GENESIS</p>
+</div>
+</div>
+
+<!-- ═══════════ APP SHELL ═══════════ -->
+<div id="app-shell" class="opacity-0 transition-opacity duration-1000">
+
+<!-- HEADER -->
+<header class="fixed top-0 left-0 w-full z-40 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-[#0A0A0B] via-[#0A0A0B]/80 to-transparent no-print">
+<div class="text-xl font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">AUNOVA</div>
+</header>
+
+<!-- Right Sidebar (Always Visible) -->
+<aside id="right-sidebar" class="fixed right-0 top-0 z-35 w-[160px] h-full bg-[#0A0A0B]/95 border-l border-white/5 flex flex-col no-print backdrop-blur-sm">
+  
+  <!-- Top: Auth Buttons -->
+  <div class="flex gap-2 p-4 pt-5">
+    <button id="btn-login" onclick="openModal('auth-modal')" class="flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-transparent text-white/70 border border-white/15 hover:bg-white/10 transition-all">LOGIN</button>
+    <button id="btn-signup-sidebar" onclick="openModal('signup-modal')" class="flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-nova-cyan text-black hover:bg-cyan-300 transition-all">SIGN UP</button>
+    <button id="btn-logout" onclick="handleLogout()" class="hidden flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-red-500/15 text-red-400 border border-red-500/20 hover:bg-red-500/25 transition-all">LOGOUT</button>
+  </div>
+
+  <!-- Cyan Divider -->
+  <div class="mx-4 h-[2px] bg-nova-cyan/40 rounded-full"></div>
+
+  <!-- Menu Section -->
+  <div class="p-4 flex-1">
+    <p class="text-[9px] text-white/30 tracking-[0.3em] font-bold mb-4">MENU</p>
+    
+    <!-- My Page (Login Only) -->
+    <button id="btn-mypage" onclick="alert('마이페이지는 준비 중입니다.')" class="hidden w-full text-left mb-4 group cursor-pointer">
+      <p class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors">My Page</p>
+      <p class="text-[9px] text-white/25">Projects & More</p>
+    </button>
+    
+    <!-- Aunova Gallery -->
+    <button onclick="alert('갤러리는 준비 중입니다.')" class="w-full text-left mb-4 group cursor-pointer">
+      <p class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors">Aunova Gallery</p>
+      <p class="text-[9px] text-white/25">Community Showcase</p>
+    </button>
+    
+    <!-- Reviews -->
+    <button onclick="alert('후기 페이지는 준비 중입니다.')" class="w-full text-left mb-4 group cursor-pointer">
+      <p class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors">Reviews</p>
+      <p class="text-[9px] text-white/25">User Feedback</p>
+    </button>
+  </div>
+
+  <!-- Bottom: Pricing (Page 2 Only) -->
+  <div id="sidebar-pricing" class="p-4 border-t border-white/5 hidden">
+    <p class="text-[9px] text-white/30 tracking-[0.2em] font-bold mb-2">TOTAL ESTIMATE</p>
+    <p class="text-xl font-black text-white tracking-tight">150,000<span class="text-sm font-normal text-white/50">원</span></p>
+    <div class="flex justify-between items-center mt-2">
+      <span class="text-[10px] text-white/40">Deposit</span>
+      <span class="text-sm font-bold text-nova-cyan">15,000<span class="text-[10px] font-normal text-white/40">원</span></span>
+    </div>
+    <p class="text-[8px] text-white/20 mt-1">* 견적은 설정에 의해 변동됩니다</p>
+    
+    <!-- Social -->
+    <div class="flex gap-3 mt-4 justify-end">
+      <a href="#" class="text-white/20 hover:text-white/50 transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="#" class="text-white/20 hover:text-white/50 transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+      </a>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════ 1P: GENESIS (LANDING) ═══════════ -->
+<section id="page-1" class="spa-page active flex-col relative">
+
+<!-- Left Sidebar (Mode Selector) -->
+<aside id="left-sidebar" class="fixed left-0 top-0 z-35 w-[120px] h-full bg-[#0A0A0B]/95 border-r border-white/5 flex flex-col no-print backdrop-blur-sm">
+  <div class="p-4 pt-20">
+    <p class="text-[9px] text-white/30 tracking-[0.3em] font-bold mb-4">MODE</p>
+    
+    <button onclick="selectMode('3d')" id="mode-3d" class="mode-tab mode-active w-full text-left mb-3 group cursor-pointer">
+      <p class="text-sm font-semibold text-nova-cyan group-hover:text-nova-cyan transition-colors">3D</p>
+      <p class="text-[9px] text-white/25">3D Modeling</p>
+    </button>
+    
+    <button id="mode-video" class="w-full text-left mb-3 cursor-not-allowed opacity-40" disabled>
+      <p class="text-sm font-semibold text-white/30">Video</p>
+      <p class="text-[9px] text-nova-cyan/30">COMING SOON</p>
+    </button>
+  </div>
+</aside>
+
+<!-- First Screen: Full Viewport -->
+<div class="min-h-screen flex items-center text-center px-4 relative">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.03)_0%,transparent_60%)] pointer-events-none"></div>
+  
+  <div class="max-w-5xl mx-auto z-10 flex flex-col items-center w-full flex-1 justify-between pt-28 pb-10">
+
+    <!-- Image Placeholder Slot -->
+    <div id="hero-image-slot" class="w-72 h-80 md:w-96 md:h-[420px] rounded-2xl border border-white/10 flex items-center justify-center relative overflow-hidden group mb-6 bg-white/[0.02]">
+      <svg viewBox="0 0 200 200" class="w-48 h-48 md:w-64 md:h-64 drop-shadow-[0_0_25px_rgba(0,245,255,0.4)] opacity-20 group-hover:opacity-40 transition-opacity" fill="none">
+        <circle cx="100" cy="100" r="90" stroke="rgba(150,150,150,0.3)" stroke-width="1.5"/>
+        <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
+        <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
+        <polygon points="30,30 120,80 170,170 80,120" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
+        <polygon points="170,30 120,120 30,170 80,80" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+      <p class="absolute bottom-3 text-[10px] text-gray-600 tracking-wider">IMAGE SLOT</p>
+    </div>
+
+    <!-- Text Content (빨간 영역 — 아래로 이동) -->
+    <div class="flex flex-col items-center">
+      <!-- AUNOVA Title -->
+      <h2 class="text-5xl md:text-7xl font-black tracking-tighter text-nova-cyan mb-4">AUNOVA</h2>
+
+      <!-- DIGITAL GENESIS -->
+      <h1 class="text-3xl md:text-5xl font-light text-white tracking-widest mb-6">DIGITAL GENESIS:</h1>
+
+      <!-- Korean Tagline -->
+      <p class="text-lg md:text-2xl font-bold text-nova-cyan mb-3 leading-relaxed">
+        가장 <span class="text-white">소중한</span> 순간을 <span class="text-white">곁에</span> 두는 <span class="text-white">가장 빠른</span> 방법, Aunova.
+      </p>
+
+      <!-- Description -->
+      <p class="text-sm text-gray-500 mb-8 max-w-lg">AI 기반의 혁신적인 3D 합성 솔루션이 당신의 창의적 한계를 넘어서게 합니다.</p>
+
+      <!-- CTA Button -->
+      <button onclick="navigateTo('page-2')" class="px-12 py-4 border border-white/20 text-white font-bold tracking-wider rounded-sm hover:bg-white/5 hover:border-nova-cyan/50 transition-all duration-300 mb-10">Synthesis Dashboard</button>
+
+      <!-- Scroll Indicator -->
+      <div class="animate-bounce cursor-pointer" onclick="document.getElementById('page1-below').scrollIntoView({behavior:'smooth'})">
+        <p class="text-[11px] text-nova-cyan tracking-[0.3em] mb-2">SCROLL TO EXPLORE</p>
+        <svg class="w-5 h-5 text-nova-cyan mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Below the Fold: Video / Showcase Section -->
+<div id="page1-below" class="min-h-screen flex flex-col items-center justify-center px-4 py-24">
+  <div class="max-w-5xl mx-auto w-full">
+    <h3 class="text-3xl md:text-4xl text-nova-cyan font-thin tracking-widest mb-3">MOTION SYNTHESIS</h3>
+    <div class="w-16 h-[2px] bg-nova-cyan/30 mb-6"></div>
+    <p class="text-gray-400 text-lg font-light mb-10 max-w-2xl">Aunova의 모션 합성 기술은 정적인 이미지에 생명을 불어넣습니다.<br>단 한 번의 클릭으로 3D 공간에서의 움직임을 생성하세요.</p>
+    
+    <!-- Video Placeholder -->
+    <div class="w-full aspect-video liquid-glass rounded-2xl overflow-hidden relative group cursor-pointer border border-white/5">
+      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-700 group-hover:scale-105 transform">
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="w-20 h-20 rounded-full border border-white/20 backdrop-blur-sm flex items-center justify-center group-hover:border-nova-cyan group-hover:shadow-[0_0_30px_rgba(0,245,255,0.3)] transition-all duration-500">
+          <div class="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2 group-hover:border-l-nova-cyan transition-colors"></div>
         </div>
+      </div>
     </div>
 
-    <!-- Main Content Shell -->
-    <div id="main-content" class="opacity-0 transition-opacity duration-1000">
-        
-        <!-- Header -->
-        <header class="fixed top-0 left-0 w-full z-40 p-6 flex justify-between items-center transition-all duration-500 bg-gradient-to-b from-black/50 to-transparent">
-            <div class="text-2xl font-extrabold tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">AUNOVA</div>
-            <div class="flex items-center gap-6">
-                <!-- Top Nav My Page -->
-                <button class="text-gray-400 hover:text-nova-cyan transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                </button>
-                <button onclick="openModal()" class="liquid-glass px-6 py-2 rounded-full text-sm font-semibold hover:bg-white/10 transition-all border border-white/10">
-                    로그인 / 회원가입
-                </button>
-            </div>
-        </header>
-
-        <!-- Page 1: Hero -->
-        <section id="page-1" class="spa-page relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20">
-            <div class="max-w-4xl mx-auto mb-20 fade-in">
-                <h1 class="text-5xl md:text-8xl font-black tracking-tight leading-none mb-6">
-                    DIGITAL GENESIS:<br/>
-                    <span class="text-nova-cyan">14일의 공정을 24시간으로.</span>
-                </h1>
-                <p class="text-gray-400 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">
-                    AI 기반의 혁신적인 3D 합성 솔루션이 당신의 창의적 한계를 넘어서게 합니다.
-                </p>
-                <button onclick="navigateTo('page-2')" class="liquid-glass px-10 py-4 text-xl font-bold hover:bg-white/10 transition-all mb-12">
-                    Synthesis Dashboard
-                </button>
-                <div class="flex flex-col items-center animate-float">
-                    <p class="text-nova-cyan text-sm tracking-widest uppercase mb-2">Scroll to Explore</p>
-                    <svg class="w-6 h-6 text-nova-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Video Showcase Section -->
-            <div id="video-showcase" class="w-full max-w-6xl mx-auto px-4 py-24 opacity-0 transform translate-y-10 transition-all duration-1000">
-                <div class="liquid-glass rounded-3xl overflow-hidden aspect-video relative group">
-                    <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=2000" alt="Showcase" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all">
-                        <div class="text-nova-cyan p-4 rounded-full border border-nova-cyan/50 bg-black/40">
-                            <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <footer class="w-full py-12 flex justify-center gap-12 text-gray-500 text-sm">
-                <a href="#" class="hover:text-nova-cyan transition-colors uppercase tracking-widest">User Gallery</a>
-                <a href="#" class="hover:text-nova-cyan transition-colors uppercase tracking-widest">Reviews & Promo</a>
-            </footer>
-        </section>
-
-        <!-- Page 2: Synthesis Dashboard -->
-        <section id="page-2" class="spa-page hidden min-h-screen pt-24 pb-8 px-6 transition-all duration-500">
-            <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-[320px_1fr_320px] gap-6 h-[calc(100vh-140px)]">
-                
-                <!-- Left Panel: Control Tower -->
-                <div class="liquid-glass rounded-3xl p-6 flex flex-col gap-6 overflow-y-auto hide-scrollbar">
-                    <div>
-                        <h2 class="text-sm font-bold text-nova-cyan tracking-widest uppercase mb-4">Control Tower</h2>
-                        <p class="text-xs text-gray-500 mb-6 font-medium">Select Level & Input Prompt</p>
-                    </div>
-
-                    <!-- Level Selector -->
-                    <div class="space-y-3">
-                        <label class="text-xs font-bold text-gray-400">Synthesis Level</label>
-                        <div class="grid grid-cols-5 gap-1 p-1 bg-white/5 rounded-xl border border-white/10">
-                            <button onclick="changeLevel(1)" id="lvl-1" class="level-tab py-2 text-[10px] font-bold rounded-lg transition-all level-tab-active">Lv.1</button>
-                            <button onclick="changeLevel(2)" id="lvl-2" class="level-tab py-2 text-[10px] font-bold rounded-lg transition-all text-gray-500 hover:text-white">Lv.2</button>
-                            <button onclick="changeLevel(3)" id="lvl-3" class="level-tab py-2 text-[10px] font-bold rounded-lg transition-all text-gray-500 hover:text-white">Lv.3</button>
-                            <button onclick="changeLevel(4)" id="lvl-4" class="level-tab py-2 text-[10px] font-bold rounded-lg transition-all text-gray-500 hover:text-white">Lv.4</button>
-                            <button onclick="changeLevel(5)" id="lvl-5" class="level-tab py-2 text-[10px] font-bold rounded-lg transition-all text-gray-500 hover:text-white">Lv.5</button>
-                        </div>
-                    </div>
-
-                    <!-- Inputs -->
-                    <div class="space-y-4">
-                        <div class="space-y-2">
-                            <label class="text-xs font-bold text-gray-400">Project Title</label>
-                            <input type="text" id="input-title" placeholder="예: 우리 콩이" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm focus:border-nova-cyan outline-none transition-all">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-xs font-bold text-gray-400">Synthesis Prompt</label>
-                            <textarea id="input-prompt" placeholder="어떤 3D 모델을 원하시나요?" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm h-32 focus:border-nova-cyan outline-none resize-none transition-all"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Image Upload -->
-                    <div class="space-y-4">
-                        <label class="text-xs font-bold text-gray-400">Visual Reference</label>
-                        <div id="drop-zone" class="border-2 border-dashed border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-2 hover:border-nova-cyan transition-all cursor-pointer group">
-                            <svg class="w-8 h-8 text-gray-500 group-hover:text-nova-cyan transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Drag & Drop Image</p>
-                        </div>
-                        <div class="grid grid-cols-4 gap-2">
-                            <div onclick="loadPreview('https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=200')" class="aspect-square rounded-lg bg-white/5 border border-white/10 cursor-pointer hover:border-nova-cyan transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
-                            <div onclick="loadPreview('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=200')" class="aspect-square rounded-lg bg-white/5 border border-white/10 cursor-pointer hover:border-nova-cyan transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
-                            <div onclick="loadPreview('https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=200')" class="aspect-square rounded-lg bg-white/5 border border-white/10 cursor-pointer hover:border-nova-cyan transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
-                            <div onclick="loadPreview('https://images.unsplash.com/photo-1614680376593-902f74cc0d41?auto=format&fit=crop&q=80&w=200')" class="aspect-square rounded-lg bg-white/5 border border-white/10 cursor-pointer hover:border-nova-cyan transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1614680376593-902f74cc0d41?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Central stage: Visual Canvas -->
-                <div class="relative flex items-center justify-center overflow-hidden">
-                    <!-- Nova Star (Idle) -->
-                    <div id="center-logo" class="morph-active flex flex-col items-center">
-                        <svg class="w-48 h-48 text-nova-cyan filter drop-shadow-[0_0_15px_#00F5FF]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z" fill="currentColor"/>
-                        </svg>
-                        <p class="mt-8 text-xs font-bold text-gray-500 tracking-[0.3em] uppercase opacity-50">Awaiting Synthesis</p>
-                    </div>
-                    
-                    <!-- Preview Image (Active) -->
-                    <div id="center-preview-container" class="hidden absolute inset-0 flex items-center justify-center p-12">
-                        <div id="preview-frame" class="relative animate-float transition-all duration-700">
-                             <img id="preview-image" src="" class="max-h-[60vh] max-w-full rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10">
-                             <div class="absolute inset-0 rounded-3xl bg-gradient-to-t from-nova-cyan/20 to-transparent pointer-events-none"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Panel: Info & Action -->
-                <div class="liquid-glass rounded-3xl p-6 flex flex-col justify-between">
-                    <div class="space-y-8">
-                        <div>
-                            <h2 class="text-sm font-bold text-nova-cyan tracking-widest uppercase mb-4">Synthesis Info</h2>
-                            <p class="text-xs text-gray-500 mb-6 font-medium">Pricing & Verification</p>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <a href="#" class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all group">
-                                <span class="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">User Gallery</span>
-                                <svg class="w-4 h-4 text-gray-700 group-hover:text-nova-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                            <a href="#" class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all group">
-                                <span class="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">Client Reviews</span>
-                                <svg class="w-4 h-4 text-gray-700 group-hover:text-nova-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="space-y-6">
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[10px] font-bold text-gray-500 uppercase">Total Calculation</span>
-                            <span class="text-sm text-gray-400 line-through">총 견적 200,000원</span>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[10px] font-bold text-nova-cyan uppercase tracking-widest">Required Deposit</span>
-                            <span class="text-3xl font-black text-nova-cyan drop-shadow-[0_0_10px_rgba(0,245,255,0.3)]">22,000원</span>
-                        </div>
-                        <button id="btn-generate" onclick="goToPayment()" class="w-full bg-white/5 hover:bg-nova-cyan border border-white/20 hover:border-nova-cyan text-white hover:text-black py-4 rounded-2xl font-black transition-all transform hover:scale-[1.02] shadow-xl">
-                            START SYNTHESIS
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Page 3: Payment Warning -->
-        <section id="page-3" class="spa-page hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm fade-in">
-            <div class="relative w-full max-w-lg p-10 rounded-3xl border border-nova-cyan/30 bg-[#0A0A0B]/90 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,245,255,0.15)] transform scale-100 transition-all">
-                <button onclick="goBackToPage2()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-                <div class="text-center space-y-6">
-                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/5 border border-nova-cyan/50 text-nova-cyan mb-2">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                    </div>
-                    <h2 class="text-2xl font-bold text-white">잠깐! 결제 전 확인해주세요.</h2>
-                    <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm text-gray-500">총 견적 금액</span>
-                            <span class="text-sm text-gray-500 line-through decoration-gray-600">200,000 KRW</span>
-                        </div>
-                        <div class="flex justify-between items-center border-t border-white/10 pt-4 mt-2">
-                            <span class="text-white font-bold">결제할 보증금</span>
-                            <span class="text-3xl font-bold text-nova-cyan drop-shadow-[0_0_10px_rgba(0,245,255,0.4)]">22,000 KRW</span>
-                        </div>
-                    </div>
-                    <button onclick="processPayment()" class="w-full py-4 bg-nova-cyan text-black font-extrabold text-lg rounded-xl shadow-[0_0_20px_0_rgba(0,245,255,0.4)] hover:shadow-[0_0_30px_0_rgba(0,245,255,0.6)] hover:scale-[1.02] transition-all">
-                        22,000원 결제하고 생성 시작
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Page 4: Processing -->
-        <section id="page-4" class="spa-page hidden fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0A0A0B] fade-in">
-            <div class="relative w-64 h-64 flex items-center justify-center mb-12">
-                <div class="absolute inset-0 border border-white/5 rounded-full animate-pulse"></div>
-                <div class="relative z-10 w-32 h-32 text-nova-cyan animate-spin-slow filter drop-shadow-[0_0_30px_#00F5FF]">
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50 0L58.5 41.5L100 50L58.5 58.5L50 100L41.5 58.5L0 50L41.5 41.5L50 0Z" stroke="currentColor" stroke-width="1.5" fill="rgba(0,245,255,0.1)"/>
-                    </svg>
-                </div>
-                <div class="absolute inset-0 bg-nova-cyan/5 rounded-full animate-pulse-glow z-0"></div>
-            </div>
-            <h2 id="processing-text" class="text-2xl md:text-3xl font-light text-white tracking-[0.2em] text-center">
-                <span id="user-title-display" class="font-bold text-nova-cyan drop-shadow-[0_0_10px_#00F5FF]"></span> 탄생 중...
-            </h2>
-            <button id="btn-result" onclick="navigateTo('page-5')" class="hidden opacity-0 mt-16 px-10 py-4 border border-nova-cyan text-nova-cyan font-bold rounded-full hover:bg-nova-cyan hover:text-black hover:shadow-[0_0_30px_#00F5FF] transition-all duration-300 transform translate-y-4">
-                결과 확인하기
-            </button>
-        </section>
-
-        <!-- Page 5: Result & Payment (NEW) -->
-        <section id="page-5" class="spa-page hidden min-h-screen pt-24 pb-8 px-6 transition-all duration-500">
-            <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-[250px_1fr_250px] gap-6 h-[calc(100vh-140px)]">
-                
-                <!-- Left: Variations -->
-                <div class="liquid-glass rounded-3xl p-6 flex flex-col gap-4">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Variations</h3>
-                    <div class="grid grid-cols-2 gap-2 mb-6">
-                        <div onclick="selectModel(0)" class="aspect-square bg-white/5 rounded-lg border border-white/10 hover:border-nova-cyan cursor-pointer transition-all"></div>
-                        <div onclick="selectModel(1)" class="aspect-square bg-white/5 rounded-lg border border-white/10 hover:border-nova-cyan cursor-pointer transition-all"></div>
-                        <div onclick="selectModel(2)" class="aspect-square bg-white/5 rounded-lg border border-white/10 hover:border-nova-cyan cursor-pointer transition-all"></div>
-                        <div onclick="selectModel(3)" class="aspect-square bg-white/5 rounded-lg border border-white/10 hover:border-nova-cyan cursor-pointer transition-all"></div>
-                    </div>
-                    
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Texture Maps</h3>
-                    <div id="texture-palette" class="grid grid-cols-3 gap-2">
-                        <!-- Dynamic generated buttons -->
-                        <button class="w-8 h-8 rounded-full bg-red-500 border border-white/10"></button>
-                        <button class="w-8 h-8 rounded-full bg-blue-500 border border-white/10"></button>
-                        <button class="w-8 h-8 rounded-full bg-white border border-white/10"></button>
-                    </div>
-                </div>
-
-                <!-- Center: Clean Viewer -->
-                <div class="liquid-glass relative flex items-center justify-center overflow-hidden cursor-move">
-                    <div class="text-gray-600 text-sm font-light tracking-[0.5em] pointer-events-none uppercase">Antigravity Viewer</div>
-                    <!-- Placeholder for 3D Canvas -->
-                    <div class="absolute bottom-8 text-[10px] text-gray-700 font-mono">L-Click: Rotate | R-Click: Pan | Scroll: Zoom</div>
-                </div>
-
-                <!-- Right: Actions -->
-                <div class="liquid-glass rounded-3xl p-6 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xs font-bold text-nova-cyan uppercase tracking-widest mb-6">Delivery</h3>
-                        <div class="p-4 bg-white/5 rounded-xl border border-white/10 mb-4">
-                            <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-1 rounded font-bold">PAID</span>
-                            <h4 class="text-lg font-bold mt-2">Digital Assets</h4>
-                            <div class="flex gap-2 mt-3">
-                                <label class="flex items-center gap-1 text-xs text-gray-400"><input type="checkbox" checked class="accent-nova-cyan"> STL</label>
-                                <label class="flex items-center gap-1 text-xs text-gray-400"><input type="checkbox" class="accent-nova-cyan"> OBJ</label>
-                            </div>
-                            <button class="w-full mt-4 bg-white text-black font-bold py-2 rounded text-sm hover:bg-gray-200">Download Assets</button>
-                        </div>
-
-                        <div class="relative p-4 bg-white/5 rounded-xl border border-white/10 opacity-70">
-                            <div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] rounded-xl z-10 flex items-center justify-center group cursor-pointer" onclick="openFinalPayment()">
-                                <div class="bg-nova-cyan/20 p-2 rounded-full border border-nova-cyan/50 text-nova-cyan group-hover:bg-nova-cyan group-hover:text-black transition-all">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                </div>
-                            </div>
-                            <span class="text-[10px] bg-gray-700 text-gray-400 px-2 py-1 rounded font-bold">LOCKED</span>
-                            <h4 class="text-lg font-bold mt-2 text-gray-500">3D Printing</h4>
-                            <button class="w-full mt-4 bg-gray-700 text-gray-500 font-bold py-2 rounded text-sm cursor-not-allowed">Request Printing</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Admin Page (Updated: Factory Focused) -->
-        <section id="admin-page" class="spa-page hidden min-h-screen bg-[#0A0A0B] text-white overflow-hidden">
-            <!-- Admin Header -->
-            <header id="admin-header" class="h-16 flex items-center justify-between px-6 border-b border-white/10 bg-black/50 backdrop-blur-xl fixed w-full top-0 z-50">
-                <div class="flex items-center gap-4">
-                    <div class="w-8 h-8 rounded bg-gradient-to-br from-nova-cyan to-blue-600 flex items-center justify-center font-bold text-black text-xs">A</div>
-                    <span class="font-mono font-bold text-lg tracking-wider">AUNOVA <span class="text-nova-cyan">FACTORY</span> [ADMIN]</span>
-                </div>
-                <!-- Toggle Switch -->
-                <div class="flex items-center gap-3 bg-white/5 rounded-full p-1 border border-white/10">
-                    <button onclick="switchAdminTab('factory')" id="btn-factory" class="px-4 py-1.5 rounded-full text-xs font-bold bg-nova-cyan text-black shadow-lg transition-all">Factory (ㄱ)</button>
-                    <button onclick="switchAdminTab('lab')" id="btn-lab" class="px-4 py-1.5 rounded-full text-xs font-bold text-gray-400 hover:text-white transition-all">The Lab (ㄴ)</button>
-                </div>
-            </header>
-
-            <!-- Factory Content Layout -->
-            <div id="admin-factory" class="pt-16 grid grid-cols-[3fr_7fr] h-screen">
-                
-                <!-- Left Panel: Order Control -->
-                <div class="border-r border-white/10 bg-[#0A0A0B] flex flex-col h-full">
-                    <!-- Control Bar -->
-                    <div class="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
-                        <h2 class="font-mono text-xs font-bold text-gray-400 ml-2">ORDER QUEUE (24)</h2>
-                        <button onclick="window.print()" class="flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white text-white hover:text-black rounded text-xs font-bold transition-colors border border-white/20">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                            작업지시서 인쇄
-                        </button>
-                    </div>
-
-                    <!-- Data Table -->
-                    <div class="flex-1 overflow-auto hide-scrollbar p-0">
-                        <table class="w-full text-left border-collapse" id="order-table">
-                            <thead class="bg-white/5 text-gray-400 font-mono text-[10px] sticky top-0 backdrop-blur-md">
-                                <tr>
-                                    <th class="p-3 border-b border-white/10">No.</th>
-                                    <th class="p-3 border-b border-white/10">Status</th>
-                                    <th class="p-3 border-b border-white/10">Title / ID</th>
-                                    <th class="p-3 border-b border-white/10 text-right">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody class="font-mono text-xs divide-y divide-white/5">
-                                <!-- Row 1 -->
-                                <tr onclick="loadModelToCinema(0)" class="hover:bg-white/10 cursor-pointer transition-colors group">
-                                    <td class="p-3 text-gray-500 group-hover:text-white">#2049</td>
-                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-nova-cyan/20 text-nova-cyan font-bold text-[10px]">완료</span></td>
-                                    <td class="p-3">
-                                        <div class="font-bold text-white">Cyber Dog V3</div>
-                                        <div class="text-[10px] text-gray-500">user_kong</div>
-                                    </td>
-                                    <td class="p-3 text-right text-gray-500">02.18</td>
-                                </tr>
-                                <!-- Row 2 -->
-                                <tr onclick="loadModelToCinema(1)" class="hover:bg-white/10 cursor-pointer transition-colors group bg-white/[0.02]">
-                                    <td class="p-3 text-gray-500 group-hover:text-white">#2048</td>
-                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-gray-700 text-gray-300 font-bold text-[10px]">대기</span></td>
-                                    <td class="p-3">
-                                        <div class="font-bold text-gray-300">Neon Helmet</div>
-                                        <div class="text-[10px] text-gray-500">rider_77</div>
-                                    </td>
-                                    <td class="p-3 text-right text-gray-500">02.18</td>
-                                </tr>
-                                <!-- Row 3 -->
-                                <tr onclick="loadModelToCinema(2)" class="hover:bg-white/10 cursor-pointer transition-colors group">
-                                    <td class="p-3 text-gray-500 group-hover:text-white">#2047</td>
-                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-red-500/20 text-red-400 font-bold text-[10px] animate-pulse">오류</span></td>
-                                    <td class="p-3">
-                                        <div class="font-bold text-red-300">Faile_Mesh_01</div>
-                                        <div class="text-[10px] text-gray-500">unknown</div>
-                                    </td>
-                                    <td class="p-3 text-right text-gray-500">02.17</td>
-                                </tr>
-                                <!-- More Rows -->
-                                <tr onclick="loadModelToCinema(3)" class="hover:bg-white/10 cursor-pointer transition-colors group bg-white/[0.02]">
-                                    <td class="p-3 text-gray-500 group-hover:text-white">#2046</td>
-                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-bold text-[10px]">출력중</span></td>
-                                    <td class="p-3">
-                                        <div class="font-bold text-gray-300">Mech Arm L</div>
-                                        <div class="text-[10px] text-gray-500">engineer_kim</div>
-                                    </td>
-                                    <td class="p-3 text-right text-gray-500">02.17</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Print Only Header (Hidden on Screen) -->
-                    <div class="hidden print-only p-8">
-                        <h1 class="text-4xl font-black mb-4 border-b-2 border-black pb-4">Aunova 작업 지시서 - 2026.02.18</h1>
-                        <p class="mb-8 font-mono">담당자: 관리자(Admin) | 출력일시: 2026-02-18 15:30:00</p>
-                    </div>
-                </div>
-
-                <!-- Right Panel: Cinema Viewer -->
-                <div class="relative bg-black flex flex-col">
-                    <!-- Main Viewport -->
-                    <div class="flex-1 relative flex items-center justify-center overflow-hidden group">
-                        <!-- HUD Overlay -->
-                        <div class="absolute top-6 left-6 z-20 font-mono text-xs space-y-1 pointer-events-none select-none text-nova-cyan/80">
-                            <div class="flex gap-4"><span class="text-gray-500">POLYGON</span> <span id="hud-poly" class="font-bold drop-shadow-[0_0_5px_rgba(0,245,255,0.5)]">12,400</span></div>
-                            <div class="flex gap-4"><span class="text-gray-500">ENGINE</span> <span id="hud-engine" class="font-bold">Tripo v2.1</span></div>
-                            <div class="flex gap-4"><span class="text-gray-500">MARGIN</span> <span class="font-bold">32%</span></div>
-                            <div class="flex gap-4"><span class="text-gray-500">STATUS</span> <span class="font-bold text-green-400">READY</span></div>
-                        </div>
-
-                        <!-- 3D Model Image (Simulated) -->
-                        <img id="viewer-image" src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800" class="w-[80%] h-[80%] object-contain transition-all duration-300 filter drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]">
-                        
-                        <!-- Grid Overlay -->
-                        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
-                        <div class="absolute inset-0 border-[0.5px] border-white/5 pointer-events-none" style="background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
-
-                        <!-- Wireframe Toggle -->
-                        <button onclick="toggleWireframe()" class="absolute top-6 right-6 z-20 px-4 py-2 bg-black/50 border border-green-500/30 text-green-500 hover:bg-green-500 hover:text-black rounded font-mono text-xs font-bold transition-all backdrop-blur-md">
-                            Toggle Wireframe
-                        </button>
-                    </div>
-
-                    <!-- Thumbnail Strip -->
-                    <div class="h-32 border-t border-white/10 bg-[#050505] p-4 flex gap-4 overflow-x-auto hide-scrollbar items-center">
-                        <div onclick="loadModelToCinema(0)" class="min-w-[5rem] h-20 rounded border border-white/20 bg-white/5 cursor-pointer hover:border-nova-cyan hover:scale-105 transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
-                        <div onclick="loadModelToCinema(1)" class="min-w-[5rem] h-20 rounded border border-white/20 bg-white/5 cursor-pointer hover:border-nova-cyan hover:scale-105 transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1614680376593-902f74cc0d41?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
-                        <div onclick="loadModelToCinema(2)" class="min-w-[5rem] h-20 rounded border border-white/20 bg-white/5 cursor-pointer hover:border-nova-cyan hover:scale-105 transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1512413914633-b5043f4041ea?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover grayscale opacity-50 border-red-500/50"></div>
-                        <div onclick="loadModelToCinema(3)" class="min-w-[5rem] h-20 rounded border border-white/20 bg-white/5 cursor-pointer hover:border-nova-cyan hover:scale-105 transition-all overflow-hidden"><img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=200" class="w-full h-full object-cover"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lab (Placeholder for now, just to show tabs work) -->
-            <div id="admin-lab" class="hidden h-screen pt-16 flex items-center justify-center">
-                <div class="text-center">
-                    <h2 class="text-4xl font-bold text-gray-700 animate-pulse">THE LAB Under Construction</h2>
-                    <p class="text-gray-500 mt-4">Prompt Engineering & Analytics Module</p>
-                </div>
-            </div>
-        </section>
-
+    <!-- Quick Links -->
+    <div class="flex gap-8 text-sm text-gray-500 mt-10 justify-center">
+      <a href="#" class="hover:text-nova-cyan transition-colors">User Gallery (a)</a>
+      <a href="#" class="hover:text-nova-cyan transition-colors">Reviews (b)</a>
     </div>
+  </div>
+</div>
 
-    <!-- Final Payment Modal -->
-    <div id="final-pay-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-        <div class="liquid-glass max-w-sm w-full p-8 rounded-3xl text-center">
-            <h2 class="text-xl font-bold text-nova-cyan mb-6">잔금 결제</h2>
-            <div class="flex justify-between text-sm text-gray-400 mb-2"><span>총 금액</span><span>200,000</span></div>
-            <div class="flex justify-between text-sm text-gray-400 mb-4 pb-4 border-b border-white/10"><span>기납부 보증금</span><span class="text-nova-cyan">- 22,000</span></div>
-            <div class="flex justify-between text-xl font-bold text-white mb-8"><span>최종 결제액</span><span>178,000 원</span></div>
-            <button onclick="alert('결제가 완료되었습니다. 출력 요청이 접수되었습니다.'); document.getElementById('final-pay-modal').style.display='none';" class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl">결제하기</button>
-            <button onclick="document.getElementById('final-pay-modal').style.display='none'" class="mt-4 text-gray-500 text-sm hover:text-white">닫기</button>
-        </div>
+<!-- Company Info Footer -->
+<div class="border-t border-white/5 bg-[#060609] px-6 py-16">
+  <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+    <!-- Brand -->
+    <div class="md:col-span-1">
+      <div class="flex items-center gap-2 mb-4">
+        <svg viewBox="0 0 200 200" class="w-8 h-8 drop-shadow-[0_0_8px_#00F5FF]" fill="none">
+          <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="3"/>
+          <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="3"/>
+        </svg>
+        <span class="text-lg font-bold tracking-wider text-white">AUNOVA</span>
+      </div>
+      <p class="text-xs text-gray-500 leading-relaxed">AI 기반 3D 합성 기술로<br>디지털 창작의 새로운 지평을 엽니다.</p>
     </div>
-
-    <!-- Auth Modal handled in script -->
-    <div id="auth-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
-        <div class="liquid-glass w-full max-w-md rounded-3xl overflow-hidden relative z-10 transition-all duration-500 transform scale-95 opacity-0" id="modal-container">
-            <div class="flex border-b border-white/10">
-                <button onclick="switchTab('login')" id="tab-login" class="flex-1 py-4 text-sm font-bold border-b-2 border-nova-cyan text-white">로그인</button>
-                <button onclick="switchTab('signup')" id="tab-signup" class="flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-gray-500">회원가입</button>
-            </div>
-            
-            <div class="p-8">
-                <form id="login-form" onsubmit="handleAuth(event, 'login')" class="space-y-4">
-                    <input type="email" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-nova-cyan transition-all" required>
-                    <input type="password" placeholder="Password" id="login-pw" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 outline-none focus:border-nova-cyan transition-all" required>
-                    <button type="submit" class="w-full bg-nova-cyan text-black font-extrabold py-4 rounded-xl hover:brightness-110 transition-all">로그인</button>
-                </form>
-            </div>
-        </div>
+    <!-- Service -->
+    <div>
+      <h4 class="text-sm font-bold text-white mb-4 tracking-wider">SERVICE</h4>
+      <ul class="space-y-2 text-xs text-gray-500">
+        <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Synthesis</a></li>
+        <li><a href="#" class="hover:text-nova-cyan transition-colors">Motion Capture</a></li>
+        <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Printing</a></li>
+        <li><a href="#" class="hover:text-nova-cyan transition-colors">Custom Orders</a></li>
+      </ul>
     </div>
+    <!-- Company -->
+    <div>
+      <h4 class="text-sm font-bold text-white mb-4 tracking-wider">COMPANY</h4>
+      <ul class="space-y-2 text-xs text-gray-500">
+        <li><a href="#" class="hover:text-nova-cyan transition-colors">About Us</a></li>
+        <li><a href="#" class="hover:text-nova-cyan transition-colors">이용약관</a></li>
+        <li><a href="#" class="hover:text-nova-cyan transition-colors">개인정보처리방침</a></li>
+        <li><a href="#" class="hover:text-nova-cyan transition-colors">Partners</a></li>
+      </ul>
+    </div>
+    <!-- Contact -->
+    <div>
+      <h4 class="text-sm font-bold text-white mb-4 tracking-wider">CONTACT</h4>
+      <ul class="space-y-2 text-xs text-gray-500">
+        <li>📧 contact@aunova.ai</li>
+        <li>📞 02-0000-0000</li>
+        <li>📍 서울특별시 강남구</li>
+        <li class="pt-2 flex gap-3">
+          <a href="#" class="hover:text-nova-cyan transition-colors">Instagram</a>
+          <a href="#" class="hover:text-nova-cyan transition-colors">YouTube</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- Bottom Bar -->
+  <div class="max-w-5xl mx-auto mt-10 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="text-[11px] text-gray-600">© 2026 Aunova Inc. All rights reserved.</p>
+    <p class="text-[11px] text-gray-600">사업자등록번호: 000-00-00000 | 대표: OOO</p>
+  </div>
+</div>
 
-    <script>
-        // State Management
-        let appState = {
-            currentLevel: 1,
-            currentImage: null,
-            title: '',
-            prompt: ''
-        };
+</section>
 
-        // Custom Cursor
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            const logo = document.getElementById('center-logo');
-            if(logo && !logo.classList.contains('hidden') && !document.getElementById('page-2').classList.contains('hidden')) {
-                const rect = logo.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width/2;
-                const y = e.clientY - rect.top - rect.height/2;
-                logo.style.transform = `translate(${x/20}px, ${y/20}px)`;
-            }
-        });
+<!-- ═══════════ 2P: SYNTHESIS (WORKSPACE) ═══════════ -->
+<section id="page-2" class="spa-page min-h-screen flex-col pt-16 pb-4 pl-1 pr-[170px]">
 
-        // Intro Sequence
-        window.onload = () => {
-            const logo = document.getElementById('intro-logo-container');
-            const overlay = document.getElementById('intro-overlay');
-            const main = document.getElementById('main-content');
-            
-            logo.classList.add('animate-supernova-burst');
-            logo.style.opacity = '1';
-            logo.style.transform = 'scale(1)';
+<!-- Main Content: 2 Columns -->
+<div class="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-5 h-[calc(100vh-80px)]">
 
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.classList.add('hidden');
-                    main.classList.remove('opacity-0');
-                }, 1500);
-            }, 3000);
-        };
+<!-- LEFT: Input Panel -->
+<div class="bg-[#0D1117] rounded-xl p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border border-white/5">
+  
+  <!-- Level Tabs with Arrows -->
+  <div class="flex items-center gap-1">
+    <button class="text-white/30 hover:text-white transition-colors text-xs">◀</button>
+    <div class="flex flex-1 gap-1 overflow-hidden" id="level-tabs">
+      <button onclick="changeLevel(1)" class="lv-tab lv-active px-3 py-2 rounded-md text-[10px] font-bold whitespace-nowrap flex flex-col items-center">
+        <span>Lv.1</span><span class="text-[8px] font-normal opacity-60">FDM</span>
+      </button>
+      <button onclick="changeLevel(2)" class="lv-tab px-3 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center">
+        <span>Lv.2</span><span class="text-[8px] font-normal opacity-60">Resin</span>
+      </button>
+      <button onclick="changeLevel(3)" class="lv-tab px-3 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center">
+        <span>Lv.3</span><span class="text-[8px] font-normal opacity-60">Color</span>
+      </button>
+      <button onclick="changeLevel(4)" class="lv-tab px-3 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center">
+        <span>Lv.4</span><span class="text-[8px] font-normal opacity-60">Assembly</span>
+      </button>
+      <button onclick="changeLevel(5)" class="lv-tab px-3 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center">
+        <span>Lv.5</span><span class="text-[8px] font-normal opacity-60">Master</span>
+      </button>
+    </div>
+    <button class="text-white/30 hover:text-white transition-colors text-xs">▶</button>
+  </div>
+  <style>.lv-active{background:rgba(0,245,255,0.1);color:#00F5FF;border:1px solid rgba(0,245,255,0.3)}</style>
 
-        // Page 2 Dashboard Logic
-        function changeLevel(level) {
-            appState.currentLevel = level;
-            document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('level-tab-active', 'text-white'));
-            document.querySelectorAll('.level-tab').forEach(t => t.classList.add('text-gray-500'));
-            const selected = document.getElementById(`lvl-${level}`);
-            selected.classList.add('level-tab-active', 'text-white');
-            selected.classList.remove('text-gray-500');
-            updatePreviewStyle();
-        }
+  <!-- Project Title -->
+  <div>
+    <p class="text-nova-cyan text-[10px] font-bold tracking-widest mb-2">PROJECT TITLE</p>
+    <input id="synth-title" type="text" placeholder="예: 우르킬 열쇠의 골이" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none placeholder:text-gray-600">
+  </div>
 
-        function loadPreview(source) {
-            const logo = document.getElementById('center-logo');
-            const container = document.getElementById('center-preview-container');
-            const preview = document.getElementById('preview-image');
-            logo.classList.add('opacity-0', 'scale-90');
-            setTimeout(() => {
-                logo.classList.add('hidden');
-                preview.src = source;
-                container.classList.remove('hidden');
-                container.classList.add('fade-in');
-                updatePreviewStyle();
-            }, 500);
-        }
+  <!-- Creation Request -->
+  <div>
+    <p class="text-white/40 text-[10px] font-bold tracking-widest mb-2">CREATION REQUEST</p>
+    <textarea placeholder="예: 가오작 말을 기진 리트리버 10cm..." class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none resize-none h-28 placeholder:text-gray-600"></textarea>
+  </div>
 
-        function updatePreviewStyle() {
-            const preview = document.getElementById('preview-image');
-            if(!preview.src) return;
-            const filters = {
-                1: 'grayscale(80%) blur(2px) contrast(1.2)',
-                2: 'grayscale(50%) blur(1px) contrast(1.1)',
-                3: 'grayscale(0%) blur(0px) contrast(1)',
-                4: 'brightness(1.1) saturate(1.2) contrast(1.1)',
-                5: 'brightness(1.2) saturate(1.4) contrast(1.2) drop-shadow(0 0 20px rgba(0,245,255,0.4))'
-            };
-            preview.style.filter = filters[appState.currentLevel];
-        }
+  <!-- Reference Image & Sample Output -->
+  <div class="grid grid-cols-[1fr_1fr] gap-3 flex-1">
+    <!-- Reference Image Upload -->
+    <div>
+      <p class="text-white/40 text-[9px] font-bold tracking-widest mb-2">REFERENCE IMAGE</p>
+      <div id="drop-zone" class="border border-dashed border-gray-700 rounded-lg p-4 text-center text-gray-600 text-xs hover:border-nova-cyan transition-colors cursor-pointer flex flex-col items-center justify-center h-32" ondragover="event.preventDefault();this.classList.add('border-nova-cyan')" ondragleave="this.classList.remove('border-nova-cyan')" ondrop="handleDrop(event)">
+        <svg class="w-6 h-6 mb-2 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+        <span class="text-[9px]">Drag & Drop or Click</span>
+      </div>
+    </div>
+    <!-- Sample Output -->
+    <div>
+      <p class="text-white/40 text-[9px] font-bold tracking-widest mb-2">SAMPLE OUTPUT</p>
+      <div class="bg-black/40 rounded-lg overflow-hidden h-32 flex items-center justify-center border border-white/5">
+        <img id="center-preview" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&q=80" class="w-full h-full object-cover opacity-80">
+        <p class="absolute bottom-1 left-0 w-full text-center text-[8px] text-white/50 font-bold">Lv.1 FDM Sample</p>
+      </div>
+    </div>
+  </div>
 
-        // SPA Navigation & Payment Logic
-        function navigateTo(pageId) {
-            if(pageId === 'page-2') {
-                document.getElementById('intro-overlay').classList.add('hidden');
-                document.getElementById('main-content').classList.remove('opacity-0');
-            }
-            if(pageId === 'page-5') {
-                 // Dynamic palette based on level
-                 const palette = document.getElementById('texture-palette');
-                 if(appState.currentLevel === 5) {
-                    palette.innerHTML = `
-                        <button class="w-8 h-8 rounded-full bg-[url('https://images.unsplash.com/photo-1550254478-ead40cc54513?w=50')] bg-cover border border-white/10"></button>
-                        <button class="w-8 h-8 rounded-full bg-[url('https://images.unsplash.com/photo-1558478551-1a378f63328e?w=50')] bg-cover border border-white/10"></button>
-                        <button class="w-8 h-8 rounded-full bg-[url('https://images.unsplash.com/photo-1519972344546-17b78f1d5229?w=50')] bg-cover border border-white/10"></button>
-                    `;
-                 } else {
-                    palette.innerHTML = `
-                        <button class="w-8 h-8 rounded-full bg-red-500 border border-white/10"></button>
-                        <button class="w-8 h-8 rounded-full bg-blue-500 border border-white/10"></button>
-                        <button class="w-8 h-8 rounded-full bg-white border border-white/10"></button>
-                    `;
-                 }
-            }
+  <!-- Generate Button -->
+  <button onclick="navigateTo('page-3')" class="w-full py-4 bg-nova-cyan text-black font-black rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-[0.2em] text-sm mt-auto">GENERATE OBJECT</button>
+</div>
 
-            document.querySelectorAll('.spa-page').forEach(p => p.classList.add('hidden'));
-            const target = document.getElementById(pageId);
-            target.classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
+<!-- RIGHT: Center Display (Aunova Logo) -->
+<div class="bg-[#0D1117]/50 rounded-xl flex flex-col items-center justify-center relative overflow-hidden border border-white/5">
+  <!-- Animated Background -->
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.04)_0%,transparent_70%)]"></div>
+  
+  <!-- Glow Ring -->
+  <div class="absolute w-[300px] h-[300px] rounded-full border border-nova-cyan/10 animate-pulse"></div>
+  <div class="absolute w-[250px] h-[250px] rounded-full border border-nova-cyan/5"></div>
+  
+  <!-- Star Logo -->
+  <div id="center-display" class="relative z-10 flex flex-col items-center">
+    <svg id="center-logo" viewBox="0 0 200 200" class="w-56 h-56 drop-shadow-[0_0_30px_#00F5FF] transition-all duration-500">
+      <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="3" fill="none"/>
+      <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="3" fill="none"/>
+      <circle cx="100" cy="100" r="55" stroke="#00F5FF" stroke-width="1" fill="none" opacity="0.3"/>
+      <text x="100" y="105" text-anchor="middle" fill="#00F5FF" font-size="10" font-weight="bold" letter-spacing="2" class="font-black">★</text>
+    </svg>
+    <p class="text-nova-cyan text-3xl font-black tracking-tighter mt-2">AUNOVA</p>
+    <p id="center-level-label" class="text-[10px] text-white/25 tracking-widest mt-1">Lv.1 — BASIC</p>
+  </div>
+</div>
 
-        function goToPayment() {
-            appState.title = document.getElementById('input-title').value || '나만의 모델';
-            appState.prompt = document.getElementById('input-prompt').value;
-            navigateTo('page-3');
-        }
+</div>
 
-        function goBackToPage2() { navigateTo('page-2'); }
+<!-- Footer -->
+<div class="text-center mt-4">
+  <p class="text-[9px] text-white/15 tracking-widest">POWERED BY AUNOVA TECH © 2026</p>
+</div>
 
-        function processPayment() {
-            navigateTo('page-4');
-            const userTitle = appState.title;
-            document.getElementById('user-title-display').innerText = `'${userTitle}'`;
-            setTimeout(() => {
-                document.getElementById('processing-text').innerHTML = "<span class='text-nova-cyan font-bold'>생성이 완료되었습니다.</span>";
-                const nextBtn = document.getElementById('btn-result');
-                nextBtn.classList.remove('hidden', 'opacity-0');
-                nextBtn.classList.add('animate-fade-in-up');
-            }, 3000);
-        }
+</section>
 
-        // Page 5 Logic
-        function openFinalPayment() { document.getElementById('final-pay-modal').style.display='flex'; }
-        function selectModel(idx) {
-            // Visual feedback for selection
-            alert(`Model Variation ${idx+1} Selected`);
-        }
+<!-- ═══════════ 3P: PAYMENT WARNING ═══════════ -->
+<section id="page-3" class="spa-page min-h-screen flex-col items-center justify-center px-4">
+<div class="max-w-lg mx-auto mt-40">
+  <div class="liquid-glass rounded-2xl p-8 border border-yellow-500/20">
+    <div class="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+      <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+    </div>
+    <h2 class="text-xl font-bold text-white text-center mb-4">결제 확인</h2>
+    <div class="bg-black/40 rounded-xl p-4 mb-6 space-y-2 text-sm">
+      <div class="flex justify-between"><span class="text-gray-400">총 금액</span><span class="text-gray-400 line-through">₩200,000</span></div>
+      <div class="flex justify-between"><span class="text-nova-cyan font-bold">보증금 (우선 결제)</span><span class="text-nova-cyan font-bold text-lg">₩22,000</span></div>
+    </div>
+    <p class="text-center text-gray-400 text-sm mb-8">총 금액 중 <strong class="text-nova-cyan">보증금(22,000원)</strong>만 우선 결제됩니다.</p>
+    <div class="flex gap-3">
+      <button onclick="navigateTo('page-2')" class="flex-1 py-3 border border-white/10 text-gray-400 rounded-xl hover:bg-white/5 transition-all font-bold">← 돌아가기</button>
+      <button onclick="startProcessing()" class="flex-1 py-3 bg-nova-cyan text-black rounded-xl font-bold hover:shadow-[0_0_20px_rgba(0,245,255,0.4)] transition-all">결제 및 생성</button>
+    </div>
+  </div>
+</div>
+</section>
 
-        // Admin Logic
-        function switchAdminTab(tab) {
-            const factory = document.getElementById('admin-factory');
-            const lab = document.getElementById('admin-lab');
-            const btnF = document.getElementById('btn-factory');
-            const btnL = document.getElementById('btn-lab');
+<!-- ═══════════ 4P: PROCESSING ═══════════ -->
+<section id="page-4" class="spa-page min-h-screen flex-col items-center justify-center px-4">
+<div class="text-center">
+  <div class="relative w-32 h-32 mx-auto mb-8">
+    <svg id="spin-star" viewBox="0 0 100 100" class="w-full h-full animate-spin-fast drop-shadow-[0_0_30px_#00F5FF]">
+      <path d="M50 0 L60 35 L95 50 L60 65 L50 100 L40 65 L5 50 L40 35 Z" fill="#00F5FF"/>
+    </svg>
+  </div>
+  <p id="typing-text" class="text-xl md:text-2xl text-white font-light mb-8 h-8"></p>
+  <p class="text-gray-500 text-sm mb-8">잠시만 기다려 주세요...</p>
+  <button id="btn-next-5" onclick="navigateTo('page-5')" class="hidden px-10 py-4 bg-nova-cyan text-black font-bold rounded-xl hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-wider">NEXT →</button>
+</div>
+</section>
 
-            if (tab === 'factory') {
-                factory.classList.remove('hidden'); factory.classList.add('grid');
-                lab.classList.add('hidden'); lab.classList.remove('grid');
-                btnF.classList.add('bg-nova-cyan', 'text-black', 'shadow-lg'); btnF.classList.remove('text-gray-400', 'bg-transparent');
-                btnL.classList.remove('bg-nova-cyan', 'text-black', 'shadow-lg'); btnL.classList.add('text-gray-400');
-            } else {
-                lab.classList.remove('hidden'); lab.classList.add('grid');
-                factory.classList.add('hidden'); factory.classList.remove('grid');
-                btnL.classList.add('bg-nova-cyan', 'text-black', 'shadow-lg'); btnL.classList.remove('text-gray-400');
-                btnF.classList.remove('bg-nova-cyan', 'text-black', 'shadow-lg'); btnF.classList.add('text-gray-400', 'bg-transparent');
-            }
-        }
+<!-- ═══════════ 5P: RESULT & 2ND PAYMENT ═══════════ -->
+<section id="page-5" class="spa-page min-h-screen flex-col pt-24 pb-8 px-4">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[280px_1fr_280px] gap-6">
+<!-- LEFT: Style -->
+<div class="liquid-glass rounded-2xl p-5 flex flex-col gap-4 sticky top-24 h-[85vh] overflow-y-auto hide-scrollbar">
+  <h3 class="text-nova-cyan font-bold tracking-widest text-sm border-b border-white/10 pb-3">STYLE SELECT</h3>
+  <div class="grid grid-cols-2 gap-2" id="model-thumbs">
+    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer ring-2 ring-nova-cyan flex items-center justify-center text-xs text-gray-400">A</div>
+    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400">B</div>
+    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400">C</div>
+    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400">D</div>
+    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400 col-span-2">E</div>
+  </div>
+  <h4 class="text-xs text-gray-500 tracking-wider mt-4">COLOR PALETTE</h4>
+  <div class="flex gap-2"><div class="w-8 h-8 rounded-full bg-gray-500 cursor-pointer ring-2 ring-white/30"></div><div class="w-8 h-8 rounded-full bg-cyan-600 cursor-pointer"></div><div class="w-8 h-8 rounded-full bg-purple-600 cursor-pointer"></div><div class="w-8 h-8 rounded-full bg-rose-600 cursor-pointer"></div><div class="w-8 h-8 rounded-full bg-amber-600 cursor-pointer"></div></div>
+</div>
+<!-- CENTER: Clean Viewer -->
+<div class="liquid-glass rounded-2xl flex items-center justify-center min-h-[600px] relative overflow-hidden" style="cursor:default">
+  <div class="w-64 h-64 bg-gray-700/50 rounded-2xl flex items-center justify-center"><p class="text-gray-500 text-sm">3D Model Viewer</p></div>
+</div>
+<!-- RIGHT: Export -->
+<div class="liquid-glass rounded-2xl p-5 flex flex-col gap-4 sticky top-24 h-[85vh] overflow-y-auto hide-scrollbar">
+  <h3 class="text-nova-cyan font-bold tracking-widest text-sm border-b border-white/10 pb-3">EXPORT</h3>
+  <div class="space-y-3 mt-4">
+    <button class="w-full py-3 bg-nova-cyan/10 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/20 transition-all text-sm">↓ Download STL</button>
+    <button class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm">↓ Download OBJ</button>
+    <button class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm">↓ Download PLY</button>
+  </div>
+  <div class="border-t border-white/10 pt-4 mt-4">
+    <button onclick="request3DPrint()" id="btn-3dprint" class="w-full py-4 bg-gray-800 border border-gray-700 text-gray-500 rounded-xl font-bold transition-all relative overflow-hidden">
+      <span>🔒 3D Print 요청</span>
+    </button>
+    <p class="text-[10px] text-gray-600 mt-2 text-center">잔액 ₩178,000 추가 결제 필요</p>
+  </div>
+</div>
+</div>
+</section>
 
-        // Factory Logic
-        const modelDataDB = [
-            { id: 0, image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800', poly: '12,400', engine: 'Tripo v2.1' },
-            { id: 1, image: 'https://images.unsplash.com/photo-1614680376593-902f74cc0d41?auto=format&fit=crop&q=80&w=800', poly: '45,200', engine: 'Rodin G3' },
-            { id: 2, image: 'https://images.unsplash.com/photo-1512413914633-b5043f4041ea?auto=format&fit=crop&q=80&w=800', poly: 'ERROR', engine: 'Failed' },
-            { id: 3, image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=800', poly: '8,900', engine: 'Meshy Ultra' },
-        ];
+<!-- ═══════════ ㄱP: THE FACTORY (ADMIN) ═══════════ -->
+<section id="page-admin-1" class="spa-page min-h-screen flex-col pt-24 pb-8 px-6">
+<div class="max-w-[1400px] mx-auto">
+<div class="flex items-center justify-between mb-6 no-print">
+  <div><h1 class="text-2xl font-bold tracking-widest">THE FACTORY</h1><p class="text-nova-cyan text-xs mt-1">관리자 운영 관제 — ㄱ페이지</p></div>
+  <div class="flex gap-3">
+    <button onclick="navigateTo('page-admin-2')" class="liquid-glass px-4 py-2 rounded-lg text-xs text-gray-400 hover:text-white">ㄴP Lab →</button>
+    <button onclick="window.print()" class="px-4 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20">🖨 작업지시서 인쇄</button>
+    <button onclick="handleLogout()" class="px-4 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10">로그아웃</button>
+  </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-6">
+<!-- LEFT: Order List -->
+<div class="liquid-glass rounded-2xl p-5 overflow-x-auto">
+  <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print">주문 리스트</h3>
+  <table class="w-full text-xs" id="order-table">
+    <thead><tr class="text-left text-gray-400 border-b border-white/10">
+      <th class="pb-2 pr-4">No.</th><th class="pb-2 pr-4">고객명</th><th class="pb-2 pr-4">제목</th><th class="pb-2 pr-4">Lv</th><th class="pb-2 pr-4">상태</th><th class="pb-2">금액</th>
+    </tr></thead>
+    <tbody class="text-gray-300">
+      <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer" onclick="selectOrder(0)"><td class="py-3 text-nova-cyan font-mono">#001</td><td>김민수</td><td>드래곤 피규어</td><td>Lv.3</td><td><span class="text-green-400">완료</span></td><td>₩200,000</td></tr>
+      <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer" onclick="selectOrder(1)"><td class="py-3 text-nova-cyan font-mono">#002</td><td>이지현</td><td>캐릭터 흉상</td><td>Lv.2</td><td><span class="text-yellow-400">진행중</span></td><td>₩150,000</td></tr>
+      <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer" onclick="selectOrder(2)"><td class="py-3 text-nova-cyan font-mono">#003</td><td>박서준</td><td>건축 모형</td><td>Lv.5</td><td><span class="text-gray-500">대기</span></td><td>₩350,000</td></tr>
+    </tbody>
+  </table>
+</div>
+<!-- RIGHT: Cinema Viewer -->
+<div class="liquid-glass rounded-2xl p-5 flex flex-col no-print">
+  <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">CINEMA VIEWER</h3>
+  <div class="flex-1 bg-black/40 rounded-xl flex items-center justify-center min-h-[300px] relative"><p class="text-gray-600 text-sm">모델 선택 시 표시</p></div>
+  <div class="mt-4 grid grid-cols-4 gap-2">
+    <div class="aspect-square bg-gray-800 rounded-lg"></div><div class="aspect-square bg-gray-800 rounded-lg"></div><div class="aspect-square bg-gray-800 rounded-lg"></div><div class="aspect-square bg-gray-800 rounded-lg"></div>
+  </div>
+  <div class="mt-4 grid grid-cols-3 gap-3 text-xs text-gray-500 bg-black/20 rounded-lg p-3">
+    <div><span class="text-gray-600">폴리곤</span><br><span class="text-white">124,800</span></div>
+    <div><span class="text-gray-600">엔진</span><br><span class="text-white">Nova v3</span></div>
+    <div><span class="text-gray-600">마진율</span><br><span class="text-green-400">34.2%</span></div>
+  </div>
+</div>
+</div>
+</div>
+</section>
 
-        function loadModelToCinema(id) {
-            const data = modelDataDB[id] || modelDataDB[0];
-            const viewer = document.getElementById('viewer-image');
-            const poly = document.getElementById('hud-poly');
-            const engine = document.getElementById('hud-engine');
-            
-            // Visual transition
-            viewer.classList.add('opacity-50', 'scale-95');
-            setTimeout(() => {
-                viewer.src = data.image;
-                poly.innerText = data.poly;
-                engine.innerText = data.engine;
-                viewer.classList.remove('opacity-50', 'scale-95');
-                
-                // Reset wireframe on load
-                isWireframe = false;
-                viewer.style.filter = "drop-shadow(0 0 50px rgba(255,255,255,0.1))";
-            }, 300);
-        }
+<!-- ═══════════ ㄴP: THE LAB (ADMIN) ═══════════ -->
+<section id="page-admin-2" class="spa-page min-h-screen flex-col pt-24 pb-8 px-6">
+<div class="max-w-[1400px] mx-auto">
+<div class="flex items-center justify-between mb-6">
+  <div><h1 class="text-2xl font-bold tracking-widest">THE LAB</h1><p class="text-nova-cyan text-xs mt-1">전략 연구소 — ㄴ페이지</p></div>
+  <div class="flex gap-3">
+    <button onclick="navigateTo('page-admin-1')" class="liquid-glass px-4 py-2 rounded-lg text-xs text-gray-400 hover:text-white">← ㄱP Factory</button>
+    <button onclick="handleLogout()" class="px-4 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10">로그아웃</button>
+  </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- LEFT: AI Model Cards -->
+<div class="liquid-glass rounded-2xl p-5">
+  <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">AI MODEL DECK</h3>
+  <div id="model-deck" class="space-y-3">
+    <div draggable="true" class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"><div><p class="font-bold text-sm">Nova Engine v3</p><p class="text-xs text-gray-500">사용량 72%</p></div><div class="w-12 h-12 rounded-full border-4 border-nova-cyan border-r-transparent" style="border-radius:50%"></div></div>
+    <div draggable="true" class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"><div><p class="font-bold text-sm">Mesh Refiner v2</p><p class="text-xs text-gray-500">사용량 45%</p></div><div class="w-12 h-12 rounded-full border-4 border-purple-400 border-r-transparent" style="border-radius:50%"></div></div>
+    <div draggable="true" class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"><div><p class="font-bold text-sm">Texture AI v1</p><p class="text-xs text-gray-500">사용량 28%</p></div><div class="w-12 h-12 rounded-full border-4 border-amber-400 border-r-transparent" style="border-radius:50%"></div></div>
+  </div>
+</div>
+<!-- RIGHT: Time Machine -->
+<div class="liquid-glass rounded-2xl p-5">
+  <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">TIME MACHINE</h3>
+  <div class="mb-4"><label class="text-xs text-gray-500 block mb-2">Version Slider</label>
+    <input type="range" id="version-slider" min="1" max="5" value="5" class="w-full" oninput="updateVersion(this.value)">
+    <div class="flex justify-between text-[10px] text-gray-600 mt-1"><span>v1.0</span><span>v2.0</span><span>v3.0</span><span>v4.0</span><span id="ver-label" class="text-nova-cyan">v5.0 (현재)</span></div>
+  </div>
+  <div id="version-editor" class="bg-black/40 rounded-xl p-4 font-mono text-sm text-gray-300 min-h-[200px] border border-white/5">
+    <p class="text-nova-cyan mb-2">// v5.0 — Current Config</p>
+    <p>engine: "nova-v3"</p><p>mesh_quality: "ultra"</p><p>texture_mode: "neural"</p><p>priority: 1</p>
+  </div>
+  <button onclick="mergeAnimation()" class="mt-4 w-full py-3 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/10 transition-all text-sm">⟳ 중복 적용 (Merge)</button>
+</div>
+</div>
+</div>
+</section>
 
-        let isWireframe = false;
-        function toggleWireframe() {
-            const viewer = document.getElementById('viewer-image');
-            isWireframe = !isWireframe;
-            if (isWireframe) {
-                viewer.style.filter = "grayscale(100%) contrast(150%) brightness(0.8) drop-shadow(0 0 0 white) invert(1)";
-                // Ideally this would involve swapping textures, but filter simulates the 'technical' look.
-            } else {
-                viewer.style.filter = "drop-shadow(0 0 50px rgba(255,255,255,0.1))";
-            }
-        }
+</div><!-- /app-shell -->
 
-        // Lab Logic
-        let chartsInitialized = false;
-        
-        // Time Slider Data
-        const promptHistory = [
-            { date: '2026.02.01', ver: 'v10', text: "A cute golden retriever dog, sitting, white background." },
-            { date: '2026.02.10', ver: 'v50', text: "Low poly style golden retriever, metallic texture, blue eyes, white background, 4k." },
-            { date: '2026.02.18', ver: 'v100', text: "A futuristic cyberpunk helmet with neon cyan lights and metallic finish. High detail, 8k resolution, unreal engine 5 render, cinematic lighting." }
-        ];
+<!-- ═══════════ AUTH MODAL ═══════════ -->
+<div id="auth-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('auth-modal')"></div>
+<div class="bg-[#0A0A0B] border border-white/10 w-full max-w-md rounded-2xl relative z-10 p-8 shadow-2xl">
+  <h2 class="text-lg font-bold text-white mb-1 tracking-widest">로그인</h2>
+  <p class="text-gray-500 text-xs mb-6">Aunova 계정으로 로그인하세요.</p>
+  <div id="login-error" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-xs"></div>
+  <input id="login-id" type="text" placeholder="아이디 또는 이메일" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
+  <input id="login-pw" type="password" placeholder="비밀번호" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-4 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
+  <!-- SNS Login -->
+  <div class="grid grid-cols-2 gap-2 mb-4">
+    <button class="py-2.5 bg-[#03C75A]/15 border border-[#03C75A]/30 rounded-lg text-xs text-[#03C75A] font-bold hover:bg-[#03C75A]/25 transition-all">N 네이버</button>
+    <button class="py-2.5 bg-[#4285F4]/15 border border-[#4285F4]/30 rounded-lg text-xs text-[#4285F4] font-bold hover:bg-[#4285F4]/25 transition-all">G 구글</button>
+    <button class="py-2.5 bg-[#FEE500]/10 border border-[#FEE500]/30 rounded-lg text-xs text-[#FEE500] font-bold hover:bg-[#FEE500]/20 transition-all">K 카카오</button>
+    <button class="py-2.5 bg-white/10 border border-white/20 rounded-lg text-xs text-white font-bold hover:bg-white/15 transition-all"> Apple</button>
+  </div>
+  <button onclick="handleLogin()" class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition-all tracking-wider">CONNECT</button>
+  <p class="text-center text-gray-500 text-xs mt-4">아직 계정이 없으신가요? <a href="#" onclick="closeModal('auth-modal');setTimeout(()=>openModal('signup-modal'),300)" class="text-nova-cyan hover:underline font-semibold">회원가입</a></p>
+</div>
+</div>
 
-        document.getElementById('time-slider').addEventListener('input', (e) => {
-            const index = e.target.value;
-            const data = promptHistory[index];
-            document.getElementById('tm-editor').value = data.text;
-            document.getElementById('tm-date').innerText = data.date;
-            document.getElementById('tm-ver').innerText = data.ver;
-            
-            // Reset tag cloud if visible
-            document.getElementById('tag-cloud').classList.add('hidden');
-            document.getElementById('tm-editor').style.opacity = '1';
-        });
+<!-- ═══════════ SIGN-UP MODAL ═══════════ -->
+<div id="signup-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('signup-modal')"></div>
+<div class="bg-[#0A0A0B] border border-white/10 w-full max-w-lg rounded-2xl relative z-10 p-8 shadow-2xl max-h-[90vh] overflow-y-auto hide-scrollbar">
+  <h2 class="text-lg font-bold text-white mb-1 tracking-widest">회원가입</h2>
+  <p class="text-gray-500 text-xs mb-6">Aunova 계정을 생성하세요.</p>
 
-        function triggerMergeAnimation() {
-            const current = document.getElementById('tm-editor').value;
-            const past = promptHistory[0].text; // Merge with oldest version for contrast
-            
-            // Prepare Tag Cloud
-            const container = document.getElementById('tag-cloud');
-            const editor = document.getElementById('tm-editor');
-            container.innerHTML = '';
-            container.classList.remove('hidden');
-            editor.style.opacity = '0.1';
+  <!-- Name -->
+  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">이름 *</label>
+  <input type="text" placeholder="홍길동" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
 
-            // Mix words
-            const allWords = [...current.split(' '), ...past.split(' ')];
-            // Simple frequency map
-            const wordMap = {};
-            allWords.forEach(w => wordMap[w] = (wordMap[w] || 0) + 1);
+  <!-- Email -->
+  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">이메일 *</label>
+  <input type="email" placeholder="example@email.com" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
 
-            Object.keys(wordMap).forEach((word, i) => {
-                const span = document.createElement('span');
-                span.innerText = word;
-                const isCommon = wordMap[word] > 1;
-                span.className = `inline-block border rounded px-2 py-1 text-xs transition-all duration-1000 ${isCommon ? 'text-nova-cyan border-nova-cyan/50 font-bold scale-110' : 'text-gray-500 border-white/10'}`;
-                span.style.transform = `translate(${Math.random()*20 - 10}px, ${Math.random()*20 - 10}px)`;
-                container.appendChild(span);
+  <!-- ID -->
+  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">아이디 *</label>
+  <div class="flex gap-2 mb-3">
+    <input type="text" placeholder="사용할 아이디" class="flex-1 bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
+    <button class="px-4 bg-white/10 border border-white/15 rounded-lg text-xs text-gray-400 hover:text-white hover:border-nova-cyan/30 transition-all whitespace-nowrap">중복확인</button>
+  </div>
 
-                // Animate converge
-                setTimeout(() => {
-                    span.style.transform = 'translate(0, 0)';
-                }, 100);
-            });
+  <!-- Password -->
+  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">비밀번호 *</label>
+  <input type="password" placeholder="8자 이상, 영문+숫자+특수문자" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
 
-            // Finish Merge
-            setTimeout(() => {
-                editor.value = "MERGED: Futuristic cyberpunk golden retriever with neon cyan lights. High detail, 8k resolution mixed with cute style.";
-                container.classList.add('hidden');
-                editor.style.opacity = '1';
-                editor.classList.add('animate-pulse-glow');
-                setTimeout(() => editor.classList.remove('animate-pulse-glow'), 1000);
-            }, 2000);
-        }
+  <!-- Confirm Password -->
+  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">비밀번호 확인 *</label>
+  <input type="password" placeholder="비밀번호를 다시 입력" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
 
-        // Charts Init
-        function initCharts() {
-            if(chartsInitialized) return;
-            chartsInitialized = true;
+  <!-- Phone -->
+  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">연락처</label>
+  <input type="tel" placeholder="010-0000-0000" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
 
-            // Resource Usage (Pie)
-            const ctx1 = document.getElementById('usageChart').getContext('2d');
-            new Chart(ctx1, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Tripo', 'Rodin', 'Meshy'],
-                    datasets: [{
-                        data: [45, 30, 25],
-                        backgroundColor: ['#4ade80', '#facc15', '#60a5fa'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    cutout: '70%',
-                    plugins: { legend: { display: false } }
-                }
-            });
+  <!-- Payment Method -->
+  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">결제 수단 등록</label>
+  <select class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-5 text-gray-400 text-sm focus:border-nova-cyan outline-none">
+    <option value="" class="bg-[#0A0A0B]">결제 수단 선택</option>
+    <option value="card" class="bg-[#0A0A0B]">신용/체크카드</option>
+    <option value="bank" class="bg-[#0A0A0B]">계좌이체</option>
+    <option value="kakao" class="bg-[#0A0A0B]">카카오페이</option>
+    <option value="naver" class="bg-[#0A0A0B]">네이버페이</option>
+  </select>
 
-            // Revenue (Line)
-            const ctx2 = document.getElementById('revenueChart').getContext('2d');
-            new Chart(ctx2, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Revenue',
-                        data: [1200, 1900, 3000, 5000, 4800, 6200],
-                        borderColor: '#00F5FF',
-                        tension: 0.4,
-                        borderWidth: 2,
-                        pointBackgroundColor: '#000',
-                        fill: true,
-                        backgroundColor: 'rgba(0, 245, 255, 0.1)'
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: { display: false, grid: {display: false} },
-                        x: { grid: {color: 'rgba(255,255,255,0.05)'}, ticks: {color: '#666'} }
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
+  <!-- Divider -->
+  <div class="border-t border-white/10 my-5"></div>
 
-        // Initialize charts when tab is switched
-        const originalSwitch = switchAdminTab;
-        switchAdminTab = function(tab) {
-            originalSwitch(tab);
-            if(tab === 'lab') setTimeout(initCharts, 100);
-        }
+  <!-- Terms & Agreements -->
+  <h3 class="text-sm font-bold text-white mb-3 tracking-wider">약관 동의</h3>
 
-        // Drag & Drop Handling
-        function allowDrop(ev) { ev.preventDefault(); }
-        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            var dragged = document.getElementById(data);
-            // Insert before/after logic simplified for prototype: just append to container or swap
-            // For now, simple visual swap for UX demo
-            var target = ev.target.closest('[draggable="true"]');
-            if(target && target !== dragged) {
-                target.parentNode.insertBefore(dragged, target);
-            }
-        }
+  <label class="flex items-start gap-3 mb-3 cursor-pointer group">
+    <input type="checkbox" id="agree-all" onclick="toggleAllAgree()" class="mt-1 w-4 h-4 accent-[#00F5FF] rounded">
+    <span class="text-sm text-white font-semibold group-hover:text-nova-cyan transition-colors">전체 동의</span>
+  </label>
+  <div class="border-t border-white/5 mb-3"></div>
 
-        // Modal Controls
-        function openModal() {
-            const modal = document.getElementById('auth-modal');
-            const container = document.getElementById('modal-container');
-            modal.style.display = 'flex';
-            setTimeout(() => container.classList.remove('scale-95', 'opacity-0'), 10);
-        }
+  <label class="flex items-start gap-3 mb-2 cursor-pointer group">
+    <input type="checkbox" class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded">
+    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors">[필수] 이용약관 동의 <a href="#" class="text-nova-cyan/60 hover:underline ml-1">보기</a></span>
+  </label>
+  <label class="flex items-start gap-3 mb-2 cursor-pointer group">
+    <input type="checkbox" class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded">
+    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors">[필수] 개인정보 수집 및 이용 동의 <a href="#" class="text-nova-cyan/60 hover:underline ml-1">보기</a></span>
+  </label>
+  <label class="flex items-start gap-3 mb-2 cursor-pointer group">
+    <input type="checkbox" class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded">
+    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors">[필수] 전자결제 이용 동의 <a href="#" class="text-nova-cyan/60 hover:underline ml-1">보기</a></span>
+  </label>
+  <label class="flex items-start gap-3 mb-5 cursor-pointer group">
+    <input type="checkbox" class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded">
+    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors">[선택] 마케팅 정보 수신 동의</span>
+  </label>
 
-        function closeModal() {
-            const container = document.getElementById('modal-container');
-            const modal = document.getElementById('auth-modal');
-            container.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => modal.style.display = 'none', 500);
-        }
+  <!-- Submit -->
+  <button class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition-all tracking-wider mb-3">가입하기</button>
+  <p class="text-center text-gray-500 text-xs">이미 계정이 있으신가요? <a href="#" onclick="closeModal('signup-modal');setTimeout(()=>openModal('auth-modal'),300)" class="text-nova-cyan hover:underline font-semibold">로그인</a></p>
+</div>
+</div>
 
-        function handleAuth(e, type) {
-            e.preventDefault();
-            const pwInput = document.getElementById('login-pw');
-            if (type === 'login' && pwInput.value === 'aunova3123') navigateTo('admin-page');
-            else navigateTo('page-2');
-            closeModal();
-        }
-    </script>
+<!-- ═══════════ 3D PRINT PAYMENT MODAL ═══════════ -->
+<div id="print-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('print-modal')"></div>
+<div class="bg-[#0A0A0B] border border-white/10 w-full max-w-sm rounded-2xl relative z-10 p-8 shadow-2xl text-center">
+  <h2 class="text-lg font-bold text-white mb-4">잔액 추가 결제</h2>
+  <p class="text-3xl font-black text-nova-cyan mb-2">₩178,000</p>
+  <p class="text-gray-500 text-sm mb-6">3D 프린트를 위해 잔액을 결제합니다.</p>
+  <button onclick="confirmPrint()" class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl mb-2">결제 확인</button>
+  <button onclick="closeModal('print-modal')" class="w-full py-2 text-gray-500 text-sm">취소</button>
+</div>
+</div>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+// === State ===
+let currentPage='page-0';
+let currentLevel=1;
+const levelLabels=['','BASIC','ADVANCED MESH','NEURAL TEXTURE','MOTION CAPTURE','ULTRA PREMIUM'];
+
+// === INTRO ===
+document.getElementById('page-0').addEventListener('click',function(){
+  if(this.dataset.played) return;
+  this.dataset.played='1';
+  const boom=document.getElementById('sfx-boom');
+  const ambient=document.getElementById('sfx-ambient');
+  boom.volume=0.5; boom.play().catch(()=>{});
+  // Soft White Flash
+  const flash=document.getElementById('intro-flash');
+  const logoWrap=document.getElementById('intro-logo-wrap');
+  logoWrap.style.transition='transform 1.2s ease-out, filter 1s ease-out, opacity 1s ease-out';
+  logoWrap.style.transform='scale(1.3)';
+  logoWrap.style.filter='brightness(4)';
+  // Gradual white wash
+  setTimeout(()=>{ flash.style.opacity='0.85'; },200);
+  // Ambient sound
+  setTimeout(()=>{ambient.volume=0.12;ambient.play().catch(()=>{});},600);
+  // Logo fades into white
+  setTimeout(()=>{ logoWrap.style.opacity='0'; },600);
+  // Begin page transition — fade the white out while 1P fades in
+  setTimeout(()=>{
+    document.getElementById('app-shell').style.opacity='1';
+    document.getElementById('page-0').style.opacity='0';
+    // Cleanup
+    setTimeout(()=>{document.getElementById('page-0').style.display='none';},1500);
+  },1200);
+});
+
+// === SPA NAV ===
+function navigateTo(id){
+  document.querySelectorAll('.spa-page').forEach(p=>{p.classList.remove('active')});
+  const target=document.getElementById(id);
+  if(target){target.classList.add('active');window.scrollTo(0,0);currentPage=id;}
+  // Toggle pricing visibility (page-2 only)
+  const pricing=document.getElementById('sidebar-pricing');
+  if(pricing){id==='page-2'?pricing.classList.remove('hidden'):pricing.classList.add('hidden');}
+}
+
+// === MODALS ===
+function openModal(id){document.getElementById(id).classList.remove('hidden')}
+function closeModal(id){document.getElementById(id).classList.add('hidden')}
+
+// === LOGIN ===
+function handleLogin(){
+  const id=document.getElementById('login-id').value.trim();
+  const pw=document.getElementById('login-pw').value.trim();
+  const err=document.getElementById('login-error');
+  err.classList.add('hidden');
+  if(id==='aunova'&&pw==='aunova3123'){
+    closeModal('auth-modal');navigateTo('page-admin-1');
+    setLoggedIn('ADMIN');return;
+  }
+  if(id!==''&&pw!==''){err.textContent='ID 또는 비밀번호가 올바르지 않습니다.';err.classList.remove('hidden');return;}
+  closeModal('auth-modal');navigateTo('page-1');
+  setLoggedIn('USER');
+}
+function setLoggedIn(role){
+  document.getElementById('btn-login').classList.add('hidden');
+  const signupBtn=document.getElementById('btn-signup-sidebar');
+  if(signupBtn) signupBtn.classList.add('hidden');
+  document.getElementById('btn-logout').classList.remove('hidden');
+  document.getElementById('btn-mypage').classList.remove('hidden');
+  document.getElementById('btn-mypage').style.display='block';
+}
+function handleLogout(){
+  navigateTo('page-1');
+  document.getElementById('btn-login').classList.remove('hidden');
+  const signupBtn=document.getElementById('btn-signup-sidebar');
+  if(signupBtn) signupBtn.classList.remove('hidden');
+  document.getElementById('btn-logout').classList.add('hidden');
+  document.getElementById('btn-mypage').classList.add('hidden');
+  document.getElementById('btn-mypage').style.display='none';
+  document.getElementById('login-id').value='';
+  document.getElementById('login-pw').value='';
+}
+document.getElementById('login-pw').addEventListener('keydown',e=>{if(e.key==='Enter')handleLogin()});
+
+// === LEVEL TABS ===
+function changeLevel(lv){
+  currentLevel=lv;
+  document.querySelectorAll('.lv-tab').forEach((t,i)=>{
+    t.classList.toggle('lv-active',i+1===lv);
+    if(i+1!==lv)t.classList.add('text-gray-500');else t.classList.remove('text-gray-500');
+  });
+  document.getElementById('center-level-label').textContent='Lv.'+lv+' — '+levelLabels[lv];
+  // Visual change on center
+  const logo=document.getElementById('center-logo');
+  const filters=['','hue-rotate(0deg)','hue-rotate(30deg) saturate(1.5)','hue-rotate(60deg) saturate(2)','hue-rotate(120deg) saturate(2)','hue-rotate(180deg) saturate(2.5) brightness(1.3)'];
+  logo.style.filter=filters[lv]+' drop-shadow(0 0 '+(10+lv*5)+'px #00F5FF)';
+}
+
+// === D&D / SAMPLE ===
+function handleDrop(e){e.preventDefault();document.getElementById('drop-zone').textContent='✓ 이미지 로드됨';document.getElementById('drop-zone').classList.add('border-nova-cyan','text-nova-cyan')}
+function selectSample(n){
+  document.getElementById('center-logo').classList.add('hidden');
+  const prev=document.getElementById('center-preview');
+  prev.classList.remove('hidden');
+  prev.src='https://picsum.photos/seed/sample'+n+'/400/400';
+  prev.alt='Sample '+n;
+}
+
+// === PROCESSING ===
+function startProcessing(){
+  navigateTo('page-4');
+  const title=document.getElementById('synth-title').value||'당신의 작품';
+  const text="'"+title+"' 이(가) 탄생하고 있습니다...";
+  let i=0;const el=document.getElementById('typing-text');el.textContent='';
+  const timer=setInterval(()=>{if(i<text.length){el.textContent+=text[i];i++}else clearInterval(timer)},60);
+  document.getElementById('btn-next-5').classList.add('hidden');
+  setTimeout(()=>{
+    document.getElementById('spin-star').style.animation='none';
+    document.getElementById('btn-next-5').classList.remove('hidden');
+  },3500);
+}
+
+// === 3D PRINT ===
+function request3DPrint(){openModal('print-modal')}
+function confirmPrint(){
+  closeModal('print-modal');
+  const btn=document.getElementById('btn-3dprint');
+  btn.innerHTML='<span class="text-green-400">✓ 3D Print 승인됨</span>';
+  btn.classList.remove('bg-gray-800','border-gray-700','text-gray-500');
+  btn.classList.add('bg-green-500/10','border-green-500/30');
+}
+
+// === ADMIN ===
+function selectOrder(i){/* highlight row */}
+
+// === VERSION SLIDER ===
+const versionData=[
+  '// v1.0\nengine: "nova-v1"\nmesh_quality: "low"\ntexture_mode: "basic"',
+  '// v2.0\nengine: "nova-v1"\nmesh_quality: "medium"\ntexture_mode: "basic"',
+  '// v3.0\nengine: "nova-v2"\nmesh_quality: "high"\ntexture_mode: "enhanced"',
+  '// v4.0\nengine: "nova-v3"\nmesh_quality: "ultra"\ntexture_mode: "neural"\npriority: 2',
+  '// v5.0 — Current Config\nengine: "nova-v3"\nmesh_quality: "ultra"\ntexture_mode: "neural"\npriority: 1'
+];
+function updateVersion(v){
+  document.getElementById('version-editor').innerHTML='<pre class="text-gray-300 text-sm">'+versionData[v-1]+'</pre>';
+  document.getElementById('ver-label').textContent='v'+v+'.0'+(v==5?' (현재)':'');
+}
+
+// === MERGE ANIMATION ===
+function mergeAnimation(){
+  const deck=document.getElementById('model-deck');
+  deck.style.transition='transform 0.5s ease-in-out';
+  deck.style.transform='scale(0.9) rotate(2deg)';
+  setTimeout(()=>{deck.style.transform='scale(1.05)';},300);
+  setTimeout(()=>{deck.style.transform='scale(1) rotate(0deg)';},600);
+}
+
+// === MODE SELECTOR ===
+function selectMode(mode){
+  document.querySelectorAll('.mode-tab').forEach(t=>{
+    t.classList.remove('mode-active','bg-white/15','text-white');
+    t.classList.add('bg-transparent','text-white/30');
+  });
+  const active=document.getElementById('mode-'+mode);
+  if(active){
+    active.classList.add('mode-active','bg-white/15','text-white');
+    active.classList.remove('bg-transparent','text-white/30');
+  }
+}
+
+// === TOGGLE ALL AGREE ===
+function toggleAllAgree(){
+  const allChecked=document.getElementById('agree-all').checked;
+  document.querySelectorAll('.agree-item').forEach(cb=>{cb.checked=allChecked;});
+}
+
+// === CURSOR ===
+const cur=document.getElementById('cursor');
+const aura=document.getElementById('cursor-aura');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  aura.style.left=e.clientX+'px';aura.style.top=e.clientY+'px';
+});
+</script>
 </body>
 </html>
