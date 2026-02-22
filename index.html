@@ -1,826 +1,2029 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aunova | Digital Genesis</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config={theme:{extend:{colors:{'nova-cyan':'#00F5FF','deep-black':'#0A0A0B'},fontFamily:{sans:['Suit','sans-serif'],mono:['JetBrains Mono','monospace']},animation:{'pulse-glow':'pulse-glow 2s infinite','float':'float 3s ease-in-out infinite','spin-fast':'spin 0.6s linear infinite'},keyframes:{'pulse-glow':{'0%,100%':{filter:'drop-shadow(0 0 5px #00F5FF) brightness(1)'},'50%':{filter:'drop-shadow(0 0 25px #00F5FF) brightness(1.4)'}},'float':{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-8px)'}}}}}}
-</script>
-<link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box}
-body,html{background:#0A0A0B!important;color:#fff;margin:0;padding:0;font-family:'Suit',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.hide-scrollbar::-webkit-scrollbar{display:none}
-.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
-.liquid-glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
-.spa-page{display:none}
-.spa-page.active{display:flex}
-.custom-cursor{width:20px;height:20px;border:2px solid #00F5FF;border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s;mix-blend-mode:difference}
-.cursor-aura{width:80px;height:80px;background:radial-gradient(circle,rgba(0,245,255,0.08),transparent 70%);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .3s ease-out,top .3s ease-out}
-.btn-glass{@apply px-6 py-3 rounded-xl text-sm font-bold tracking-wider transition-all duration-300}
-.btn-glass:hover{background:rgba(0,245,255,0.1);border-color:rgba(0,245,255,0.4)}
-input[type="range"]{accent-color:#00F5FF}
-@media print{body{background:#fff!important;color:#000!important}.no-print{display:none!important}.print-only{display:block!important}*{color:#000!important;background:transparent!important;border-color:#ccc!important;box-shadow:none!important}}
-</style>
-</head>
-<body class="hide-scrollbar">
-<div id="cursor" class="custom-cursor hidden md:block"></div>
-<div id="cursor-aura" class="cursor-aura hidden md:block"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aunova | Digital Genesis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { "nova-cyan": "#00F5FF", "deep-black": "#0A0A0B" },
+            fontFamily: {
+              sans: ["Suit", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+            animation: {
+              "pulse-glow": "pulse-glow 2s infinite",
+              float: "float 3s ease-in-out infinite",
+              "spin-fast": "spin 0.6s linear infinite",
+            },
+            keyframes: {
+              "pulse-glow": {
+                "0%,100%": {
+                  filter: "drop-shadow(0 0 5px #00F5FF) brightness(1)",
+                },
+                "50%": {
+                  filter: "drop-shadow(0 0 25px #00F5FF) brightness(1.4)",
+                },
+              },
+              float: {
+                "0%,100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-8px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        background: #0a0a0b !important;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        font-family: "Suit", sans-serif;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .liquid-glass {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+      .spa-page {
+        display: none;
+      }
+      .spa-page.active {
+        display: flex;
+      }
+      .custom-cursor {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #00f5ff;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.15s,
+          height 0.15s,
+          background 0.15s;
+        mix-blend-mode: difference;
+      }
+      .cursor-aura {
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 245, 255, 0.08),
+          transparent 70%
+        );
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition:
+          left 0.3s ease-out,
+          top 0.3s ease-out;
+      }
+      .btn-glass {
+        @apply px-6 py-3 rounded-xl text-sm font-bold tracking-wider transition-all duration-300;
+      }
+      .btn-glass:hover {
+        background: rgba(0, 245, 255, 0.1);
+        border-color: rgba(0, 245, 255, 0.4);
+      }
+      input[type="range"] {
+        accent-color: #00f5ff;
+      }
+      @media print {
+        body {
+          background: #fff !important;
+          color: #000 !important;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .print-only {
+          display: block !important;
+        }
+        * {
+          color: #000 !important;
+          background: transparent !important;
+          border-color: #ccc !important;
+          box-shadow: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="hide-scrollbar">
+    <div id="cursor" class="custom-cursor hidden md:block"></div>
+    <div id="cursor-aura" class="cursor-aura hidden md:block"></div>
 
-<!-- ═══════════ 0P: THE VOID (INTRO) ═══════════ -->
-<div id="page-0" class="fixed inset-0 z-[100] flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-[1500ms] ease-in-out" style="background-color: #030308;">
-<!-- Deep Space Background Image -->
-<div class="absolute inset-0" style="background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80') center/cover no-repeat; opacity: 0.35;"></div>
-<!-- Dark Vignette Overlay -->
-<div class="absolute inset-0" style="background: radial-gradient(ellipse at center, transparent 20%, rgba(3,3,8,0.85) 70%, rgba(3,3,8,1) 100%);"></div>
-<audio id="sfx-boom" preload="auto"><source src="https://assets.mixkit.co/sfx/preview/mixkit-cinematic-impact-boom-726.mp3" type="audio/mpeg"></audio>
-<audio id="sfx-ambient" preload="auto" loop><source src="https://assets.mixkit.co/sfx/preview/mixkit-deep-space-hum-2169.mp3" type="audio/mpeg"></audio>
-<div id="intro-flash" class="absolute inset-0 bg-white opacity-0 transition-opacity duration-[800ms] ease-in-out pointer-events-none z-20"></div>
-<div id="intro-logo-wrap" class="relative z-10 flex flex-col items-center animate-pulse-glow transition-all duration-700 mt-16">
-  <!-- Image Slot (나중에 이미지로 교체) -->
-  <div id="intro-image-slot" class="w-[340px] h-[340px] md:w-[460px] md:h-[460px] rounded-2xl border border-dashed border-white/10 flex items-center justify-center relative overflow-hidden mb-8">
-    <svg viewBox="0 0 200 200" class="w-64 h-64 md:w-80 md:h-80 drop-shadow-[0_0_25px_rgba(0,245,255,0.5)] opacity-30" fill="none">
-      <circle cx="100" cy="100" r="90" stroke="rgba(150,150,150,0.3)" stroke-width="1.5"/>
-      <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
-      <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
-      <polygon points="30,30 120,80 170,170 80,120" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
-      <polygon points="170,30 120,120 30,170 80,80" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
-    </svg>
-    <p class="absolute bottom-3 text-[10px] text-gray-600 tracking-wider">IMAGE SLOT</p>
-  </div>
-  <h1 class="text-3xl md:text-5xl font-mono font-bold tracking-[0.3em] text-nova-cyan drop-shadow-[0_0_15px_rgba(0,245,255,0.6)]">AUNOVA</h1>
-  <div class="w-20 h-[1px] bg-gradient-to-r from-transparent via-nova-cyan to-transparent my-4 opacity-60"></div>
-  <p class="text-sm tracking-[0.5em] text-gray-500 opacity-50">DIGITAL GENESIS</p>
-</div>
-</div>
-
-<!-- ═══════════ APP SHELL ═══════════ -->
-<div id="app-shell" class="opacity-0 transition-opacity duration-1000">
-
-<!-- HEADER -->
-<header class="fixed top-0 left-0 w-full z-40 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-[#0A0A0B] via-[#0A0A0B]/80 to-transparent no-print">
-<div class="text-xl font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">AUNOVA</div>
-</header>
-
-<!-- Right Sidebar (Always Visible) -->
-<aside id="right-sidebar" class="fixed right-0 top-0 z-35 w-[160px] h-full bg-[#0A0A0B]/95 border-l border-white/5 flex flex-col no-print backdrop-blur-sm">
-  
-  <!-- Top: Auth Buttons -->
-  <div class="flex gap-2 p-4 pt-5">
-    <button id="btn-login" onclick="openModal('auth-modal')" class="flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-transparent text-white/70 border border-white/15 hover:bg-white/10 transition-all">LOGIN</button>
-    <button id="btn-signup-sidebar" onclick="openModal('signup-modal')" class="flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-nova-cyan text-black hover:bg-cyan-300 transition-all">SIGN UP</button>
-    <button id="btn-logout" onclick="handleLogout()" class="hidden flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-red-500/15 text-red-400 border border-red-500/20 hover:bg-red-500/25 transition-all">LOGOUT</button>
-  </div>
-
-  <!-- Cyan Divider -->
-  <div class="mx-4 h-[2px] bg-nova-cyan/40 rounded-full"></div>
-
-  <!-- Menu Section -->
-  <div class="p-4 flex-1">
-    <p class="text-[9px] text-white/30 tracking-[0.3em] font-bold mb-4">MENU</p>
-    
-    <!-- My Page (Login Only) -->
-    <button id="btn-mypage" onclick="alert('마이페이지는 준비 중입니다.')" class="hidden w-full text-left mb-4 group cursor-pointer">
-      <p class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors">My Page</p>
-      <p class="text-[9px] text-white/25">Projects & More</p>
-    </button>
-    
-    <!-- Aunova Gallery -->
-    <button onclick="alert('갤러리는 준비 중입니다.')" class="w-full text-left mb-4 group cursor-pointer">
-      <p class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors">Aunova Gallery</p>
-      <p class="text-[9px] text-white/25">Community Showcase</p>
-    </button>
-    
-    <!-- Reviews -->
-    <button onclick="alert('후기 페이지는 준비 중입니다.')" class="w-full text-left mb-4 group cursor-pointer">
-      <p class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors">Reviews</p>
-      <p class="text-[9px] text-white/25">User Feedback</p>
-    </button>
-  </div>
-
-  <!-- Bottom: Pricing (Page 2 Only) -->
-  <div id="sidebar-pricing" class="p-4 border-t border-white/5 hidden">
-    <p class="text-[9px] text-white/30 tracking-[0.2em] font-bold mb-2">TOTAL ESTIMATE</p>
-    <p class="text-xl font-black text-white tracking-tight">150,000<span class="text-sm font-normal text-white/50">원</span></p>
-    <div class="flex justify-between items-center mt-2">
-      <span class="text-[10px] text-white/40">Deposit</span>
-      <span class="text-sm font-bold text-nova-cyan">15,000<span class="text-[10px] font-normal text-white/40">원</span></span>
-    </div>
-    <p class="text-[8px] text-white/20 mt-1">* 견적은 설정에 의해 변동됩니다</p>
-    
-    <!-- Social -->
-    <div class="flex gap-3 mt-4 justify-end">
-      <a href="#" class="text-white/20 hover:text-white/50 transition-colors">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </a>
-      <a href="#" class="text-white/20 hover:text-white/50 transition-colors">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-      </a>
-    </div>
-  </div>
-</aside>
-
-<!-- ═══════════ 1P: GENESIS (LANDING) ═══════════ -->
-<section id="page-1" class="spa-page active flex-col relative">
-
-<!-- Left Sidebar (Mode Selector) -->
-<aside id="left-sidebar" class="fixed left-0 top-0 z-35 w-[120px] h-full bg-[#0A0A0B]/95 border-r border-white/5 flex flex-col no-print backdrop-blur-sm">
-  <div class="p-4 pt-20">
-    <p class="text-[9px] text-white/30 tracking-[0.3em] font-bold mb-4">MODE</p>
-    
-    <button onclick="selectMode('3d')" id="mode-3d" class="mode-tab mode-active w-full text-left mb-3 group cursor-pointer">
-      <p class="text-sm font-semibold text-nova-cyan group-hover:text-nova-cyan transition-colors">3D</p>
-      <p class="text-[9px] text-white/25">3D Modeling</p>
-    </button>
-    
-    <button id="mode-video" class="w-full text-left mb-3 cursor-not-allowed opacity-40" disabled>
-      <p class="text-sm font-semibold text-white/30">Video</p>
-      <p class="text-[9px] text-nova-cyan/30">COMING SOON</p>
-    </button>
-  </div>
-</aside>
-
-<!-- First Screen: Full Viewport -->
-<div class="min-h-screen flex items-center text-center px-4 relative">
-  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.03)_0%,transparent_60%)] pointer-events-none"></div>
-  
-  <div class="max-w-5xl mx-auto z-10 flex flex-col items-center w-full flex-1 justify-between pt-28 pb-10">
-
-    <!-- Image Placeholder Slot -->
-    <div id="hero-image-slot" class="w-72 h-80 md:w-96 md:h-[420px] rounded-2xl border border-white/10 flex items-center justify-center relative overflow-hidden group mb-6 bg-white/[0.02]">
-      <svg viewBox="0 0 200 200" class="w-48 h-48 md:w-64 md:h-64 drop-shadow-[0_0_25px_rgba(0,245,255,0.4)] opacity-20 group-hover:opacity-40 transition-opacity" fill="none">
-        <circle cx="100" cy="100" r="90" stroke="rgba(150,150,150,0.3)" stroke-width="1.5"/>
-        <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
-        <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
-        <polygon points="30,30 120,80 170,170 80,120" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
-        <polygon points="170,30 120,120 30,170 80,80" stroke="#00F5FF" stroke-width="2" stroke-linejoin="round"/>
-      </svg>
-      <p class="absolute bottom-3 text-[10px] text-gray-600 tracking-wider">IMAGE SLOT</p>
-    </div>
-
-    <!-- Text Content (빨간 영역 — 아래로 이동) -->
-    <div class="flex flex-col items-center">
-      <!-- AUNOVA Title -->
-      <h2 class="text-5xl md:text-7xl font-black tracking-tighter text-nova-cyan mb-4">AUNOVA</h2>
-
-      <!-- DIGITAL GENESIS -->
-      <h1 class="text-3xl md:text-5xl font-light text-white tracking-widest mb-6">DIGITAL GENESIS:</h1>
-
-      <!-- Korean Tagline -->
-      <p class="text-lg md:text-2xl font-bold text-nova-cyan mb-3 leading-relaxed">
-        가장 <span class="text-white">소중한</span> 순간을 <span class="text-white">곁에</span> 두는 <span class="text-white">가장 빠른</span> 방법, Aunova.
-      </p>
-
-      <!-- Description -->
-      <p class="text-sm text-gray-500 mb-8 max-w-lg">AI 기반의 혁신적인 3D 합성 솔루션이 당신의 창의적 한계를 넘어서게 합니다.</p>
-
-      <!-- CTA Button -->
-      <button onclick="navigateTo('page-2')" class="px-12 py-4 border border-white/20 text-white font-bold tracking-wider rounded-sm hover:bg-white/5 hover:border-nova-cyan/50 transition-all duration-300 mb-10">Synthesis Dashboard</button>
-
-      <!-- Scroll Indicator -->
-      <div class="animate-bounce cursor-pointer" onclick="document.getElementById('page1-below').scrollIntoView({behavior:'smooth'})">
-        <p class="text-[11px] text-nova-cyan tracking-[0.3em] mb-2">SCROLL TO EXPLORE</p>
-        <svg class="w-5 h-5 text-nova-cyan mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- Below the Fold: Video / Showcase Section -->
-<div id="page1-below" class="min-h-screen flex flex-col items-center justify-center px-4 py-24">
-  <div class="max-w-5xl mx-auto w-full">
-    <h3 class="text-3xl md:text-4xl text-nova-cyan font-thin tracking-widest mb-3">MOTION SYNTHESIS</h3>
-    <div class="w-16 h-[2px] bg-nova-cyan/30 mb-6"></div>
-    <p class="text-gray-400 text-lg font-light mb-10 max-w-2xl">Aunova의 모션 합성 기술은 정적인 이미지에 생명을 불어넣습니다.<br>단 한 번의 클릭으로 3D 공간에서의 움직임을 생성하세요.</p>
-    
-    <!-- Video Placeholder -->
-    <div class="w-full aspect-video liquid-glass rounded-2xl overflow-hidden relative group cursor-pointer border border-white/5">
-      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-700 group-hover:scale-105 transform">
-      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div class="w-20 h-20 rounded-full border border-white/20 backdrop-blur-sm flex items-center justify-center group-hover:border-nova-cyan group-hover:shadow-[0_0_30px_rgba(0,245,255,0.3)] transition-all duration-500">
-          <div class="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2 group-hover:border-l-nova-cyan transition-colors"></div>
+    <!-- ═══════════ 0P: THE VOID (INTRO) ═══════════ -->
+    <div
+      id="page-0"
+      class="fixed inset-0 z-[100] flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-[1500ms] ease-in-out"
+      style="background-color: #030308"
+    >
+      <!-- Deep Space Background Image -->
+      <div
+        class="absolute inset-0"
+        style="
+          background: url(&quot;https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80&quot;)
+            center/cover no-repeat;
+          opacity: 0.35;
+        "
+      ></div>
+      <!-- Dark Vignette Overlay -->
+      <div
+        class="absolute inset-0"
+        style="
+          background: radial-gradient(
+            ellipse at center,
+            transparent 20%,
+            rgba(3, 3, 8, 0.85) 70%,
+            rgba(3, 3, 8, 1) 100%
+          );
+        "
+      ></div>
+      <audio id="sfx-boom" preload="auto">
+        <source
+          src="https://assets.mixkit.co/sfx/preview/mixkit-cinematic-impact-boom-726.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+      <audio id="sfx-ambient" preload="auto" loop>
+        <source
+          src="https://assets.mixkit.co/sfx/preview/mixkit-deep-space-hum-2169.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+      <div
+        id="intro-flash"
+        class="absolute inset-0 bg-white opacity-0 transition-opacity duration-[800ms] ease-in-out pointer-events-none z-20"
+      ></div>
+      <div
+        id="intro-logo-wrap"
+        class="relative z-10 flex flex-col items-center animate-pulse-glow transition-all duration-700 mt-16"
+      >
+        <!-- Image Slot (나중에 이미지로 교체) -->
+        <div
+          id="intro-image-slot"
+          class="w-[340px] h-[340px] md:w-[460px] md:h-[460px] rounded-2xl border border-dashed border-white/10 flex items-center justify-center relative overflow-hidden mb-8"
+        >
+          <svg
+            viewBox="0 0 200 200"
+            class="w-64 h-64 md:w-80 md:h-80 drop-shadow-[0_0_25px_rgba(0,245,255,0.5)] opacity-30"
+            fill="none"
+          >
+            <circle
+              cx="100"
+              cy="100"
+              r="90"
+              stroke="rgba(150,150,150,0.3)"
+              stroke-width="1.5"
+            />
+            <polygon
+              points="100,10 120,100 100,190 80,100"
+              stroke="#00F5FF"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <polygon
+              points="10,100 100,80 190,100 100,120"
+              stroke="#00F5FF"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <polygon
+              points="30,30 120,80 170,170 80,120"
+              stroke="#00F5FF"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <polygon
+              points="170,30 120,120 30,170 80,80"
+              stroke="#00F5FF"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <p class="absolute bottom-3 text-[10px] text-gray-600 tracking-wider">
+            IMAGE SLOT
+          </p>
         </div>
+        <h1
+          class="text-3xl md:text-5xl font-mono font-bold tracking-[0.3em] text-nova-cyan drop-shadow-[0_0_15px_rgba(0,245,255,0.6)]"
+        >
+          AUNOVA
+        </h1>
+        <div
+          class="w-20 h-[1px] bg-gradient-to-r from-transparent via-nova-cyan to-transparent my-4 opacity-60"
+        ></div>
+        <p class="text-sm tracking-[0.5em] text-gray-500 opacity-50">
+          DIGITAL GENESIS
+        </p>
       </div>
     </div>
 
-    <!-- Quick Links -->
-    <div class="flex gap-8 text-sm text-gray-500 mt-10 justify-center">
-      <a href="#" class="hover:text-nova-cyan transition-colors">User Gallery (a)</a>
-      <a href="#" class="hover:text-nova-cyan transition-colors">Reviews (b)</a>
-    </div>
-  </div>
-</div>
+    <!-- ═══════════ APP SHELL ═══════════ -->
+    <div id="app-shell" class="opacity-0 transition-opacity duration-1000">
 
-<!-- Company Info Footer -->
-<div class="border-t border-white/5 bg-[#060609] px-6 py-16">
-  <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-    <!-- Brand -->
-    <div class="md:col-span-1">
-      <div class="flex items-center gap-2 mb-4">
-        <svg viewBox="0 0 200 200" class="w-8 h-8 drop-shadow-[0_0_8px_#00F5FF]" fill="none">
-          <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="3"/>
-          <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="3"/>
-        </svg>
-        <span class="text-lg font-bold tracking-wider text-white">AUNOVA</span>
+
+      <!-- Right Sidebar (Always Visible) -->
+      <aside
+        id="right-sidebar"
+        class="fixed right-0 top-0 z-[45] w-[192px] h-full bg-[#0A0A0B]/95 border-l border-white/5 flex flex-col no-print backdrop-blur-sm"
+      >
+        <!-- Top: Auth Buttons -->
+        <div class="flex gap-2 p-4 pt-5">
+          <button
+            id="btn-login"
+            onclick="openModal('auth-modal')"
+            class="flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-transparent text-white/70 border border-white/15 hover:bg-white/10 transition-all"
+          >
+            LOGIN
+          </button>
+          <button
+            id="btn-signup-sidebar"
+            onclick="openModal('signup-modal')"
+            class="flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-nova-cyan text-black hover:bg-cyan-300 transition-all"
+          >
+            SIGN UP
+          </button>
+          <button
+            id="btn-logout"
+            onclick="handleLogout()"
+            class="hidden flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-red-500/15 text-red-400 border border-red-500/20 hover:bg-red-500/25 transition-all"
+          >
+            LOGOUT
+          </button>
+        </div>
+
+        <!-- Cyan Divider -->
+        <div class="mx-4 h-[2px] bg-nova-cyan/40 rounded-full"></div>
+
+        <!-- Menu Section -->
+        <div class="p-4 flex-1">
+          <p class="text-[9px] text-white/30 tracking-[0.3em] font-bold mb-4">
+            MENU
+          </p>
+
+          <!-- My Page (Login Only) -->
+          <button
+            id="btn-mypage"
+            onclick="alert('마이페이지는 준비 중입니다.')"
+            class="hidden w-full text-left mb-4 group cursor-pointer"
+          >
+            <p
+              class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors"
+            >
+              My Page
+            </p>
+            <p class="text-[9px] text-white/25">Projects & More</p>
+          </button>
+
+          <!-- Aunova Gallery -->
+          <button
+            onclick="alert('갤러리는 준비 중입니다.')"
+            class="w-full text-left mb-4 group cursor-pointer"
+          >
+            <p
+              class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors"
+            >
+              Aunova Gallery
+            </p>
+            <p class="text-[9px] text-white/25">Community Showcase</p>
+          </button>
+
+          <!-- Reviews -->
+          <button
+            onclick="alert('후기 페이지는 준비 중입니다.')"
+            class="w-full text-left mb-4 group cursor-pointer"
+          >
+            <p
+              class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors"
+            >
+              Reviews
+            </p>
+            <p class="text-[9px] text-white/25">User Feedback</p>
+          </button>
+        </div>
+
+        <!-- Bottom: Pricing (Page 2 Only) -->
+        <div id="sidebar-pricing" class="p-4 border-t border-white/5 hidden">
+          <p class="text-[9px] text-white/30 tracking-[0.2em] font-bold mb-2">
+            TOTAL ESTIMATE
+          </p>
+          <p id="total-price" class="text-xl font-black text-white tracking-tight">
+            150,000<span class="text-sm font-normal text-white/50">원</span>
+          </p>
+          <div class="flex justify-between items-center mt-2">
+            <span class="text-[10px] text-white/40">Deposit</span>
+            <span class="text-sm font-bold text-nova-cyan"
+              >15,000<span class="text-[10px] font-normal text-white/40"
+                >원</span
+              ></span
+            >
+          </div>
+          <p class="text-[8px] text-white/20 mt-1">
+            * 견적은 설정에 의해 변동됩니다
+          </p>
+
+          <!-- Social -->
+          <div class="flex gap-3 mt-4 justify-end">
+            <a
+              href="#"
+              class="text-white/20 hover:text-white/50 transition-colors"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                />
+              </svg>
+            </a>
+            <a
+              href="#"
+              class="text-white/20 hover:text-white/50 transition-colors"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ═══════════ 1P: GENESIS (LANDING) ═══════════ -->
+      <section id="page-1" class="spa-page active flex-col relative">
+
+        <!-- Left Sidebar (Mode Selector) -->
+        <aside
+          id="left-sidebar"
+          class="fixed left-0 top-0 z-[45] w-[144px] h-full bg-[#0A0A0B]/95 border-r border-white/5 flex flex-col no-print backdrop-blur-sm"
+        >
+          <div class="p-4 pt-5">
+            <div
+              class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer mb-6"
+              onclick="navigateTo('page-1')"
+            >
+              AUNOVA
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <p class="text-[9px] text-white/30 tracking-[0.3em] font-bold mb-4">
+              MODE
+            </p>
+
+            <button
+              onclick="selectMode('3d')"
+              id="mode-3d"
+              class="mode-tab mode-active w-full text-left mb-3 group cursor-pointer"
+            >
+              <p
+                class="text-sm font-semibold text-nova-cyan group-hover:text-nova-cyan transition-colors"
+              >
+                NOVA-3D
+              </p>
+              <p class="text-[9px] text-white/25">3D Modeling</p>
+            </button>
+
+            <button
+              id="mode-video"
+              class="w-full text-left mb-3 cursor-not-allowed opacity-40"
+              disabled
+            >
+              <p class="text-sm font-semibold text-white/30">NOVA-LIVE</p>
+              <p class="text-[9px] text-nova-cyan/30">COMING SOON</p>
+            </button>
+          </div>
+        </aside>
+
+        <!-- First Screen: Full Viewport -->
+        <div class="min-h-screen flex items-center text-center px-4 relative">
+          <div
+            class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.03)_0%,transparent_60%)] pointer-events-none"
+          ></div>
+
+          <div
+            class="max-w-5xl mx-auto z-10 flex flex-col items-center w-full flex-1 justify-between pt-28 pb-10"
+          >
+            <!-- Image Placeholder Slot -->
+            <div
+              id="hero-image-slot"
+              class="w-72 h-80 md:w-96 md:h-[420px] rounded-2xl border border-white/10 flex items-center justify-center relative overflow-hidden group mb-6 bg-white/[0.02]"
+            >
+              <svg
+                viewBox="0 0 200 200"
+                class="w-48 h-48 md:w-64 md:h-64 drop-shadow-[0_0_25px_rgba(0,245,255,0.4)] opacity-20 group-hover:opacity-40 transition-opacity"
+                fill="none"
+              >
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="90"
+                  stroke="rgba(150,150,150,0.3)"
+                  stroke-width="1.5"
+                />
+                <polygon
+                  points="100,10 120,100 100,190 80,100"
+                  stroke="#00F5FF"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <polygon
+                  points="10,100 100,80 190,100 100,120"
+                  stroke="#00F5FF"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <polygon
+                  points="30,30 120,80 170,170 80,120"
+                  stroke="#00F5FF"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <polygon
+                  points="170,30 120,120 30,170 80,80"
+                  stroke="#00F5FF"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <p
+                class="absolute bottom-3 text-[10px] text-gray-600 tracking-wider"
+              >
+                IMAGE SLOT
+              </p>
+            </div>
+
+            <!-- Text Content (빨간 영역 — 아래로 이동) -->
+            <div class="flex flex-col items-center">
+
+              <!-- DIGITAL GENESIS -->
+              <h1
+                class="text-3xl md:text-5xl font-light text-white tracking-widest mb-6"
+              >
+                NOVA-3D:
+              </h1>
+
+              <!-- Korean Tagline -->
+              <p
+                class="text-lg md:text-2xl font-bold text-nova-cyan mb-3 leading-relaxed"
+              >
+                사진을 <span class="text-white">3D</span>로 3D를
+                <span class="text-white">3D PRINTING</span>으로
+              </p>
+
+              <!-- Description -->
+              <p class="text-sm text-gray-500 mb-8 max-w-lg">
+                AI 기반의 혁신적인 3D 합성 솔루션이 당신의 창의적 한계를
+                넘어서게 합니다.
+              </p>
+
+              <!-- CTA Button -->
+              <button
+                onclick="navigateTo('page-2')"
+                class="px-12 py-4 border border-white/20 text-white font-bold tracking-wider rounded-sm hover:bg-white/5 hover:border-nova-cyan/50 transition-all duration-300 mb-10"
+              >
+                GENESIS
+              </button>
+
+              <!-- Scroll Indicator -->
+              <div
+                class="animate-bounce cursor-pointer"
+                onclick="
+                  document
+                    .getElementById('page1-below')
+                    .scrollIntoView({ behavior: 'smooth' })
+                "
+              >
+                <p class="text-[11px] text-nova-cyan tracking-[0.3em] mb-2">
+                  SCROLL TO EXPLORE
+                </p>
+                <svg
+                  class="w-5 h-5 text-nova-cyan mx-auto"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Below the Fold: Video / Showcase Section -->
+        <div
+          id="page1-below"
+          class="min-h-screen flex flex-col items-center justify-center px-4 py-24"
+        >
+          <div class="max-w-5xl mx-auto w-full">
+            <h3
+              class="text-3xl md:text-4xl text-nova-cyan font-thin tracking-widest mb-3"
+            >
+              MOTION SYNTHESIS
+            </h3>
+            <div class="w-16 h-[2px] bg-nova-cyan/30 mb-6"></div>
+            <p class="text-gray-400 text-lg font-light mb-10 max-w-2xl">
+              Aunova의 모션 합성 기술은 정적인 이미지에 생명을 불어넣습니다.<br />단
+              한 번의 클릭으로 3D 공간에서의 움직임을 생성하세요.
+            </p>
+
+            <!-- Video Placeholder -->
+            <div
+              class="w-full aspect-video liquid-glass rounded-2xl overflow-hidden relative group cursor-pointer border border-white/5"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+                class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-700 group-hover:scale-105 transform"
+              />
+              <div
+                class="absolute inset-0 flex items-center justify-center pointer-events-none"
+              >
+                <div
+                  class="w-20 h-20 rounded-full border border-white/20 backdrop-blur-sm flex items-center justify-center group-hover:border-nova-cyan group-hover:shadow-[0_0_30px_rgba(0,245,255,0.3)] transition-all duration-500"
+                >
+                  <div
+                    class="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2 group-hover:border-l-nova-cyan transition-colors"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="flex gap-8 text-sm text-gray-500 mt-10 justify-center">
+              <a href="#" class="hover:text-nova-cyan transition-colors"
+                >User Gallery (a)</a
+              >
+              <a href="#" class="hover:text-nova-cyan transition-colors"
+                >Reviews (b)</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Company Info Footer (Bottom, Full Width, High Z) -->
+        <div id="company-footer" class="relative z-[50] bg-[#060609] border-t border-white/10 px-8 py-8">
+          <div class="max-w-6xl mx-auto grid grid-cols-4 gap-10">
+            <!-- Brand -->
+            <div>
+              <div class="flex items-center gap-2 mb-3">
+                <svg viewBox="0 0 200 200" class="w-7 h-7 drop-shadow-[0_0_8px_#00F5FF]" fill="none">
+                  <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="3" />
+                  <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="3" />
+                </svg>
+                <span class="text-base font-bold tracking-wider text-white">AUNOVA</span>
+              </div>
+              <p class="text-xs text-gray-500 leading-relaxed">AI 기반 3D 합성 기술로<br />디지털 창작의 새로운 지평을 엽니다.</p>
+            </div>
+            <!-- Service -->
+            <div>
+              <h4 class="text-xs font-bold text-white mb-3 tracking-wider">SERVICE</h4>
+              <ul class="space-y-2 text-xs text-gray-500">
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Synthesis</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">Motion Capture</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Printing</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">Custom Orders</a></li>
+              </ul>
+            </div>
+            <!-- Company -->
+            <div>
+              <h4 class="text-xs font-bold text-white mb-3 tracking-wider">COMPANY</h4>
+              <ul class="space-y-2 text-xs text-gray-500">
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">About Us</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">이용약관</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">개인정보처리방침</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">Partners</a></li>
+              </ul>
+            </div>
+            <!-- Contact -->
+            <div>
+              <h4 class="text-xs font-bold text-white mb-3 tracking-wider">CONTACT</h4>
+              <ul class="space-y-2 text-xs text-gray-500">
+                <li>📧 contact@aunova.ai</li>
+                <li>📞 02-0000-0000</li>
+                <li>📍 서울특별시 강남구</li>
+                <li class="pt-1 flex gap-3">
+                  <a href="#" class="hover:text-nova-cyan transition-colors">Instagram</a>
+                  <a href="#" class="hover:text-nova-cyan transition-colors">YouTube</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="max-w-6xl mx-auto mt-6 pt-4 border-t border-white/5 flex justify-between items-center">
+            <p class="text-[10px] text-gray-600">© 2026 Aunova Inc. All rights reserved.</p>
+            <p class="text-[10px] text-gray-600">사업자등록번호: 000-00-00000 | 대표: OOO</p>
+          </div>
+        </div>
+
+      </section>
+
+
+
+      <!-- ═══════════ 2P: SYNTHESIS (WORKSPACE) ═══════════ -->
+      <section
+        id="page-2"
+        class="spa-page h-screen flex-col pt-0 pb-0 pl-0 pr-[192px] overflow-hidden"
+      >
+        <!-- Main Content: 2 Columns -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen"
+        >
+          <!-- LEFT: Input Panel -->
+          <div
+            class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5"
+          >
+            <!-- AUNOVA Title -->
+            <div class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">
+              AUNOVA
+            </div>
+
+            <!-- Level Tabs with Arrows -->
+            <div class="flex items-center gap-1">
+              <button
+                onclick="changeLevel(Math.max(1, currentLevel - 1))"
+                class="text-white/30 hover:text-white transition-colors text-xs flex-shrink-0"
+              >
+                ◀
+              </button>
+              <div class="flex flex-1 gap-1" id="level-tabs">
+                <button
+                  onclick="changeLevel(1)"
+                  class="lv-tab lv-active flex-1 py-2 rounded-md text-[10px] font-bold whitespace-nowrap flex flex-col items-center"
+                >
+                  <span>Lv.1</span
+                  ><span class="text-[8px] font-normal opacity-60">FDM</span>
+                </button>
+                <button
+                  onclick="changeLevel(2)"
+                  class="lv-tab flex-1 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center"
+                >
+                  <span>Lv.2</span
+                  ><span class="text-[8px] font-normal opacity-60">Resin</span>
+                </button>
+                <button
+                  onclick="changeLevel(3)"
+                  class="lv-tab flex-1 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center"
+                >
+                  <span>Lv.3</span
+                  ><span class="text-[8px] font-normal opacity-60">Color</span>
+                </button>
+                <button
+                  onclick="changeLevel(4)"
+                  class="lv-tab flex-1 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center"
+                >
+                  <span>Lv.4</span
+                  ><span class="text-[8px] font-normal opacity-60">Assembly</span>
+                </button>
+                <button
+                  onclick="changeLevel(5)"
+                  class="lv-tab flex-1 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center"
+                >
+                  <span>Lv.5</span
+                  ><span class="text-[8px] font-normal opacity-60">Master</span>
+                </button>
+              </div>
+              <button
+                onclick="changeLevel(Math.min(5, currentLevel + 1))"
+                class="text-white/30 hover:text-white transition-colors text-xs flex-shrink-0"
+              >
+                ▶
+              </button>
+            </div>
+            <style>
+              .lv-active {
+                background: rgba(0, 245, 255, 0.1);
+                color: #00f5ff;
+                border: 1px solid rgba(0, 245, 255, 0.3);
+              }
+            </style>
+
+            <!-- Project Title -->
+            <div>
+              <p
+                class="text-nova-cyan text-[10px] font-bold tracking-widest mb-2"
+              >
+                PROJECT TITLE
+              </p>
+              <input
+                id="synth-title"
+                type="text"
+                placeholder="예: 우르킬 열쇠의 골이"
+                class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none placeholder:text-gray-600"
+              />
+            </div>
+
+            <!-- Creation Request (Expanded) -->
+            <div class="flex-1 flex flex-col">
+              <p
+                class="text-white/40 text-[10px] font-bold tracking-widest mb-2"
+              >
+                CREATION REQUEST
+              </p>
+              <textarea
+                placeholder="예: 가오작 말을 기진 리트리버 10cm..."
+                class="w-full flex-1 bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none resize-none placeholder:text-gray-600"
+              ></textarea>
+            </div>
+
+            <!-- Reference Image & Sample Output -->
+            <div class="grid grid-cols-[1fr_1fr] gap-3">
+              <!-- Reference Image Upload -->
+              <div>
+                <p
+                  class="text-white/40 text-[9px] font-bold tracking-widest mb-2"
+                >
+                  REFERENCE IMAGE
+                </p>
+                <div
+                  id="drop-zone"
+                  onclick="showReferenceInCenter()"
+                  class="border border-dashed border-gray-700 rounded-lg p-4 text-center text-gray-600 text-xs hover:border-nova-cyan transition-colors cursor-pointer flex flex-col items-center justify-center aspect-square overflow-hidden"
+                  ondragover="
+                    event.preventDefault();
+                    this.classList.add('border-nova-cyan');
+                  "
+                  ondragleave="this.classList.remove('border-nova-cyan')"
+                  ondrop="handleDrop(event)"
+                >
+                  <svg
+                    class="w-6 h-6 mb-2 opacity-30"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  <span class="text-[9px]">Drag & Drop or Click</span>
+                </div>
+              </div>
+              <!-- Sample Output -->
+              <div>
+                <p
+                  class="text-white/40 text-[9px] font-bold tracking-widest mb-2"
+                >
+                  SAMPLE OUTPUT
+                </p>
+                <div
+                  onclick="showSampleInCenter()"
+                  class="bg-black/40 rounded-lg overflow-hidden aspect-square flex items-center justify-center border border-white/5 relative cursor-pointer hover:border-nova-cyan transition-colors"
+                >
+                  <img
+                    id="center-preview"
+                    src="asset/lv1.png"
+                    class="w-full h-full object-cover opacity-80"
+                  />
+                  <p
+                    class="absolute bottom-1 left-0 w-full text-center text-[8px] text-white/50 font-bold"
+                  >
+                    Lv.1 FDM Sample
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button
+              id="btn-generate"
+              onclick="handleGenerate()"
+              class="w-full py-4 bg-nova-cyan text-black font-black rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-[0.2em] text-sm mt-auto disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-none"
+              disabled
+            >
+              GENERATE OBJECT
+            </button>
+          </div>
+
+          <!-- RIGHT: Center Display (Aunova Logo) -->
+          <div
+            class="flex flex-col items-center justify-center relative overflow-hidden border border-nova-cyan/30 shadow-[0_0_30px_rgba(0,245,255,0.1)]"
+          >
+            <!-- Animated Background -->
+            <div
+              class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.04)_0%,transparent_70%)]"
+            ></div>
+
+            <!-- Glow Ring -->
+            <div
+              class="absolute w-[300px] h-[300px] rounded-full border border-nova-cyan/10 animate-pulse"
+            ></div>
+            <div
+              class="absolute w-[250px] h-[250px] rounded-full border border-nova-cyan/5"
+            ></div>
+
+            <!-- Star Logo (default) -->
+            <div
+              id="center-display"
+              class="relative z-10 flex flex-col items-center"
+            >
+              <svg
+                id="center-logo"
+                viewBox="0 0 200 200"
+                class="w-56 h-56 drop-shadow-[0_0_30px_#00F5FF] transition-all duration-500"
+              >
+                <polygon
+                  points="100,10 120,100 100,190 80,100"
+                  stroke="#00F5FF"
+                  stroke-width="3"
+                  fill="none"
+                />
+                <polygon
+                  points="10,100 100,80 190,100 100,120"
+                  stroke="#00F5FF"
+                  stroke-width="3"
+                  fill="none"
+                />
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="55"
+                  stroke="#00F5FF"
+                  stroke-width="1"
+                  fill="none"
+                  opacity="0.3"
+                />
+                <text
+                  x="100"
+                  y="105"
+                  text-anchor="middle"
+                  fill="#00F5FF"
+                  font-size="10"
+                  font-weight="bold"
+                  letter-spacing="2"
+                  class="font-black"
+                >
+                  ★
+                </text>
+              </svg>
+              <p
+                class="text-nova-cyan text-3xl font-black tracking-tighter mt-2"
+              >
+                AUNOVA
+              </p>
+              <p
+                id="center-level-label"
+                class="text-[10px] text-white/25 tracking-widest mt-1"
+              >
+                Lv.1 — BASIC
+              </p>
+            </div>
+
+            <!-- Center Sample Image (shown when level selected) -->
+            <img
+              id="center-sample-img"
+              src=""
+              class="absolute z-10 w-[70%] max-h-[70%] object-contain rounded-xl transition-all duration-500 opacity-0 pointer-events-none"
+              alt="Sample"
+            />
+
+            <!-- Footer Text -->
+            <p class="absolute bottom-4 text-[9px] text-white/15 tracking-widest">powered by aunova-3d</p>
+          </div>
+        </div>
+
+
+      </section>
+
+      <!-- ═══════════ 3P: PAYMENT WARNING ═══════════ -->
+      <section
+        id="page-3"
+        class="spa-page min-h-screen flex-col items-center justify-center px-4"
+      >
+        <div class="max-w-lg mx-auto mt-40">
+          <div class="liquid-glass rounded-2xl p-8 border border-yellow-500/20">
+            <div
+              class="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <svg
+                class="w-8 h-8 text-yellow-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
+              </svg>
+            </div>
+            <h2 class="text-xl font-bold text-white text-center mb-4">
+              결제 확인
+            </h2>
+            <div class="bg-black/40 rounded-xl p-4 mb-6 space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-400">총 금액</span
+                ><span class="text-gray-400 line-through">₩200,000</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-nova-cyan font-bold">보증금 (우선 결제)</span
+                ><span class="text-nova-cyan font-bold text-lg">₩22,000</span>
+              </div>
+            </div>
+            <p class="text-center text-gray-400 text-sm mb-8">
+              총 금액 중
+              <strong class="text-nova-cyan">보증금(22,000원)</strong>만 우선
+              결제됩니다.
+            </p>
+            <div class="flex gap-3">
+              <button
+                onclick="navigateTo('page-2')"
+                class="flex-1 py-3 border border-white/10 text-gray-400 rounded-xl hover:bg-white/5 transition-all font-bold"
+              >
+                ← 돌아가기
+              </button>
+              <button
+                onclick="startProcessing()"
+                class="flex-1 py-3 bg-nova-cyan text-black rounded-xl font-bold hover:shadow-[0_0_20px_rgba(0,245,255,0.4)] transition-all"
+              >
+                결제 및 생성
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ 4P: PROCESSING ═══════════ -->
+      <section
+        id="page-4"
+        class="spa-page min-h-screen flex-col items-center justify-center px-4"
+      >
+        <div class="text-center">
+          <div class="relative w-32 h-32 mx-auto mb-8">
+            <svg
+              id="spin-star"
+              viewBox="0 0 100 100"
+              class="w-full h-full animate-spin-fast drop-shadow-[0_0_30px_#00F5FF]"
+            >
+              <path
+                d="M50 0 L60 35 L95 50 L60 65 L50 100 L40 65 L5 50 L40 35 Z"
+                fill="#00F5FF"
+              />
+            </svg>
+          </div>
+          <p
+            id="typing-text"
+            class="text-xl md:text-2xl text-white font-light mb-8 h-8"
+          ></p>
+          <p class="text-gray-500 text-sm mb-8">잠시만 기다려 주세요...</p>
+          <button
+            id="btn-next-5"
+            onclick="navigateTo('page-5')"
+            class="hidden px-10 py-4 bg-nova-cyan text-black font-bold rounded-xl hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-wider"
+          >
+            NEXT →
+          </button>
+        </div>
+      </section>
+
+      <!-- ═══════════ 5P: RESULT & 2ND PAYMENT ═══════════ -->
+      <section
+        id="page-5"
+        class="spa-page min-h-screen flex-col pt-24 pb-8 px-4"
+      >
+        <div
+          class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[280px_1fr_280px] gap-6"
+        >
+          <!-- LEFT: Style -->
+          <div
+            class="liquid-glass rounded-2xl p-5 flex flex-col gap-4 sticky top-24 h-[85vh] overflow-y-auto hide-scrollbar"
+          >
+            <h3
+              class="text-nova-cyan font-bold tracking-widest text-sm border-b border-white/10 pb-3"
+            >
+              STYLE SELECT
+            </h3>
+            <div class="grid grid-cols-2 gap-2" id="model-thumbs">
+              <div
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer ring-2 ring-nova-cyan flex items-center justify-center text-xs text-gray-400"
+              >
+                A
+              </div>
+              <div
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400"
+              >
+                B
+              </div>
+              <div
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400"
+              >
+                C
+              </div>
+              <div
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400"
+              >
+                D
+              </div>
+              <div
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400 col-span-2"
+              >
+                E
+              </div>
+            </div>
+            <h4 class="text-xs text-gray-500 tracking-wider mt-4">
+              COLOR PALETTE
+            </h4>
+            <div class="flex gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-gray-500 cursor-pointer ring-2 ring-white/30"
+              ></div>
+              <div
+                class="w-8 h-8 rounded-full bg-cyan-600 cursor-pointer"
+              ></div>
+              <div
+                class="w-8 h-8 rounded-full bg-purple-600 cursor-pointer"
+              ></div>
+              <div
+                class="w-8 h-8 rounded-full bg-rose-600 cursor-pointer"
+              ></div>
+              <div
+                class="w-8 h-8 rounded-full bg-amber-600 cursor-pointer"
+              ></div>
+            </div>
+          </div>
+          <!-- CENTER: Clean Viewer -->
+          <div
+            class="liquid-glass rounded-2xl flex items-center justify-center min-h-[600px] relative overflow-hidden"
+            style="cursor: default"
+          >
+            <div
+              class="w-64 h-64 bg-gray-700/50 rounded-2xl flex items-center justify-center"
+            >
+              <p class="text-gray-500 text-sm">3D Model Viewer</p>
+            </div>
+          </div>
+          <!-- RIGHT: Export -->
+          <div
+            class="liquid-glass rounded-2xl p-5 flex flex-col gap-4 sticky top-24 h-[85vh] overflow-y-auto hide-scrollbar"
+          >
+            <h3
+              class="text-nova-cyan font-bold tracking-widest text-sm border-b border-white/10 pb-3"
+            >
+              EXPORT
+            </h3>
+            <div class="space-y-3 mt-4">
+              <button
+                class="w-full py-3 bg-nova-cyan/10 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/20 transition-all text-sm"
+              >
+                ↓ Download STL
+              </button>
+              <button
+                class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm"
+              >
+                ↓ Download OBJ
+              </button>
+              <button
+                class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm"
+              >
+                ↓ Download PLY
+              </button>
+            </div>
+            <div class="border-t border-white/10 pt-4 mt-4">
+              <button
+                onclick="request3DPrint()"
+                id="btn-3dprint"
+                class="w-full py-4 bg-gray-800 border border-gray-700 text-gray-500 rounded-xl font-bold transition-all relative overflow-hidden"
+              >
+                <span>🔒 3D Print 요청</span>
+              </button>
+              <p class="text-[10px] text-gray-600 mt-2 text-center">
+                잔액 ₩178,000 추가 결제 필요
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ ㄱP: THE FACTORY (ADMIN) ═══════════ -->
+      <section
+        id="page-admin-1"
+        class="spa-page min-h-screen flex-col pt-24 pb-8 px-6"
+      >
+        <div class="max-w-[1400px] mx-auto">
+          <div class="flex items-center justify-between mb-6 no-print">
+            <div>
+              <h1 class="text-2xl font-bold tracking-widest">THE FACTORY</h1>
+              <p class="text-nova-cyan text-xs mt-1">
+                관리자 운영 관제 — ㄱ페이지
+              </p>
+            </div>
+            <div class="flex gap-3">
+              <button
+                onclick="navigateTo('page-admin-2')"
+                class="liquid-glass px-4 py-2 rounded-lg text-xs text-gray-400 hover:text-white"
+              >
+                ㄴP Lab →
+              </button>
+              <button
+                onclick="window.print()"
+                class="px-4 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20"
+              >
+                🖨 작업지시서 인쇄
+              </button>
+              <button
+                onclick="handleLogout()"
+                class="px-4 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10"
+              >
+                로그아웃
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-6">
+            <!-- LEFT: Order List -->
+            <div class="liquid-glass rounded-2xl p-5 overflow-x-auto">
+              <h3
+                class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print"
+              >
+                주문 리스트
+              </h3>
+              <table class="w-full text-xs" id="order-table">
+                <thead>
+                  <tr class="text-left text-gray-400 border-b border-white/10">
+                    <th class="pb-2 pr-4">No.</th>
+                    <th class="pb-2 pr-4">고객명</th>
+                    <th class="pb-2 pr-4">제목</th>
+                    <th class="pb-2 pr-4">Lv</th>
+                    <th class="pb-2 pr-4">상태</th>
+                    <th class="pb-2">금액</th>
+                  </tr>
+                </thead>
+                <tbody class="text-gray-300">
+                  <tr
+                    class="border-b border-white/5 hover:bg-white/5 cursor-pointer"
+                    onclick="selectOrder(0)"
+                  >
+                    <td class="py-3 text-nova-cyan font-mono">#001</td>
+                    <td>김민수</td>
+                    <td>드래곤 피규어</td>
+                    <td>Lv.3</td>
+                    <td><span class="text-green-400">완료</span></td>
+                    <td>₩200,000</td>
+                  </tr>
+                  <tr
+                    class="border-b border-white/5 hover:bg-white/5 cursor-pointer"
+                    onclick="selectOrder(1)"
+                  >
+                    <td class="py-3 text-nova-cyan font-mono">#002</td>
+                    <td>이지현</td>
+                    <td>캐릭터 흉상</td>
+                    <td>Lv.2</td>
+                    <td><span class="text-yellow-400">진행중</span></td>
+                    <td>₩150,000</td>
+                  </tr>
+                  <tr
+                    class="border-b border-white/5 hover:bg-white/5 cursor-pointer"
+                    onclick="selectOrder(2)"
+                  >
+                    <td class="py-3 text-nova-cyan font-mono">#003</td>
+                    <td>박서준</td>
+                    <td>건축 모형</td>
+                    <td>Lv.5</td>
+                    <td><span class="text-gray-500">대기</span></td>
+                    <td>₩350,000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- RIGHT: Cinema Viewer -->
+            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print">
+              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
+                CINEMA VIEWER
+              </h3>
+              <div
+                class="flex-1 bg-black/40 rounded-xl flex items-center justify-center min-h-[300px] relative"
+              >
+                <p class="text-gray-600 text-sm">모델 선택 시 표시</p>
+              </div>
+              <div class="mt-4 grid grid-cols-4 gap-2">
+                <div class="aspect-square bg-gray-800 rounded-lg"></div>
+                <div class="aspect-square bg-gray-800 rounded-lg"></div>
+                <div class="aspect-square bg-gray-800 rounded-lg"></div>
+                <div class="aspect-square bg-gray-800 rounded-lg"></div>
+              </div>
+              <div
+                class="mt-4 grid grid-cols-3 gap-3 text-xs text-gray-500 bg-black/20 rounded-lg p-3"
+              >
+                <div>
+                  <span class="text-gray-600">폴리곤</span><br /><span
+                    class="text-white"
+                    >124,800</span
+                  >
+                </div>
+                <div>
+                  <span class="text-gray-600">엔진</span><br /><span
+                    class="text-white"
+                    >Nova v3</span
+                  >
+                </div>
+                <div>
+                  <span class="text-gray-600">마진율</span><br /><span
+                    class="text-green-400"
+                    >34.2%</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ ㄴP: THE LAB (ADMIN) ═══════════ -->
+      <section
+        id="page-admin-2"
+        class="spa-page min-h-screen flex-col pt-24 pb-8 px-6"
+      >
+        <div class="max-w-[1400px] mx-auto">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h1 class="text-2xl font-bold tracking-widest">THE LAB</h1>
+              <p class="text-nova-cyan text-xs mt-1">전략 연구소 — ㄴ페이지</p>
+            </div>
+            <div class="flex gap-3">
+              <button
+                onclick="navigateTo('page-admin-1')"
+                class="liquid-glass px-4 py-2 rounded-lg text-xs text-gray-400 hover:text-white"
+              >
+                ← ㄱP Factory
+              </button>
+              <button
+                onclick="handleLogout()"
+                class="px-4 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10"
+              >
+                로그아웃
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- LEFT: AI Model Cards -->
+            <div class="liquid-glass rounded-2xl p-5">
+              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
+                AI MODEL DECK
+              </h3>
+              <div id="model-deck" class="space-y-3">
+                <div
+                  draggable="true"
+                  class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"
+                >
+                  <div>
+                    <p class="font-bold text-sm">Nova Engine v3</p>
+                    <p class="text-xs text-gray-500">사용량 72%</p>
+                  </div>
+                  <div
+                    class="w-12 h-12 rounded-full border-4 border-nova-cyan border-r-transparent"
+                    style="border-radius: 50%"
+                  ></div>
+                </div>
+                <div
+                  draggable="true"
+                  class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"
+                >
+                  <div>
+                    <p class="font-bold text-sm">Mesh Refiner v2</p>
+                    <p class="text-xs text-gray-500">사용량 45%</p>
+                  </div>
+                  <div
+                    class="w-12 h-12 rounded-full border-4 border-purple-400 border-r-transparent"
+                    style="border-radius: 50%"
+                  ></div>
+                </div>
+                <div
+                  draggable="true"
+                  class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"
+                >
+                  <div>
+                    <p class="font-bold text-sm">Texture AI v1</p>
+                    <p class="text-xs text-gray-500">사용량 28%</p>
+                  </div>
+                  <div
+                    class="w-12 h-12 rounded-full border-4 border-amber-400 border-r-transparent"
+                    style="border-radius: 50%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <!-- RIGHT: Time Machine -->
+            <div class="liquid-glass rounded-2xl p-5">
+              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
+                TIME MACHINE
+              </h3>
+              <div class="mb-4">
+                <label class="text-xs text-gray-500 block mb-2"
+                  >Version Slider</label
+                >
+                <input
+                  type="range"
+                  id="version-slider"
+                  min="1"
+                  max="5"
+                  value="5"
+                  class="w-full"
+                  oninput="updateVersion(this.value)"
+                />
+                <div
+                  class="flex justify-between text-[10px] text-gray-600 mt-1"
+                >
+                  <span>v1.0</span><span>v2.0</span><span>v3.0</span
+                  ><span>v4.0</span
+                  ><span id="ver-label" class="text-nova-cyan"
+                    >v5.0 (현재)</span
+                  >
+                </div>
+              </div>
+              <div
+                id="version-editor"
+                class="bg-black/40 rounded-xl p-4 font-mono text-sm text-gray-300 min-h-[200px] border border-white/5"
+              >
+                <p class="text-nova-cyan mb-2">// v5.0 — Current Config</p>
+                <p>engine: "nova-v3"</p>
+                <p>mesh_quality: "ultra"</p>
+                <p>texture_mode: "neural"</p>
+                <p>priority: 1</p>
+              </div>
+              <button
+                onclick="mergeAnimation()"
+                class="mt-4 w-full py-3 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/10 transition-all text-sm"
+              >
+                ⟳ 중복 적용 (Merge)
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /app-shell -->
+
+    <!-- ═══════════ AUTH MODAL ═══════════ -->
+    <div
+      id="auth-modal"
+      class="fixed inset-0 z-[60] flex items-center justify-center p-4"
+      style="display:none"
+    >
+      <div
+        class="absolute inset-0 bg-black/80 backdrop-blur-md"
+        onclick="closeModal('auth-modal')"
+      ></div>
+      <div
+        class="bg-[#0A0A0B] border border-white/10 w-full max-w-md rounded-2xl relative z-10 p-8 shadow-2xl"
+      >
+        <h2 class="text-lg font-bold text-white mb-1 tracking-widest">
+          로그인
+        </h2>
+        <p class="text-gray-500 text-xs mb-6">Aunova 계정으로 로그인하세요.</p>
+        <div
+          id="login-error"
+          class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-xs"
+        ></div>
+        <input
+          id="login-id"
+          type="text"
+          placeholder="아이디 또는 이메일"
+          class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600"
+        />
+        <input
+          id="login-pw"
+          type="password"
+          placeholder="비밀번호"
+          class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-4 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600"
+        />
+        <!-- SNS Login -->
+        <div class="grid grid-cols-2 gap-2 mb-4">
+          <button
+            class="py-2.5 bg-[#03C75A]/15 border border-[#03C75A]/30 rounded-lg text-xs text-[#03C75A] font-bold hover:bg-[#03C75A]/25 transition-all"
+          >
+            N 네이버
+          </button>
+          <button
+            class="py-2.5 bg-[#4285F4]/15 border border-[#4285F4]/30 rounded-lg text-xs text-[#4285F4] font-bold hover:bg-[#4285F4]/25 transition-all"
+          >
+            G 구글
+          </button>
+          <button
+            class="py-2.5 bg-[#FEE500]/10 border border-[#FEE500]/30 rounded-lg text-xs text-[#FEE500] font-bold hover:bg-[#FEE500]/20 transition-all"
+          >
+            K 카카오
+          </button>
+          <button
+            class="py-2.5 bg-white/10 border border-white/20 rounded-lg text-xs text-white font-bold hover:bg-white/15 transition-all"
+          >
+            Apple
+          </button>
+        </div>
+        <button
+          onclick="handleLogin()"
+          class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition-all tracking-wider"
+        >
+          CONNECT
+        </button>
+        <p class="text-center text-gray-500 text-xs mt-4">
+          아직 계정이 없으신가요?
+          <a
+            href="#"
+            onclick="
+              closeModal('auth-modal');
+              setTimeout(() => openModal('signup-modal'), 300);
+            "
+            class="text-nova-cyan hover:underline font-semibold"
+            >회원가입</a
+          >
+        </p>
       </div>
-      <p class="text-xs text-gray-500 leading-relaxed">AI 기반 3D 합성 기술로<br>디지털 창작의 새로운 지평을 엽니다.</p>
     </div>
-    <!-- Service -->
-    <div>
-      <h4 class="text-sm font-bold text-white mb-4 tracking-wider">SERVICE</h4>
-      <ul class="space-y-2 text-xs text-gray-500">
-        <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Synthesis</a></li>
-        <li><a href="#" class="hover:text-nova-cyan transition-colors">Motion Capture</a></li>
-        <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Printing</a></li>
-        <li><a href="#" class="hover:text-nova-cyan transition-colors">Custom Orders</a></li>
-      </ul>
-    </div>
-    <!-- Company -->
-    <div>
-      <h4 class="text-sm font-bold text-white mb-4 tracking-wider">COMPANY</h4>
-      <ul class="space-y-2 text-xs text-gray-500">
-        <li><a href="#" class="hover:text-nova-cyan transition-colors">About Us</a></li>
-        <li><a href="#" class="hover:text-nova-cyan transition-colors">이용약관</a></li>
-        <li><a href="#" class="hover:text-nova-cyan transition-colors">개인정보처리방침</a></li>
-        <li><a href="#" class="hover:text-nova-cyan transition-colors">Partners</a></li>
-      </ul>
-    </div>
-    <!-- Contact -->
-    <div>
-      <h4 class="text-sm font-bold text-white mb-4 tracking-wider">CONTACT</h4>
-      <ul class="space-y-2 text-xs text-gray-500">
-        <li>📧 contact@aunova.ai</li>
-        <li>📞 02-0000-0000</li>
-        <li>📍 서울특별시 강남구</li>
-        <li class="pt-2 flex gap-3">
-          <a href="#" class="hover:text-nova-cyan transition-colors">Instagram</a>
-          <a href="#" class="hover:text-nova-cyan transition-colors">YouTube</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!-- Bottom Bar -->
-  <div class="max-w-5xl mx-auto mt-10 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-    <p class="text-[11px] text-gray-600">© 2026 Aunova Inc. All rights reserved.</p>
-    <p class="text-[11px] text-gray-600">사업자등록번호: 000-00-00000 | 대표: OOO</p>
-  </div>
-</div>
 
-</section>
+    <!-- ═══════════ SIGN-UP MODAL ═══════════ -->
+    <div
+      id="signup-modal"
+      class="fixed inset-0 z-[60] flex items-center justify-center p-4"
+      style="display:none"
+    >
+      <div
+        class="absolute inset-0 bg-black/80 backdrop-blur-md"
+        onclick="closeModal('signup-modal')"
+      ></div>
+      <div
+        class="bg-[#0A0A0B] border border-white/10 w-full max-w-lg rounded-2xl relative z-10 p-8 shadow-2xl max-h-[90vh] overflow-y-auto hide-scrollbar"
+      >
+        <h2 class="text-lg font-bold text-white mb-1 tracking-widest">
+          회원가입
+        </h2>
+        <p class="text-gray-500 text-xs mb-6">Aunova 계정을 생성하세요.</p>
 
-<!-- ═══════════ 2P: SYNTHESIS (WORKSPACE) ═══════════ -->
-<section id="page-2" class="spa-page min-h-screen flex-col pt-16 pb-4 pl-1 pr-[170px]">
+        <!-- Name -->
+        <label class="text-[10px] text-gray-500 tracking-wider mb-1 block"
+          >이름 *</label
+        >
+        <input
+          type="text"
+          placeholder="홍길동"
+          class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600"
+        />
 
-<!-- Main Content: 2 Columns -->
-<div class="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-5 h-[calc(100vh-80px)]">
+        <!-- Email -->
+        <label class="text-[10px] text-gray-500 tracking-wider mb-1 block"
+          >이메일 *</label
+        >
+        <input
+          type="email"
+          placeholder="example@email.com"
+          class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600"
+        />
 
-<!-- LEFT: Input Panel -->
-<div class="bg-[#0D1117] rounded-xl p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border border-white/5">
-  
-  <!-- Level Tabs with Arrows -->
-  <div class="flex items-center gap-1">
-    <button class="text-white/30 hover:text-white transition-colors text-xs">◀</button>
-    <div class="flex flex-1 gap-1 overflow-hidden" id="level-tabs">
-      <button onclick="changeLevel(1)" class="lv-tab lv-active px-3 py-2 rounded-md text-[10px] font-bold whitespace-nowrap flex flex-col items-center">
-        <span>Lv.1</span><span class="text-[8px] font-normal opacity-60">FDM</span>
-      </button>
-      <button onclick="changeLevel(2)" class="lv-tab px-3 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center">
-        <span>Lv.2</span><span class="text-[8px] font-normal opacity-60">Resin</span>
-      </button>
-      <button onclick="changeLevel(3)" class="lv-tab px-3 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center">
-        <span>Lv.3</span><span class="text-[8px] font-normal opacity-60">Color</span>
-      </button>
-      <button onclick="changeLevel(4)" class="lv-tab px-3 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center">
-        <span>Lv.4</span><span class="text-[8px] font-normal opacity-60">Assembly</span>
-      </button>
-      <button onclick="changeLevel(5)" class="lv-tab px-3 py-2 rounded-md text-[10px] font-bold text-gray-500 whitespace-nowrap flex flex-col items-center">
-        <span>Lv.5</span><span class="text-[8px] font-normal opacity-60">Master</span>
-      </button>
-    </div>
-    <button class="text-white/30 hover:text-white transition-colors text-xs">▶</button>
-  </div>
-  <style>.lv-active{background:rgba(0,245,255,0.1);color:#00F5FF;border:1px solid rgba(0,245,255,0.3)}</style>
+        <!-- ID -->
+        <label class="text-[10px] text-gray-500 tracking-wider mb-1 block"
+          >아이디 *</label
+        >
+        <div class="flex gap-2 mb-3">
+          <input
+            type="text"
+            placeholder="사용할 아이디"
+            class="flex-1 bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600"
+          />
+          <button
+            class="px-4 bg-white/10 border border-white/15 rounded-lg text-xs text-gray-400 hover:text-white hover:border-nova-cyan/30 transition-all whitespace-nowrap"
+          >
+            중복확인
+          </button>
+        </div>
 
-  <!-- Project Title -->
-  <div>
-    <p class="text-nova-cyan text-[10px] font-bold tracking-widest mb-2">PROJECT TITLE</p>
-    <input id="synth-title" type="text" placeholder="예: 우르킬 열쇠의 골이" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none placeholder:text-gray-600">
-  </div>
+        <!-- Password -->
+        <label class="text-[10px] text-gray-500 tracking-wider mb-1 block"
+          >비밀번호 *</label
+        >
+        <input
+          type="password"
+          placeholder="8자 이상, 영문+숫자+특수문자"
+          class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600"
+        />
 
-  <!-- Creation Request -->
-  <div>
-    <p class="text-white/40 text-[10px] font-bold tracking-widest mb-2">CREATION REQUEST</p>
-    <textarea placeholder="예: 가오작 말을 기진 리트리버 10cm..." class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none resize-none h-28 placeholder:text-gray-600"></textarea>
-  </div>
+        <!-- Confirm Password -->
+        <label class="text-[10px] text-gray-500 tracking-wider mb-1 block"
+          >비밀번호 확인 *</label
+        >
+        <input
+          type="password"
+          placeholder="비밀번호를 다시 입력"
+          class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600"
+        />
 
-  <!-- Reference Image & Sample Output -->
-  <div class="grid grid-cols-[1fr_1fr] gap-3 flex-1">
-    <!-- Reference Image Upload -->
-    <div>
-      <p class="text-white/40 text-[9px] font-bold tracking-widest mb-2">REFERENCE IMAGE</p>
-      <div id="drop-zone" class="border border-dashed border-gray-700 rounded-lg p-4 text-center text-gray-600 text-xs hover:border-nova-cyan transition-colors cursor-pointer flex flex-col items-center justify-center h-32" ondragover="event.preventDefault();this.classList.add('border-nova-cyan')" ondragleave="this.classList.remove('border-nova-cyan')" ondrop="handleDrop(event)">
-        <svg class="w-6 h-6 mb-2 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-        <span class="text-[9px]">Drag & Drop or Click</span>
+        <!-- Phone -->
+        <label class="text-[10px] text-gray-500 tracking-wider mb-1 block"
+          >연락처</label
+        >
+        <input
+          type="tel"
+          placeholder="010-0000-0000"
+          class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600"
+        />
+
+        <!-- Payment Method -->
+        <label class="text-[10px] text-gray-500 tracking-wider mb-1 block"
+          >결제 수단 등록</label
+        >
+        <select
+          class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-5 text-gray-400 text-sm focus:border-nova-cyan outline-none"
+        >
+          <option value="" class="bg-[#0A0A0B]">결제 수단 선택</option>
+          <option value="card" class="bg-[#0A0A0B]">신용/체크카드</option>
+          <option value="bank" class="bg-[#0A0A0B]">계좌이체</option>
+          <option value="kakao" class="bg-[#0A0A0B]">카카오페이</option>
+          <option value="naver" class="bg-[#0A0A0B]">네이버페이</option>
+        </select>
+
+        <!-- Divider -->
+        <div class="border-t border-white/10 my-5"></div>
+
+        <!-- Terms & Agreements -->
+        <h3 class="text-sm font-bold text-white mb-3 tracking-wider">
+          약관 동의
+        </h3>
+
+        <label class="flex items-start gap-3 mb-3 cursor-pointer group">
+          <input
+            type="checkbox"
+            id="agree-all"
+            onclick="toggleAllAgree()"
+            class="mt-1 w-4 h-4 accent-[#00F5FF] rounded"
+          />
+          <span
+            class="text-sm text-white font-semibold group-hover:text-nova-cyan transition-colors"
+            >전체 동의</span
+          >
+        </label>
+        <div class="border-t border-white/5 mb-3"></div>
+
+        <label class="flex items-start gap-3 mb-2 cursor-pointer group">
+          <input
+            type="checkbox"
+            class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded"
+          />
+          <span
+            class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors"
+            >[필수] 이용약관 동의
+            <a href="#" class="text-nova-cyan/60 hover:underline ml-1"
+              >보기</a
+            ></span
+          >
+        </label>
+        <label class="flex items-start gap-3 mb-2 cursor-pointer group">
+          <input
+            type="checkbox"
+            class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded"
+          />
+          <span
+            class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors"
+            >[필수] 개인정보 수집 및 이용 동의
+            <a href="#" class="text-nova-cyan/60 hover:underline ml-1"
+              >보기</a
+            ></span
+          >
+        </label>
+        <label class="flex items-start gap-3 mb-2 cursor-pointer group">
+          <input
+            type="checkbox"
+            class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded"
+          />
+          <span
+            class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors"
+            >[필수] 전자결제 이용 동의
+            <a href="#" class="text-nova-cyan/60 hover:underline ml-1"
+              >보기</a
+            ></span
+          >
+        </label>
+        <label class="flex items-start gap-3 mb-5 cursor-pointer group">
+          <input
+            type="checkbox"
+            class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded"
+          />
+          <span
+            class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors"
+            >[선택] 마케팅 정보 수신 동의</span
+          >
+        </label>
+
+        <!-- Submit -->
+        <button
+          class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition-all tracking-wider mb-3"
+        >
+          가입하기
+        </button>
+        <p class="text-center text-gray-500 text-xs">
+          이미 계정이 있으신가요?
+          <a
+            href="#"
+            onclick="
+              closeModal('signup-modal');
+              setTimeout(() => openModal('auth-modal'), 300);
+            "
+            class="text-nova-cyan hover:underline font-semibold"
+            >로그인</a
+          >
+        </p>
       </div>
     </div>
-    <!-- Sample Output -->
-    <div>
-      <p class="text-white/40 text-[9px] font-bold tracking-widest mb-2">SAMPLE OUTPUT</p>
-      <div class="bg-black/40 rounded-lg overflow-hidden h-32 flex items-center justify-center border border-white/5">
-        <img id="center-preview" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&q=80" class="w-full h-full object-cover opacity-80">
-        <p class="absolute bottom-1 left-0 w-full text-center text-[8px] text-white/50 font-bold">Lv.1 FDM Sample</p>
+
+    <!-- ═══════════ 3D PRINT PAYMENT MODAL ═══════════ -->
+    <div
+      id="print-modal"
+      class="fixed inset-0 z-[60] flex items-center justify-center p-4"
+      style="display:none"
+    >
+      <div
+        class="absolute inset-0 bg-black/80 backdrop-blur-md"
+        onclick="closeModal('print-modal')"
+      ></div>
+      <div
+        class="bg-[#0A0A0B] border border-white/10 w-full max-w-sm rounded-2xl relative z-10 p-8 shadow-2xl text-center"
+      >
+        <h2 class="text-lg font-bold text-white mb-4">잔액 추가 결제</h2>
+        <p class="text-3xl font-black text-nova-cyan mb-2">₩178,000</p>
+        <p class="text-gray-500 text-sm mb-6">
+          3D 프린트를 위해 잔액을 결제합니다.
+        </p>
+        <button
+          onclick="confirmPrint()"
+          class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl mb-2"
+        >
+          결제 확인
+        </button>
+        <button
+          onclick="closeModal('print-modal')"
+          class="w-full py-2 text-gray-500 text-sm"
+        >
+          취소
+        </button>
       </div>
     </div>
-  </div>
 
-  <!-- Generate Button -->
-  <button onclick="navigateTo('page-3')" class="w-full py-4 bg-nova-cyan text-black font-black rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-[0.2em] text-sm mt-auto">GENERATE OBJECT</button>
-</div>
+    <!-- ═══════════ JAVASCRIPT ═══════════ -->
+    <script>
+      // === State ===
+      let currentPage = "page-1";
+      let currentLevel = 1;
+      let isLoggedIn = false;
+      const levelLabels = [
+        "",
+        "BASIC",
+        "ADVANCED MESH",
+        "NEURAL TEXTURE",
+        "MOTION CAPTURE",
+        "ULTRA PREMIUM",
+      ];
 
-<!-- RIGHT: Center Display (Aunova Logo) -->
-<div class="bg-[#0D1117]/50 rounded-xl flex flex-col items-center justify-center relative overflow-hidden border border-white/5">
-  <!-- Animated Background -->
-  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.04)_0%,transparent_70%)]"></div>
-  
-  <!-- Glow Ring -->
-  <div class="absolute w-[300px] h-[300px] rounded-full border border-nova-cyan/10 animate-pulse"></div>
-  <div class="absolute w-[250px] h-[250px] rounded-full border border-nova-cyan/5"></div>
-  
-  <!-- Star Logo -->
-  <div id="center-display" class="relative z-10 flex flex-col items-center">
-    <svg id="center-logo" viewBox="0 0 200 200" class="w-56 h-56 drop-shadow-[0_0_30px_#00F5FF] transition-all duration-500">
-      <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="3" fill="none"/>
-      <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="3" fill="none"/>
-      <circle cx="100" cy="100" r="55" stroke="#00F5FF" stroke-width="1" fill="none" opacity="0.3"/>
-      <text x="100" y="105" text-anchor="middle" fill="#00F5FF" font-size="10" font-weight="bold" letter-spacing="2" class="font-black">★</text>
-    </svg>
-    <p class="text-nova-cyan text-3xl font-black tracking-tighter mt-2">AUNOVA</p>
-    <p id="center-level-label" class="text-[10px] text-white/25 tracking-widest mt-1">Lv.1 — BASIC</p>
-  </div>
-</div>
+      // === INTRO ===
+      document.getElementById("page-0").addEventListener("click", function () {
+        if (this.dataset.played) return;
+        this.dataset.played = "1";
+        const boom = document.getElementById("sfx-boom");
+        const ambient = document.getElementById("sfx-ambient");
+        boom.volume = 0.5;
+        boom.play().catch(() => {});
+        // Soft White Flash
+        const flash = document.getElementById("intro-flash");
+        const logoWrap = document.getElementById("intro-logo-wrap");
+        logoWrap.style.transition =
+          "transform 1.2s ease-out, filter 1s ease-out, opacity 1s ease-out";
+        logoWrap.style.transform = "scale(1.3)";
+        logoWrap.style.filter = "brightness(4)";
+        // Gradual white wash
+        setTimeout(() => {
+          flash.style.opacity = "0.85";
+        }, 200);
+        // Ambient sound
+        setTimeout(() => {
+          ambient.volume = 0.12;
+          ambient.play().catch(() => {});
+        }, 600);
+        // Logo fades into white
+        setTimeout(() => {
+          logoWrap.style.opacity = "0";
+        }, 600);
+        // Begin page transition — fade the white out while 1P fades in
+        setTimeout(() => {
+          document.getElementById("app-shell").style.opacity = "1";
+          document.getElementById("page-0").style.opacity = "0";
+          // Cleanup
+          setTimeout(() => {
+            document.getElementById("page-0").style.display = "none";
+          }, 1500);
+        }, 1200);
+      });
 
-</div>
+      // === SPA NAV ===
+      function navigateTo(id) {
+        document.querySelectorAll(".spa-page").forEach((p) => {
+          p.classList.remove("active");
+        });
+        const target = document.getElementById(id);
+        if (target) {
+          target.classList.add("active");
+          window.scrollTo(0, 0);
+          currentPage = id;
+        }
+        // Toggle pricing visibility (page-2 only)
+        const pricing = document.getElementById("sidebar-pricing");
+        if (pricing) {
+          id === "page-2"
+            ? pricing.classList.remove("hidden")
+            : pricing.classList.add("hidden");
+        }
+      }
 
-<!-- Footer -->
-<div class="text-center mt-4">
-  <p class="text-[9px] text-white/15 tracking-widest">POWERED BY AUNOVA TECH © 2026</p>
-</div>
+      // === MODALS ===
+      function openModal(id) {
+        document.getElementById(id).style.display = 'flex';
+      }
+      function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+      }
 
-</section>
+      // === LOGIN ===
+      function handleLogin() {
+        const id = document.getElementById("login-id").value.trim();
+        const pw = document.getElementById("login-pw").value.trim();
+        const err = document.getElementById("login-error");
+        err.classList.add("hidden");
+        if (id === "aunova" && pw === "aunova3123") {
+          closeModal("auth-modal");
+          navigateTo("page-admin-1");
+          setLoggedIn("ADMIN");
+          return;
+        }
+        if (id !== "" && pw !== "") {
+          err.textContent = "ID 또는 비밀번호가 올바르지 않습니다.";
+          err.classList.remove("hidden");
+          return;
+        }
+        closeModal("auth-modal");
+        setLoggedIn("USER");
+      }
+      function setLoggedIn(role) {
+        isLoggedIn = true;
+        document.getElementById("btn-login").classList.add("hidden");
+        const signupBtn = document.getElementById("btn-signup-sidebar");
+        if (signupBtn) signupBtn.classList.add("hidden");
+        document.getElementById("btn-logout").classList.remove("hidden");
+        document.getElementById("btn-mypage").classList.remove("hidden");
+        document.getElementById("btn-mypage").style.display = "block";
+        const genBtn = document.getElementById("btn-generate");
+        if (genBtn) genBtn.disabled = false;
+      }
+      function handleLogout() {
+        isLoggedIn = false;
+        document.getElementById("btn-login").classList.remove("hidden");
+        const signupBtn = document.getElementById("btn-signup-sidebar");
+        if (signupBtn) signupBtn.classList.remove("hidden");
+        document.getElementById("btn-logout").classList.add("hidden");
+        document.getElementById("btn-mypage").classList.add("hidden");
+        document.getElementById("btn-mypage").style.display = "none";
+        document.getElementById("login-id").value = "";
+        document.getElementById("login-pw").value = "";
+        const genBtn = document.getElementById("btn-generate");
+        if (genBtn) genBtn.disabled = true;
+      }
+      document.getElementById("login-pw").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleLogin();
+      });
 
-<!-- ═══════════ 3P: PAYMENT WARNING ═══════════ -->
-<section id="page-3" class="spa-page min-h-screen flex-col items-center justify-center px-4">
-<div class="max-w-lg mx-auto mt-40">
-  <div class="liquid-glass rounded-2xl p-8 border border-yellow-500/20">
-    <div class="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-      <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
-    </div>
-    <h2 class="text-xl font-bold text-white text-center mb-4">결제 확인</h2>
-    <div class="bg-black/40 rounded-xl p-4 mb-6 space-y-2 text-sm">
-      <div class="flex justify-between"><span class="text-gray-400">총 금액</span><span class="text-gray-400 line-through">₩200,000</span></div>
-      <div class="flex justify-between"><span class="text-nova-cyan font-bold">보증금 (우선 결제)</span><span class="text-nova-cyan font-bold text-lg">₩22,000</span></div>
-    </div>
-    <p class="text-center text-gray-400 text-sm mb-8">총 금액 중 <strong class="text-nova-cyan">보증금(22,000원)</strong>만 우선 결제됩니다.</p>
-    <div class="flex gap-3">
-      <button onclick="navigateTo('page-2')" class="flex-1 py-3 border border-white/10 text-gray-400 rounded-xl hover:bg-white/5 transition-all font-bold">← 돌아가기</button>
-      <button onclick="startProcessing()" class="flex-1 py-3 bg-nova-cyan text-black rounded-xl font-bold hover:shadow-[0_0_20px_rgba(0,245,255,0.4)] transition-all">결제 및 생성</button>
-    </div>
-  </div>
-</div>
-</section>
+      function handleGenerate() {
+        if (!isLoggedIn) {
+          alert('로그인이 필요합니다.');
+          openModal('auth-modal');
+          return;
+        }
+        navigateTo('page-3');
+      }
 
-<!-- ═══════════ 4P: PROCESSING ═══════════ -->
-<section id="page-4" class="spa-page min-h-screen flex-col items-center justify-center px-4">
-<div class="text-center">
-  <div class="relative w-32 h-32 mx-auto mb-8">
-    <svg id="spin-star" viewBox="0 0 100 100" class="w-full h-full animate-spin-fast drop-shadow-[0_0_30px_#00F5FF]">
-      <path d="M50 0 L60 35 L95 50 L60 65 L50 100 L40 65 L5 50 L40 35 Z" fill="#00F5FF"/>
-    </svg>
-  </div>
-  <p id="typing-text" class="text-xl md:text-2xl text-white font-light mb-8 h-8"></p>
-  <p class="text-gray-500 text-sm mb-8">잠시만 기다려 주세요...</p>
-  <button id="btn-next-5" onclick="navigateTo('page-5')" class="hidden px-10 py-4 bg-nova-cyan text-black font-bold rounded-xl hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-wider">NEXT →</button>
-</div>
-</section>
+      // === LEVEL TABS ===
+      // Sample images per level (replace URLs with your own)
+      const levelSampleImages = [
+        '',
+        'asset/lv1.png', // Lv1: FDM
+        'asset/lv2.png', // Lv2: Resin
+        'asset/lv3.png', // Lv3: Color
+        'asset/lv4.png', // Lv4: Assembly
+        'asset/lv5.png', // Lv5: Master
+      ];
+      function changeLevel(lv) {
+        currentLevel = lv;
+        document.querySelectorAll(".lv-tab").forEach((t, i) => {
+          t.classList.toggle("lv-active", i + 1 === lv);
+          if (i + 1 !== lv) t.classList.add("text-gray-500");
+          else t.classList.remove("text-gray-500");
+        });
+        document.getElementById("center-level-label").textContent =
+          "Lv." + lv + " — " + levelLabels[lv];
+        // Visual change on center logo
+        const logo = document.getElementById("center-logo");
+        const filters = [
+          "",
+          "hue-rotate(0deg)",
+          "hue-rotate(30deg) saturate(1.5)",
+          "hue-rotate(60deg) saturate(2)",
+          "hue-rotate(120deg) saturate(2)",
+          "hue-rotate(180deg) saturate(2.5) brightness(1.3)",
+        ];
+        logo.style.filter =
+          filters[lv] + " drop-shadow(0 0 " + (10 + lv * 5) + "px #00F5FF)";
+        // Update sample images (both SAMPLE OUTPUT thumbnail and center display)
+        const sampleUrl = levelSampleImages[lv];
+        const preview = document.getElementById("center-preview");
+        const centerImg = document.getElementById("center-sample-img");
+        if (preview) preview.src = sampleUrl;
+        if (centerImg) {
+          centerImg.src = sampleUrl;
+          centerImg.style.opacity = '1';
+          centerImg.style.pointerEvents = 'auto';
+        }
+        // Update sample label
+        const sampleLabels = ['', 'Lv.1 FDM Sample', 'Lv.2 Resin Sample', 'Lv.3 Color Sample', 'Lv.4 Assembly Sample', 'Lv.5 Master Sample'];
+        const sampleLabel = document.querySelector('#center-preview + p, #center-preview ~ p');
+        if (sampleLabel) sampleLabel.textContent = sampleLabels[lv];
+        // Update total price
+        const levelPrices = ['', '25,000', '35,000', '150,000', '100,000', '300,000'];
+        const priceEl = document.getElementById('total-price');
+        if (priceEl) priceEl.innerHTML = levelPrices[lv] + '<span class="text-sm font-normal text-white/50">원</span>';
+      }
 
-<!-- ═══════════ 5P: RESULT & 2ND PAYMENT ═══════════ -->
-<section id="page-5" class="spa-page min-h-screen flex-col pt-24 pb-8 px-4">
-<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[280px_1fr_280px] gap-6">
-<!-- LEFT: Style -->
-<div class="liquid-glass rounded-2xl p-5 flex flex-col gap-4 sticky top-24 h-[85vh] overflow-y-auto hide-scrollbar">
-  <h3 class="text-nova-cyan font-bold tracking-widest text-sm border-b border-white/10 pb-3">STYLE SELECT</h3>
-  <div class="grid grid-cols-2 gap-2" id="model-thumbs">
-    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer ring-2 ring-nova-cyan flex items-center justify-center text-xs text-gray-400">A</div>
-    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400">B</div>
-    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400">C</div>
-    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400">D</div>
-    <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400 col-span-2">E</div>
-  </div>
-  <h4 class="text-xs text-gray-500 tracking-wider mt-4">COLOR PALETTE</h4>
-  <div class="flex gap-2"><div class="w-8 h-8 rounded-full bg-gray-500 cursor-pointer ring-2 ring-white/30"></div><div class="w-8 h-8 rounded-full bg-cyan-600 cursor-pointer"></div><div class="w-8 h-8 rounded-full bg-purple-600 cursor-pointer"></div><div class="w-8 h-8 rounded-full bg-rose-600 cursor-pointer"></div><div class="w-8 h-8 rounded-full bg-amber-600 cursor-pointer"></div></div>
-</div>
-<!-- CENTER: Clean Viewer -->
-<div class="liquid-glass rounded-2xl flex items-center justify-center min-h-[600px] relative overflow-hidden" style="cursor:default">
-  <div class="w-64 h-64 bg-gray-700/50 rounded-2xl flex items-center justify-center"><p class="text-gray-500 text-sm">3D Model Viewer</p></div>
-</div>
-<!-- RIGHT: Export -->
-<div class="liquid-glass rounded-2xl p-5 flex flex-col gap-4 sticky top-24 h-[85vh] overflow-y-auto hide-scrollbar">
-  <h3 class="text-nova-cyan font-bold tracking-widest text-sm border-b border-white/10 pb-3">EXPORT</h3>
-  <div class="space-y-3 mt-4">
-    <button class="w-full py-3 bg-nova-cyan/10 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/20 transition-all text-sm">↓ Download STL</button>
-    <button class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm">↓ Download OBJ</button>
-    <button class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm">↓ Download PLY</button>
-  </div>
-  <div class="border-t border-white/10 pt-4 mt-4">
-    <button onclick="request3DPrint()" id="btn-3dprint" class="w-full py-4 bg-gray-800 border border-gray-700 text-gray-500 rounded-xl font-bold transition-all relative overflow-hidden">
-      <span>🔒 3D Print 요청</span>
-    </button>
-    <p class="text-[10px] text-gray-600 mt-2 text-center">잔액 ₩178,000 추가 결제 필요</p>
-  </div>
-</div>
-</div>
-</section>
+      // === D&D / SAMPLE ===
+      let userRefImage = null;
+      function handleDrop(e) {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (!file || !file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          userRefImage = ev.target.result;
+          // Show thumbnail in drop zone
+          const dz = document.getElementById("drop-zone");
+          dz.innerHTML = '<img src="' + userRefImage + '" class="w-full h-full object-cover rounded-lg" />';
+          dz.classList.add("border-nova-cyan", "p-0");
+          // Show in center display
+          showReferenceInCenter();
+        };
+        reader.readAsDataURL(file);
+      }
+      function showReferenceInCenter() {
+        if (!userRefImage) return;
+        const centerImg = document.getElementById("center-sample-img");
+        if (centerImg) {
+          centerImg.src = userRefImage;
+          centerImg.style.opacity = '1';
+          centerImg.style.pointerEvents = 'auto';
+        }
+      }
+      function showSampleInCenter() {
+        const sampleUrl = levelSampleImages[currentLevel];
+        if (!sampleUrl) return;
+        const centerImg = document.getElementById("center-sample-img");
+        if (centerImg) {
+          centerImg.src = sampleUrl;
+          centerImg.style.opacity = '1';
+          centerImg.style.pointerEvents = 'auto';
+        }
+      }
+      function selectSample(n) {
+        document.getElementById("center-logo").classList.add("hidden");
+        const prev = document.getElementById("center-preview");
+        prev.classList.remove("hidden");
+        prev.src = "https://picsum.photos/seed/sample" + n + "/400/400";
+        prev.alt = "Sample " + n;
+      }
 
-<!-- ═══════════ ㄱP: THE FACTORY (ADMIN) ═══════════ -->
-<section id="page-admin-1" class="spa-page min-h-screen flex-col pt-24 pb-8 px-6">
-<div class="max-w-[1400px] mx-auto">
-<div class="flex items-center justify-between mb-6 no-print">
-  <div><h1 class="text-2xl font-bold tracking-widest">THE FACTORY</h1><p class="text-nova-cyan text-xs mt-1">관리자 운영 관제 — ㄱ페이지</p></div>
-  <div class="flex gap-3">
-    <button onclick="navigateTo('page-admin-2')" class="liquid-glass px-4 py-2 rounded-lg text-xs text-gray-400 hover:text-white">ㄴP Lab →</button>
-    <button onclick="window.print()" class="px-4 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20">🖨 작업지시서 인쇄</button>
-    <button onclick="handleLogout()" class="px-4 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10">로그아웃</button>
-  </div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-6">
-<!-- LEFT: Order List -->
-<div class="liquid-glass rounded-2xl p-5 overflow-x-auto">
-  <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print">주문 리스트</h3>
-  <table class="w-full text-xs" id="order-table">
-    <thead><tr class="text-left text-gray-400 border-b border-white/10">
-      <th class="pb-2 pr-4">No.</th><th class="pb-2 pr-4">고객명</th><th class="pb-2 pr-4">제목</th><th class="pb-2 pr-4">Lv</th><th class="pb-2 pr-4">상태</th><th class="pb-2">금액</th>
-    </tr></thead>
-    <tbody class="text-gray-300">
-      <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer" onclick="selectOrder(0)"><td class="py-3 text-nova-cyan font-mono">#001</td><td>김민수</td><td>드래곤 피규어</td><td>Lv.3</td><td><span class="text-green-400">완료</span></td><td>₩200,000</td></tr>
-      <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer" onclick="selectOrder(1)"><td class="py-3 text-nova-cyan font-mono">#002</td><td>이지현</td><td>캐릭터 흉상</td><td>Lv.2</td><td><span class="text-yellow-400">진행중</span></td><td>₩150,000</td></tr>
-      <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer" onclick="selectOrder(2)"><td class="py-3 text-nova-cyan font-mono">#003</td><td>박서준</td><td>건축 모형</td><td>Lv.5</td><td><span class="text-gray-500">대기</span></td><td>₩350,000</td></tr>
-    </tbody>
-  </table>
-</div>
-<!-- RIGHT: Cinema Viewer -->
-<div class="liquid-glass rounded-2xl p-5 flex flex-col no-print">
-  <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">CINEMA VIEWER</h3>
-  <div class="flex-1 bg-black/40 rounded-xl flex items-center justify-center min-h-[300px] relative"><p class="text-gray-600 text-sm">모델 선택 시 표시</p></div>
-  <div class="mt-4 grid grid-cols-4 gap-2">
-    <div class="aspect-square bg-gray-800 rounded-lg"></div><div class="aspect-square bg-gray-800 rounded-lg"></div><div class="aspect-square bg-gray-800 rounded-lg"></div><div class="aspect-square bg-gray-800 rounded-lg"></div>
-  </div>
-  <div class="mt-4 grid grid-cols-3 gap-3 text-xs text-gray-500 bg-black/20 rounded-lg p-3">
-    <div><span class="text-gray-600">폴리곤</span><br><span class="text-white">124,800</span></div>
-    <div><span class="text-gray-600">엔진</span><br><span class="text-white">Nova v3</span></div>
-    <div><span class="text-gray-600">마진율</span><br><span class="text-green-400">34.2%</span></div>
-  </div>
-</div>
-</div>
-</div>
-</section>
+      // === PROCESSING ===
+      function startProcessing() {
+        navigateTo("page-4");
+        const title =
+          document.getElementById("synth-title").value || "당신의 작품";
+        const text = "'" + title + "' 이(가) 탄생하고 있습니다...";
+        let i = 0;
+        const el = document.getElementById("typing-text");
+        el.textContent = "";
+        const timer = setInterval(() => {
+          if (i < text.length) {
+            el.textContent += text[i];
+            i++;
+          } else clearInterval(timer);
+        }, 60);
+        document.getElementById("btn-next-5").classList.add("hidden");
+        setTimeout(() => {
+          document.getElementById("spin-star").style.animation = "none";
+          document.getElementById("btn-next-5").classList.remove("hidden");
+        }, 3500);
+      }
 
-<!-- ═══════════ ㄴP: THE LAB (ADMIN) ═══════════ -->
-<section id="page-admin-2" class="spa-page min-h-screen flex-col pt-24 pb-8 px-6">
-<div class="max-w-[1400px] mx-auto">
-<div class="flex items-center justify-between mb-6">
-  <div><h1 class="text-2xl font-bold tracking-widest">THE LAB</h1><p class="text-nova-cyan text-xs mt-1">전략 연구소 — ㄴ페이지</p></div>
-  <div class="flex gap-3">
-    <button onclick="navigateTo('page-admin-1')" class="liquid-glass px-4 py-2 rounded-lg text-xs text-gray-400 hover:text-white">← ㄱP Factory</button>
-    <button onclick="handleLogout()" class="px-4 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10">로그아웃</button>
-  </div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<!-- LEFT: AI Model Cards -->
-<div class="liquid-glass rounded-2xl p-5">
-  <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">AI MODEL DECK</h3>
-  <div id="model-deck" class="space-y-3">
-    <div draggable="true" class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"><div><p class="font-bold text-sm">Nova Engine v3</p><p class="text-xs text-gray-500">사용량 72%</p></div><div class="w-12 h-12 rounded-full border-4 border-nova-cyan border-r-transparent" style="border-radius:50%"></div></div>
-    <div draggable="true" class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"><div><p class="font-bold text-sm">Mesh Refiner v2</p><p class="text-xs text-gray-500">사용량 45%</p></div><div class="w-12 h-12 rounded-full border-4 border-purple-400 border-r-transparent" style="border-radius:50%"></div></div>
-    <div draggable="true" class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"><div><p class="font-bold text-sm">Texture AI v1</p><p class="text-xs text-gray-500">사용량 28%</p></div><div class="w-12 h-12 rounded-full border-4 border-amber-400 border-r-transparent" style="border-radius:50%"></div></div>
-  </div>
-</div>
-<!-- RIGHT: Time Machine -->
-<div class="liquid-glass rounded-2xl p-5">
-  <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">TIME MACHINE</h3>
-  <div class="mb-4"><label class="text-xs text-gray-500 block mb-2">Version Slider</label>
-    <input type="range" id="version-slider" min="1" max="5" value="5" class="w-full" oninput="updateVersion(this.value)">
-    <div class="flex justify-between text-[10px] text-gray-600 mt-1"><span>v1.0</span><span>v2.0</span><span>v3.0</span><span>v4.0</span><span id="ver-label" class="text-nova-cyan">v5.0 (현재)</span></div>
-  </div>
-  <div id="version-editor" class="bg-black/40 rounded-xl p-4 font-mono text-sm text-gray-300 min-h-[200px] border border-white/5">
-    <p class="text-nova-cyan mb-2">// v5.0 — Current Config</p>
-    <p>engine: "nova-v3"</p><p>mesh_quality: "ultra"</p><p>texture_mode: "neural"</p><p>priority: 1</p>
-  </div>
-  <button onclick="mergeAnimation()" class="mt-4 w-full py-3 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/10 transition-all text-sm">⟳ 중복 적용 (Merge)</button>
-</div>
-</div>
-</div>
-</section>
+      // === 3D PRINT ===
+      function request3DPrint() {
+        openModal("print-modal");
+      }
+      function confirmPrint() {
+        closeModal("print-modal");
+        const btn = document.getElementById("btn-3dprint");
+        btn.innerHTML = '<span class="text-green-400">✓ 3D Print 승인됨</span>';
+        btn.classList.remove("bg-gray-800", "border-gray-700", "text-gray-500");
+        btn.classList.add("bg-green-500/10", "border-green-500/30");
+      }
 
-</div><!-- /app-shell -->
+      // === ADMIN ===
+      function selectOrder(i) {
+        /* highlight row */
+      }
 
-<!-- ═══════════ AUTH MODAL ═══════════ -->
-<div id="auth-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
-<div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('auth-modal')"></div>
-<div class="bg-[#0A0A0B] border border-white/10 w-full max-w-md rounded-2xl relative z-10 p-8 shadow-2xl">
-  <h2 class="text-lg font-bold text-white mb-1 tracking-widest">로그인</h2>
-  <p class="text-gray-500 text-xs mb-6">Aunova 계정으로 로그인하세요.</p>
-  <div id="login-error" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-xs"></div>
-  <input id="login-id" type="text" placeholder="아이디 또는 이메일" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
-  <input id="login-pw" type="password" placeholder="비밀번호" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-4 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
-  <!-- SNS Login -->
-  <div class="grid grid-cols-2 gap-2 mb-4">
-    <button class="py-2.5 bg-[#03C75A]/15 border border-[#03C75A]/30 rounded-lg text-xs text-[#03C75A] font-bold hover:bg-[#03C75A]/25 transition-all">N 네이버</button>
-    <button class="py-2.5 bg-[#4285F4]/15 border border-[#4285F4]/30 rounded-lg text-xs text-[#4285F4] font-bold hover:bg-[#4285F4]/25 transition-all">G 구글</button>
-    <button class="py-2.5 bg-[#FEE500]/10 border border-[#FEE500]/30 rounded-lg text-xs text-[#FEE500] font-bold hover:bg-[#FEE500]/20 transition-all">K 카카오</button>
-    <button class="py-2.5 bg-white/10 border border-white/20 rounded-lg text-xs text-white font-bold hover:bg-white/15 transition-all"> Apple</button>
-  </div>
-  <button onclick="handleLogin()" class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition-all tracking-wider">CONNECT</button>
-  <p class="text-center text-gray-500 text-xs mt-4">아직 계정이 없으신가요? <a href="#" onclick="closeModal('auth-modal');setTimeout(()=>openModal('signup-modal'),300)" class="text-nova-cyan hover:underline font-semibold">회원가입</a></p>
-</div>
-</div>
+      // === VERSION SLIDER ===
+      const versionData = [
+        '// v1.0\nengine: "nova-v1"\nmesh_quality: "low"\ntexture_mode: "basic"',
+        '// v2.0\nengine: "nova-v1"\nmesh_quality: "medium"\ntexture_mode: "basic"',
+        '// v3.0\nengine: "nova-v2"\nmesh_quality: "high"\ntexture_mode: "enhanced"',
+        '// v4.0\nengine: "nova-v3"\nmesh_quality: "ultra"\ntexture_mode: "neural"\npriority: 2',
+        '// v5.0 — Current Config\nengine: "nova-v3"\nmesh_quality: "ultra"\ntexture_mode: "neural"\npriority: 1',
+      ];
+      function updateVersion(v) {
+        document.getElementById("version-editor").innerHTML =
+          '<pre class="text-gray-300 text-sm">' + versionData[v - 1] + "</pre>";
+        document.getElementById("ver-label").textContent =
+          "v" + v + ".0" + (v == 5 ? " (현재)" : "");
+      }
 
-<!-- ═══════════ SIGN-UP MODAL ═══════════ -->
-<div id="signup-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
-<div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('signup-modal')"></div>
-<div class="bg-[#0A0A0B] border border-white/10 w-full max-w-lg rounded-2xl relative z-10 p-8 shadow-2xl max-h-[90vh] overflow-y-auto hide-scrollbar">
-  <h2 class="text-lg font-bold text-white mb-1 tracking-widest">회원가입</h2>
-  <p class="text-gray-500 text-xs mb-6">Aunova 계정을 생성하세요.</p>
+      // === MERGE ANIMATION ===
+      function mergeAnimation() {
+        const deck = document.getElementById("model-deck");
+        deck.style.transition = "transform 0.5s ease-in-out";
+        deck.style.transform = "scale(0.9) rotate(2deg)";
+        setTimeout(() => {
+          deck.style.transform = "scale(1.05)";
+        }, 300);
+        setTimeout(() => {
+          deck.style.transform = "scale(1) rotate(0deg)";
+        }, 600);
+      }
 
-  <!-- Name -->
-  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">이름 *</label>
-  <input type="text" placeholder="홍길동" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
+      // === MODE SELECTOR ===
+      function selectMode(mode) {
+        document.querySelectorAll(".mode-tab").forEach((t) => {
+          t.classList.remove("mode-active", "bg-white/15", "text-white");
+          t.classList.add("bg-transparent", "text-white/30");
+        });
+        const active = document.getElementById("mode-" + mode);
+        if (active) {
+          active.classList.add("mode-active", "bg-white/15", "text-white");
+          active.classList.remove("bg-transparent", "text-white/30");
+        }
+      }
 
-  <!-- Email -->
-  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">이메일 *</label>
-  <input type="email" placeholder="example@email.com" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
+      // === TOGGLE ALL AGREE ===
+      function toggleAllAgree() {
+        const allChecked = document.getElementById("agree-all").checked;
+        document.querySelectorAll(".agree-item").forEach((cb) => {
+          cb.checked = allChecked;
+        });
+      }
 
-  <!-- ID -->
-  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">아이디 *</label>
-  <div class="flex gap-2 mb-3">
-    <input type="text" placeholder="사용할 아이디" class="flex-1 bg-white/5 border border-white/10 rounded-lg p-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
-    <button class="px-4 bg-white/10 border border-white/15 rounded-lg text-xs text-gray-400 hover:text-white hover:border-nova-cyan/30 transition-all whitespace-nowrap">중복확인</button>
-  </div>
-
-  <!-- Password -->
-  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">비밀번호 *</label>
-  <input type="password" placeholder="8자 이상, 영문+숫자+특수문자" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
-
-  <!-- Confirm Password -->
-  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">비밀번호 확인 *</label>
-  <input type="password" placeholder="비밀번호를 다시 입력" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
-
-  <!-- Phone -->
-  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">연락처</label>
-  <input type="tel" placeholder="010-0000-0000" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-3 text-white text-sm focus:border-nova-cyan outline-none placeholder-gray-600">
-
-  <!-- Payment Method -->
-  <label class="text-[10px] text-gray-500 tracking-wider mb-1 block">결제 수단 등록</label>
-  <select class="w-full bg-white/5 border border-white/10 rounded-lg p-3 mb-5 text-gray-400 text-sm focus:border-nova-cyan outline-none">
-    <option value="" class="bg-[#0A0A0B]">결제 수단 선택</option>
-    <option value="card" class="bg-[#0A0A0B]">신용/체크카드</option>
-    <option value="bank" class="bg-[#0A0A0B]">계좌이체</option>
-    <option value="kakao" class="bg-[#0A0A0B]">카카오페이</option>
-    <option value="naver" class="bg-[#0A0A0B]">네이버페이</option>
-  </select>
-
-  <!-- Divider -->
-  <div class="border-t border-white/10 my-5"></div>
-
-  <!-- Terms & Agreements -->
-  <h3 class="text-sm font-bold text-white mb-3 tracking-wider">약관 동의</h3>
-
-  <label class="flex items-start gap-3 mb-3 cursor-pointer group">
-    <input type="checkbox" id="agree-all" onclick="toggleAllAgree()" class="mt-1 w-4 h-4 accent-[#00F5FF] rounded">
-    <span class="text-sm text-white font-semibold group-hover:text-nova-cyan transition-colors">전체 동의</span>
-  </label>
-  <div class="border-t border-white/5 mb-3"></div>
-
-  <label class="flex items-start gap-3 mb-2 cursor-pointer group">
-    <input type="checkbox" class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded">
-    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors">[필수] 이용약관 동의 <a href="#" class="text-nova-cyan/60 hover:underline ml-1">보기</a></span>
-  </label>
-  <label class="flex items-start gap-3 mb-2 cursor-pointer group">
-    <input type="checkbox" class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded">
-    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors">[필수] 개인정보 수집 및 이용 동의 <a href="#" class="text-nova-cyan/60 hover:underline ml-1">보기</a></span>
-  </label>
-  <label class="flex items-start gap-3 mb-2 cursor-pointer group">
-    <input type="checkbox" class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded">
-    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors">[필수] 전자결제 이용 동의 <a href="#" class="text-nova-cyan/60 hover:underline ml-1">보기</a></span>
-  </label>
-  <label class="flex items-start gap-3 mb-5 cursor-pointer group">
-    <input type="checkbox" class="agree-item mt-1 w-4 h-4 accent-[#00F5FF] rounded">
-    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors">[선택] 마케팅 정보 수신 동의</span>
-  </label>
-
-  <!-- Submit -->
-  <button class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition-all tracking-wider mb-3">가입하기</button>
-  <p class="text-center text-gray-500 text-xs">이미 계정이 있으신가요? <a href="#" onclick="closeModal('signup-modal');setTimeout(()=>openModal('auth-modal'),300)" class="text-nova-cyan hover:underline font-semibold">로그인</a></p>
-</div>
-</div>
-
-<!-- ═══════════ 3D PRINT PAYMENT MODAL ═══════════ -->
-<div id="print-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
-<div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('print-modal')"></div>
-<div class="bg-[#0A0A0B] border border-white/10 w-full max-w-sm rounded-2xl relative z-10 p-8 shadow-2xl text-center">
-  <h2 class="text-lg font-bold text-white mb-4">잔액 추가 결제</h2>
-  <p class="text-3xl font-black text-nova-cyan mb-2">₩178,000</p>
-  <p class="text-gray-500 text-sm mb-6">3D 프린트를 위해 잔액을 결제합니다.</p>
-  <button onclick="confirmPrint()" class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl mb-2">결제 확인</button>
-  <button onclick="closeModal('print-modal')" class="w-full py-2 text-gray-500 text-sm">취소</button>
-</div>
-</div>
-
-<!-- ═══════════ JAVASCRIPT ═══════════ -->
-<script>
-// === State ===
-let currentPage='page-0';
-let currentLevel=1;
-const levelLabels=['','BASIC','ADVANCED MESH','NEURAL TEXTURE','MOTION CAPTURE','ULTRA PREMIUM'];
-
-// === INTRO ===
-document.getElementById('page-0').addEventListener('click',function(){
-  if(this.dataset.played) return;
-  this.dataset.played='1';
-  const boom=document.getElementById('sfx-boom');
-  const ambient=document.getElementById('sfx-ambient');
-  boom.volume=0.5; boom.play().catch(()=>{});
-  // Soft White Flash
-  const flash=document.getElementById('intro-flash');
-  const logoWrap=document.getElementById('intro-logo-wrap');
-  logoWrap.style.transition='transform 1.2s ease-out, filter 1s ease-out, opacity 1s ease-out';
-  logoWrap.style.transform='scale(1.3)';
-  logoWrap.style.filter='brightness(4)';
-  // Gradual white wash
-  setTimeout(()=>{ flash.style.opacity='0.85'; },200);
-  // Ambient sound
-  setTimeout(()=>{ambient.volume=0.12;ambient.play().catch(()=>{});},600);
-  // Logo fades into white
-  setTimeout(()=>{ logoWrap.style.opacity='0'; },600);
-  // Begin page transition — fade the white out while 1P fades in
-  setTimeout(()=>{
-    document.getElementById('app-shell').style.opacity='1';
-    document.getElementById('page-0').style.opacity='0';
-    // Cleanup
-    setTimeout(()=>{document.getElementById('page-0').style.display='none';},1500);
-  },1200);
-});
-
-// === SPA NAV ===
-function navigateTo(id){
-  document.querySelectorAll('.spa-page').forEach(p=>{p.classList.remove('active')});
-  const target=document.getElementById(id);
-  if(target){target.classList.add('active');window.scrollTo(0,0);currentPage=id;}
-  // Toggle pricing visibility (page-2 only)
-  const pricing=document.getElementById('sidebar-pricing');
-  if(pricing){id==='page-2'?pricing.classList.remove('hidden'):pricing.classList.add('hidden');}
-}
-
-// === MODALS ===
-function openModal(id){document.getElementById(id).classList.remove('hidden')}
-function closeModal(id){document.getElementById(id).classList.add('hidden')}
-
-// === LOGIN ===
-function handleLogin(){
-  const id=document.getElementById('login-id').value.trim();
-  const pw=document.getElementById('login-pw').value.trim();
-  const err=document.getElementById('login-error');
-  err.classList.add('hidden');
-  if(id==='aunova'&&pw==='aunova3123'){
-    closeModal('auth-modal');navigateTo('page-admin-1');
-    setLoggedIn('ADMIN');return;
-  }
-  if(id!==''&&pw!==''){err.textContent='ID 또는 비밀번호가 올바르지 않습니다.';err.classList.remove('hidden');return;}
-  closeModal('auth-modal');navigateTo('page-1');
-  setLoggedIn('USER');
-}
-function setLoggedIn(role){
-  document.getElementById('btn-login').classList.add('hidden');
-  const signupBtn=document.getElementById('btn-signup-sidebar');
-  if(signupBtn) signupBtn.classList.add('hidden');
-  document.getElementById('btn-logout').classList.remove('hidden');
-  document.getElementById('btn-mypage').classList.remove('hidden');
-  document.getElementById('btn-mypage').style.display='block';
-}
-function handleLogout(){
-  navigateTo('page-1');
-  document.getElementById('btn-login').classList.remove('hidden');
-  const signupBtn=document.getElementById('btn-signup-sidebar');
-  if(signupBtn) signupBtn.classList.remove('hidden');
-  document.getElementById('btn-logout').classList.add('hidden');
-  document.getElementById('btn-mypage').classList.add('hidden');
-  document.getElementById('btn-mypage').style.display='none';
-  document.getElementById('login-id').value='';
-  document.getElementById('login-pw').value='';
-}
-document.getElementById('login-pw').addEventListener('keydown',e=>{if(e.key==='Enter')handleLogin()});
-
-// === LEVEL TABS ===
-function changeLevel(lv){
-  currentLevel=lv;
-  document.querySelectorAll('.lv-tab').forEach((t,i)=>{
-    t.classList.toggle('lv-active',i+1===lv);
-    if(i+1!==lv)t.classList.add('text-gray-500');else t.classList.remove('text-gray-500');
-  });
-  document.getElementById('center-level-label').textContent='Lv.'+lv+' — '+levelLabels[lv];
-  // Visual change on center
-  const logo=document.getElementById('center-logo');
-  const filters=['','hue-rotate(0deg)','hue-rotate(30deg) saturate(1.5)','hue-rotate(60deg) saturate(2)','hue-rotate(120deg) saturate(2)','hue-rotate(180deg) saturate(2.5) brightness(1.3)'];
-  logo.style.filter=filters[lv]+' drop-shadow(0 0 '+(10+lv*5)+'px #00F5FF)';
-}
-
-// === D&D / SAMPLE ===
-function handleDrop(e){e.preventDefault();document.getElementById('drop-zone').textContent='✓ 이미지 로드됨';document.getElementById('drop-zone').classList.add('border-nova-cyan','text-nova-cyan')}
-function selectSample(n){
-  document.getElementById('center-logo').classList.add('hidden');
-  const prev=document.getElementById('center-preview');
-  prev.classList.remove('hidden');
-  prev.src='https://picsum.photos/seed/sample'+n+'/400/400';
-  prev.alt='Sample '+n;
-}
-
-// === PROCESSING ===
-function startProcessing(){
-  navigateTo('page-4');
-  const title=document.getElementById('synth-title').value||'당신의 작품';
-  const text="'"+title+"' 이(가) 탄생하고 있습니다...";
-  let i=0;const el=document.getElementById('typing-text');el.textContent='';
-  const timer=setInterval(()=>{if(i<text.length){el.textContent+=text[i];i++}else clearInterval(timer)},60);
-  document.getElementById('btn-next-5').classList.add('hidden');
-  setTimeout(()=>{
-    document.getElementById('spin-star').style.animation='none';
-    document.getElementById('btn-next-5').classList.remove('hidden');
-  },3500);
-}
-
-// === 3D PRINT ===
-function request3DPrint(){openModal('print-modal')}
-function confirmPrint(){
-  closeModal('print-modal');
-  const btn=document.getElementById('btn-3dprint');
-  btn.innerHTML='<span class="text-green-400">✓ 3D Print 승인됨</span>';
-  btn.classList.remove('bg-gray-800','border-gray-700','text-gray-500');
-  btn.classList.add('bg-green-500/10','border-green-500/30');
-}
-
-// === ADMIN ===
-function selectOrder(i){/* highlight row */}
-
-// === VERSION SLIDER ===
-const versionData=[
-  '// v1.0\nengine: "nova-v1"\nmesh_quality: "low"\ntexture_mode: "basic"',
-  '// v2.0\nengine: "nova-v1"\nmesh_quality: "medium"\ntexture_mode: "basic"',
-  '// v3.0\nengine: "nova-v2"\nmesh_quality: "high"\ntexture_mode: "enhanced"',
-  '// v4.0\nengine: "nova-v3"\nmesh_quality: "ultra"\ntexture_mode: "neural"\npriority: 2',
-  '// v5.0 — Current Config\nengine: "nova-v3"\nmesh_quality: "ultra"\ntexture_mode: "neural"\npriority: 1'
-];
-function updateVersion(v){
-  document.getElementById('version-editor').innerHTML='<pre class="text-gray-300 text-sm">'+versionData[v-1]+'</pre>';
-  document.getElementById('ver-label').textContent='v'+v+'.0'+(v==5?' (현재)':'');
-}
-
-// === MERGE ANIMATION ===
-function mergeAnimation(){
-  const deck=document.getElementById('model-deck');
-  deck.style.transition='transform 0.5s ease-in-out';
-  deck.style.transform='scale(0.9) rotate(2deg)';
-  setTimeout(()=>{deck.style.transform='scale(1.05)';},300);
-  setTimeout(()=>{deck.style.transform='scale(1) rotate(0deg)';},600);
-}
-
-// === MODE SELECTOR ===
-function selectMode(mode){
-  document.querySelectorAll('.mode-tab').forEach(t=>{
-    t.classList.remove('mode-active','bg-white/15','text-white');
-    t.classList.add('bg-transparent','text-white/30');
-  });
-  const active=document.getElementById('mode-'+mode);
-  if(active){
-    active.classList.add('mode-active','bg-white/15','text-white');
-    active.classList.remove('bg-transparent','text-white/30');
-  }
-}
-
-// === TOGGLE ALL AGREE ===
-function toggleAllAgree(){
-  const allChecked=document.getElementById('agree-all').checked;
-  document.querySelectorAll('.agree-item').forEach(cb=>{cb.checked=allChecked;});
-}
-
-// === CURSOR ===
-const cur=document.getElementById('cursor');
-const aura=document.getElementById('cursor-aura');
-document.addEventListener('mousemove',e=>{
-  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
-  aura.style.left=e.clientX+'px';aura.style.top=e.clientY+'px';
-});
-</script>
-</body>
+      // === CURSOR ===
+      const cur = document.getElementById("cursor");
+      const aura = document.getElementById("cursor-aura");
+      document.addEventListener("mousemove", (e) => {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+        aura.style.left = e.clientX + "px";
+        aura.style.top = e.clientY + "px";
+      });
+    </script>
+  </body>
 </html>
