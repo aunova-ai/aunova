@@ -58,11 +58,20 @@
         -webkit-font-smoothing: antialiased;
       }
       .hide-scrollbar::-webkit-scrollbar {
-        display: none;
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        background: transparent !important;
+      }
+      .hide-scrollbar::-webkit-scrollbar-thumb {
+        background: transparent !important;
+      }
+      .hide-scrollbar::-webkit-scrollbar-track {
+        background: transparent !important;
       }
       .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+        -ms-overflow-style: none !important;
+        scrollbar-width: none !important;
       }
       .liquid-glass {
         background: rgba(255, 255, 255, 0.04);
@@ -1094,14 +1103,13 @@
           </div>
           <!-- CENTER: Clean Viewer -->
           <div
-            class="liquid-glass rounded-2xl flex items-center justify-center min-h-[600px] relative overflow-hidden"
+            class="flex items-center justify-center w-full h-[85vh] relative overflow-hidden sticky top-24"
             style="cursor: default"
           >
-            <div
-              class="w-64 h-64 bg-gray-700/50 rounded-2xl flex items-center justify-center"
-            >
-              <p class="text-gray-500 text-sm">3D Model Viewer</p>
-            </div>
+            <!-- Enlarged 3D Model Viewer text to signify it occupies the full space transparently -->
+            <p class="text-gray-500/50 text-2xl font-bold tracking-widest text-center">
+              3D Model Viewer
+            </p>
           </div>
           <!-- RIGHT: Export -->
           <div
