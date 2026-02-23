@@ -1145,6 +1145,42 @@
           </div>
         </div>
       </section>
+      <!-- ═══════════ 6P: DELIVERY ═══════════ -->
+      <section
+        id="page-6"
+        class="spa-page min-h-screen flex-col items-center justify-center px-4 relative"
+      >
+        <!-- AUNOVA Top Left Logo -->
+        <div class="absolute top-5 left-4 text-lg font-black tracking-tighter text-nova-cyan cursor-pointer z-50" onclick="navigateTo('page-1')">
+          AUNOVA
+        </div>
+        <div class="text-center">
+          <div class="relative w-32 h-32 mx-auto mb-8">
+            <svg
+              id="spin-star-6"
+              viewBox="0 0 100 100"
+              class="w-full h-full animate-spin-fast drop-shadow-[0_0_30px_#00F5FF]"
+            >
+              <path
+                d="M50 0 L60 35 L95 50 L60 65 L50 100 L40 65 L5 50 L40 35 Z"
+                fill="#00F5FF"
+              />
+            </svg>
+          </div>
+          <p
+            id="typing-text-6"
+            class="text-xl md:text-2xl text-white font-light mb-8 h-8"
+          ></p>
+          <p class="text-gray-500 text-sm mb-8">안전하게 배송해 드리겠습니다...</p>
+          <button
+            id="btn-next-6"
+            onclick="navigateTo('page-1')"
+            class="hidden px-10 py-4 bg-nova-cyan text-black font-bold rounded-xl hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-wider"
+          >
+            HOME
+          </button>
+        </div>
+      </section>
 
       <!-- ═══════════ ㄱP: THE FACTORY (ADMIN) ═══════════ -->
       <section
@@ -1973,6 +2009,26 @@
         btn.innerHTML = '<span class="text-green-400">✓ 3D Print 승인됨</span>';
         btn.classList.remove("bg-gray-800", "border-gray-700", "text-gray-500");
         btn.classList.add("bg-green-500/10", "border-green-500/30");
+
+        navigateTo("page-6");
+        const title = document.getElementById("synth-title").value || "당신의 작품";
+        const text = "'" + title + "' 이(가) 집으로 가고 있습니다...";
+        let i = 0;
+        const el = document.getElementById("typing-text-6");
+        el.textContent = "";
+        const timer = setInterval(() => {
+          if (i < text.length) {
+            el.textContent += text[i];
+            i++;
+          } else clearInterval(timer);
+        }, 60);
+
+        document.getElementById("btn-next-6").classList.add("hidden");
+        document.getElementById("spin-star-6").style.animation = "spin 0.6s linear infinite";
+        setTimeout(() => {
+          document.getElementById("spin-star-6").style.animation = "none";
+          document.getElementById("btn-next-6").classList.remove("hidden");
+        }, 3500);
       }
 
       // === ADMIN ===
