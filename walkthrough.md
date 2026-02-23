@@ -1,27 +1,24 @@
-# Walkthrough: Aunova Omni-Solution Specification Result
+# Walkthrough: Aunova Omni-Solution Deployment (v1.0.4)
 
-I have completed the **'Aunova Omni-Solution 7단계 SPA 프로토타입 명세서'**.
-The specification is designed for immediate developer implementation using HTML, Tailwind CSS, and Vanilla JavaScript.
+I have completed the investigation and synchronization of the **Aunova SPA Prototype**.
 
 ## Key Accomplishments
 
-### 1. Digital Genesis Design System
+### 1. Restoration of Missing Work (v1.0.4)
 
-- **Liquid Glass**: Defined the exact CSS properties (`backdrop-filter`, `rgba`) to achieve the iOS 26 glass texture.
-- **Advanced Cursor**: Detailed the JS-driven radial aura effect that follows the user's mouse.
+- **Sample Images**: Identified and restored the `lv1-5.png` images created on Feb 20th into the `asset/` folder.
+- **Login & UI/UX**: Re-implemented the detailed Auth Modal (with social logins) and the Liquid Glass branding that the user reported missing.
+- **Pricing Correction**: Standardized the initial total estimate to **25,000 KRW** across the entire application.
 
-### 2. User & Admin Flow Logic
+### 2. Deployment Synchronization
 
-- **SPA Routing**: Provided a strategy for single-page transitions without losing input data.
-- **State Management**: Defined the `appState` structure to handle deposit/balance payments and multi-step inputs.
-- **Admin Tools**: Included specialized logic for print CSS, version control sliders (Time-machine), and prompt merging animations.
-
-## Documents Created in this Workspace
-
-- [specification_report.md](file:///c:/antigravity/aunova%EC%98%B4%EB%8B%88solution/specification_report.md): **The Core Specification** with HTML/CSS/JS details.
-- [walkthrough.md](file:///c:/antigravity/aunova%EC%98%B4%EB%8B%88solution/walkthrough.md): Summary of the work.
+- **Force Deployment**: Created and pushed a `gh-pages` branch to GitHub to override the stale Feb 19th deployment on [aunova.ai](https://aunova.ai).
+- **Version Tracking**: Added a clear version marker (`v1.0.4`) and timestamp in the footer to verify when the deployment successfully updates.
 
 ---
 
-> [!TIP]
-> Developers can copy the CSS values directly into their `tailwind.config.js` or global CSS file to instantly match the requested "Digital Genesis" aesthetic.
+> [!IMPORTANT]
+> **[서비스 반영 지연 안내]**
+> 현재 [aunova.ai](https://aunova.ai) 도메인이 GitHub Pages 서버의 지연으로 인해 2월 19일 버전에 멈춰 있는 것을 확인했습니다.
+> 제가 수정한 **v1.0.4(로그인, UI/UX, 샘플이미지 포함)** 버전이 반영될 때까지 약 10~30분 정도 소요될 수 있습니다.
+> 반영 여부는 페이지 맨 하단의 `v1.0.4` 문구로 확인 가능합니다.
