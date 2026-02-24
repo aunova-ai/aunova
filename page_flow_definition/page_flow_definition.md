@@ -4,7 +4,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 0 랜딩페이지 (Landing Page)
 
-![0 랜딩페이지 (Landing Page)](./0_Landing_Page.png)
+![0 랜딩페이지 (Landing Page)](./0_Landing_Page/0_Landing_Page.png)
 
 **페이지명 (Page Name):** 0 랜딩페이지 (Page 0)
 **역할 (Role):**
@@ -20,7 +20,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 1 메인 랜딩 페이지 (Genesis Main Page)
 
-![1 메인 랜딩 페이지 (Genesis Main Page)](./1_Main_Page.png)
+![1 메인 랜딩 페이지 (Genesis Main Page)](./1_Main_Page/1_Main_Page.png)
 
 **페이지명 (Page Name):** 1 메인 랜딩 페이지 (Page 1)
 **역할 (Role):**
@@ -45,7 +45,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 1_1 메인 랜딩 페이지 중간 (Motion Synthesis)
 
-![1_1 메인 랜딩 중간 (Motion Synthesis)](./1_1_Main_Page.png)
+![1_1 메인 랜딩 중간 (Motion Synthesis)](./1_Main_Page/1_1_Main_Page.png)
 
 **페이지명 (Page Name):** 1_1 메인 랜딩 페이지 (Motion Synthesis 영역)
 **역할 (Role):**
@@ -62,7 +62,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 1_2 메인 랜딩 페이지 하단 (Footer)
 
-![1_2 메인 랜딩 하단 (Footer)](./1_2_Main_Page.png)
+![1_2 메인 랜딩 하단 (Footer)](./1_Main_Page/1_2_Main_Page.png)
 
 **페이지명 (Page Name):** 1_2 메인 랜딩 페이지 (Footer 영역)
 **역할 (Role):**
@@ -78,7 +78,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 2 Nova3D 의뢰서작성 (Synthesis Workspace)
 
-![2 Nova3D 의뢰서작성 (Synthesis Workspace)](./2_Synthesis_Workspace.png)
+![2 Nova3D 의뢰서작성 (Synthesis Workspace)](./2_Synthesis_Workspace/2_Synthesis_Workspace.png)
 
 **페이지명 (Page Name):** 2 Nova3D 의뢰서작성 (Page 2)
 **역할 (Role):**
@@ -104,7 +104,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## c 보증금 결제 페이지 (Deposit Payment Modal)
 
-![c 보증금 결제 모달 (Deposit Payment)](./c_Deposit_Payment_Page.png)
+![c 보증금 결제 모달 (Deposit Payment)](./c_Deposit_Payment_Page/c_Deposit_Payment_Page.png)
 
 **페이지명 (Page Name):** c 보증금 결제 (Deposit Payment Modal)
 **역할 (Role):**
@@ -124,7 +124,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 3 Nova3D 생성대기 페이지 (Processing Wait Page)
 
-![3 Nova3D 생성대기 페이지 (Processing Wait Page)](./3_Processing_Wait_Page.png)
+![3 Nova3D 생성대기 페이지 (Processing Wait Page)](./3_Processing_Wait_Page/3_Processing_Wait_Page.png)
 
 **페이지명 (Page Name):** 3 Nova3D 생성대기 페이지 (Page 3)
 **역할 (Role):**
@@ -146,7 +146,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 4 Nova3D 결과 선택 페이지 (Result Viewer & Export)
 
-![4 Nova3D 결과 선택 페이지 (Result Viewer & Export)](./4_Result_Viewer_Export.png)
+![4 Nova3D 결과 선택 페이지 (Result Viewer & Export)](./4_Result_Viewer_Export/4_Result_Viewer_Export.png)
 
 **페이지명 (Page Name):** 4 Nova3D 결과 선택 페이지 (Page 4)
 **역할 (Role):**
@@ -170,7 +170,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 5 Nova3D 3D printing 요청완료 페이지 (Delivery & Home)
 
-![5 Nova3D 3D printing 요청완료 페이지 (Delivery & Home)](./5_Delivery_Home.png)
+![5 Nova3D 3D printing 요청완료 페이지 (Delivery & Home)](./5_Delivery_Home/5_Delivery_Home.png)
 
 **페이지명 (Page Name):** 5 Nova3D 3D printing 요청완료 페이지 (Page 5)
 **역할 (Role):**
@@ -189,7 +189,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## a 로그인 페이지 (Login Page / Modal)
 
-![a 로그인 페이지 (Login Page / Modal)](./a_Login_Page.png)
+![a 로그인 페이지 (Login Page / Modal)](./a_Login_Page/a_Login_Page.png)
 
 **페이지명 (Page Name):** a 로그인 페이지 (Login Modal)
 **역할 (Role):**
@@ -208,7 +208,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## b 회원가입 페이지 (Signup Page / Modal)
 
-![b 회원가입 페이지 (Signup Page / Modal)](./b_Signup_Page.png)
+![b 회원가입 페이지 (Signup Page / Modal)](./b_Signup_Page/b_Signup_Page.png)
 
 **페이지명 (Page Name):** b 회원가입 페이지 (Signup Modal)
 **역할 (Role):**
@@ -228,7 +228,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## c Nova3D 보증금 결제 페이지 (Deposit Payment Page / Modal)
 
-![c Nova3D 보증금 결제 페이지 (Deposit Payment Page / Modal)](./c_Deposit_Payment_Page.png)
+![c Nova3D 보증금 결제 페이지 (Deposit Payment Page / Modal)](./c_Deposit_Payment_Page/c_Deposit_Payment_Page.png)
 
 **페이지명 (Page Name):** c Nova3D 보증금 결제 페이지 (Deposit Payment Modal)
 **역할 (Role):**
@@ -246,7 +246,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## d Nova3D 최종 결제 페이지 (Final Payment Page / Modal)
 
-![d Nova3D 최종 결제 페이지 (Final Payment Page / Modal)](./d_Final_Payment_Page.png)
+![d Nova3D 최종 결제 페이지 (Final Payment Page / Modal)](./d_Final_Payment_Page/d_Final_Payment_Page.png)
 
 **페이지명 (Page Name):** d Nova3D 최종 결제 페이지 (Final Payment Modal)
 **역할 (Role):**
@@ -264,7 +264,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## ㄱ factory 페이지 (Admin Factory Page)
 
-![ㄱ factory 페이지 (Admin Factory Page)](./Admin_Factory_Page.png)
+![ㄱ factory 페이지 (Admin Factory Page)](./Admin_Factory_Page/Admin_Factory_Page.png)
 
 **페이지명 (Page Name):** ㄱ factory 페이지 (Admin Factory Page)
 **역할 (Role):**
@@ -299,7 +299,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## ㄴ lab 페이지 (Admin Lab Page)
 
-![ㄴ lab 페이지 (Admin Lab Page)](./Admin_Lab_Page.png)
+![ㄴ lab 페이지 (Admin Lab Page)](./Admin_Lab_Page/Admin_Lab_Page.png)
 
 **페이지명 (Page Name):** ㄴ lab 페이지 (Admin Lab Page)
 **역할 (Role):**
