@@ -189,7 +189,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## a 로그인 페이지 (Login Page / Modal)
 
-![a 로그인 페이지 (Login Page / Modal)](./smaple/a_Login_Page.png)
+![a 로그인 페이지 (Login Page / Modal)](./a_Login_Page.png)
 
 **페이지명 (Page Name):** a 로그인 페이지 (Login Modal)
 **역할 (Role):**
@@ -208,7 +208,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## b 회원가입 페이지 (Signup Page / Modal)
 
-![b 회원가입 페이지 (Signup Page / Modal)](./smaple/b_Signup_Page.png)
+![b 회원가입 페이지 (Signup Page / Modal)](./b_Signup_Page.png)
 
 **페이지명 (Page Name):** b 회원가입 페이지 (Signup Modal)
 **역할 (Role):**
@@ -246,7 +246,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## d Nova3D 최종 결제 페이지 (Final Payment Page / Modal)
 
-![d Nova3D 최종 결제 페이지 (Final Payment Page / Modal)](./smaple/d_Final_Payment_Page.png)
+![d Nova3D 최종 결제 페이지 (Final Payment Page / Modal)](./d_Final_Payment_Page.png)
 
 **페이지명 (Page Name):** d Nova3D 최종 결제 페이지 (Final Payment Modal)
 **역할 (Role):**
@@ -264,7 +264,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## ㄱ factory 페이지 (Admin Factory Page)
 
-![ㄱ factory 페이지 (Admin Factory Page)](./smaple/Admin_Factory_Page.png)
+![ㄱ factory 페이지 (Admin Factory Page)](./Admin_Factory_Page.png)
 
 **페이지명 (Page Name):** ㄱ factory 페이지 (Admin Factory Page)
 **역할 (Role):**
@@ -299,7 +299,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## ㄴ lab 페이지 (Admin Lab Page)
 
-![ㄴ lab 페이지 (Admin Lab Page)](./smaple/Admin_Lab_Page.png)
+![ㄴ lab 페이지 (Admin Lab Page)](./Admin_Lab_Page.png)
 
 **페이지명 (Page Name):** ㄴ lab 페이지 (Admin Lab Page)
 **역할 (Role):**
