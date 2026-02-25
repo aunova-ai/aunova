@@ -20,21 +20,21 @@ mdContent = mdContent.replace(/!\[(.*?)\]\(\.\/([^)]+\.png)\)/g, (match, alt, fi
     if (fs.existsSync(cleanPath)) {
         const cleanUri = encodeURI("file:///" + cleanPath.replace(/\\/g, '/'));
         html += `
-          <div style="border: 2px solid #ddd; border-radius: 8px; padding: 15px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-            <h3 style="margin-top: 0; margin-bottom: 10px; color: #222; font-family: sans-serif; border-bottom: 1px solid #eee; padding-bottom: 10px;">?? UI Screen</h3>
-            <img src="${cleanUri}" style="max-width: 100%; height: auto; border-radius: 4px; display: block; margin: 0 auto;" alt="${alt}" />
-          </div>
-        `;
+<div style="border: 2px solid #ddd; border-radius: 8px; padding: 15px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+<h3 style="margin-top: 0; margin-bottom: 10px; color: #222; font-family: sans-serif; border-bottom: 1px solid #eee; padding-bottom: 10px;">?? UI Screen</h3>
+<img src="${cleanUri}" style="max-width: 100%; height: auto; border-radius: 4px; display: block; margin: 0 auto;" alt="${alt}" />
+</div>
+`;
     }
     
     if (fs.existsSync(annotatedPath)) {
         const annUri = encodeURI("file:///" + annotatedPath.replace(/\\/g, '/'));
         html += `
-          <div style="border: 2px solid #00F5FF; border-radius: 8px; padding: 15px; background: #0A0A0B; box-shadow: 0 8px 15px rgba(0, 245, 255, 0.1);">
-            <h3 style="margin-top: 0; margin-bottom: 10px; color: #00F5FF; font-family: sans-serif; border-bottom: 1px solid #333; padding-bottom: 10px;">Annotated UI/UX Regions</h3>
-            <img src="${annUri}" style="max-width: 100%; height: auto; border-radius: 4px; display: block; margin: 0 auto;" alt="${alt} Annotated" />
-          </div>
-        `;
+<div style="border: 2px solid #00F5FF; border-radius: 8px; padding: 15px; background: #0A0A0B; box-shadow: 0 8px 15px rgba(0, 245, 255, 0.1);">
+<h3 style="margin-top: 0; margin-bottom: 10px; color: #00F5FF; font-family: sans-serif; border-bottom: 1px solid #333; padding-bottom: 10px;">Annotated UI/UX Regions</h3>
+<img src="${annUri}" style="max-width: 100%; height: auto; border-radius: 4px; display: block; margin: 0 auto;" alt="${alt} Annotated" />
+</div>
+`;
     }
     
     html += `</div>`;
