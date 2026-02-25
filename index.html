@@ -1386,36 +1386,21 @@
                     <p class="text-xs text-gray-500">사용량 72%</p>
                   </div>
                   <div
-                    class="w-12 h-12 rounded-full border-4 border-nova-cyan border-r-transparent"
+                    class="w-12 h-12 rounded-full border-4 border-nova-cyan border-r-transparent animate-[spin_3s_linear_infinite]"
                     style="border-radius: 50%"
                   ></div>
                 </div>
-                <div
-                  draggable="true"
-                  class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"
-                >
-                  <div>
-                    <p class="font-bold text-sm">Mesh Refiner v2</p>
-                    <p class="text-xs text-gray-500">사용량 45%</p>
-                  </div>
-                  <div
-                    class="w-12 h-12 rounded-full border-4 border-purple-400 border-r-transparent"
-                    style="border-radius: 50%"
-                  ></div>
-                </div>
-                <div
-                  draggable="true"
-                  class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"
-                >
-                  <div>
-                    <p class="font-bold text-sm">Texture AI v1</p>
-                    <p class="text-xs text-gray-500">사용량 28%</p>
-                  </div>
-                  <div
-                    class="w-12 h-12 rounded-full border-4 border-amber-400 border-r-transparent"
-                    style="border-radius: 50%"
-                  ></div>
-                </div>
+                <!-- Other models removed for brevity, will eventually be dynamic too -->
+              </div>
+            </div>
+
+            <div class="liquid-glass rounded-2xl p-5 mt-4">
+              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4 flex justify-between items-center">
+                <span>AI API DECK</span>
+                <span class="text-xs text-gray-500 font-normal">드래그하여 우선순위 변경</span>
+              </h3>
+              <div id="api-deck" class="space-y-2">
+                <!-- APIs injected here -->
               </div>
             </div>
           </div>
@@ -2228,10 +2213,108 @@
         });
       }
 
+      // === ADMIN LAB API DECK LOGIC ===
+      let apiList = [
+        { id: 'api-1', name: 'OpenAI GPT-4 Vision', provider: 'OpenAI', active: true, usage: 85, color: 'text-green-400' },
+        { id: 'api-2', name: 'Claude 3 Opus', provider: 'Anthropic', active: true, usage: 40, color: 'text-purple-400' },
+        { id: 'api-3', name: 'Midjourney v6', provider: 'Midjourney', active: false, usage: 15, color: 'text-blue-400' },
+        { id: 'api-4', name: 'Stable Diffusion XL', provider: 'Stability AI', active: true, usage: 60, color: 'text-orange-400' }
+      ];
+
+      function renderApiDeck() {
+        const deck = document.getElementById('api-deck');
+        if (!deck) return;
+        deck.innerHTML = '';
+        apiList.forEach((api, index) => {
+          const activeClass = api.active ? 'border-nova-cyan/50 bg-nova-cyan/5' : 'border-white/10 bg-white/5 opacity-60';
+          const toggleBg = api.active ? 'bg-nova-cyan' : 'bg-gray-600';
+          const toggleDot = api.active ? 'translate-x-4' : 'translate-x-0';
+          
+          deck.innerHTML += `
+            <div 
+              class="api-slot relative border rounded-xl p-3 flex flex-col gap-3 cursor-grab transition-all ${activeClass}"
+              draggable="true"
+              data-index="${index}"
+              ondragstart="handleApiDragStart(event)"
+              ondragover="handleApiDragOver(event)"
+              ondrop="handleApiDrop(event)"
+              ondragend="handleApiDragEnd(event)"
+            >
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="text-gray-500 cursor-grab">⋮⋮</div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-xs font-mono text-gray-500">P${index + 1}</span>
+                      <p class="font-bold text-sm ${api.active ? 'text-white' : 'text-gray-400'}">${api.name}</p>
+                    </div>
+                    <p class="text-[10px] text-gray-500">${api.provider}</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="text-[10px] ${api.color} font-mono w-8 text-right">${api.usage}%</div>
+                  <div class="w-8 h-4 rounded-full ${toggleBg} relative cursor-pointer transition-colors" onclick="toggleApi(${index})">
+                    <div class="absolute left-0 top-0 w-4 h-4 rounded-full bg-white shadow-sm transform transition-transform ${toggleDot}"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full flex items-center gap-2 px-6">
+                <span class="text-[10px] text-gray-600">0%</span>
+                <input type="range" min="0" max="100" value="${api.usage}" class="flex-1 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer" oninput="updateApiUsage(${index}, this.value)">
+                <span class="text-[10px] text-gray-600">100%</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      function toggleApi(index) {
+        apiList[index].active = !apiList[index].active;
+        renderApiDeck();
+      }
+
+      function updateApiUsage(index, val) {
+        apiList[index].usage = parseInt(val);
+        renderApiDeck();
+      }
+
+      let draggedApiIndex = null;
+      function handleApiDragStart(e) {
+        draggedApiIndex = parseInt(e.currentTarget.getAttribute('data-index'));
+        e.currentTarget.classList.add('opacity-50', 'scale-95');
+        e.dataTransfer.effectAllowed = 'move';
+      }
+      function handleApiDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        const target = e.currentTarget;
+        if (target && target.classList.contains('api-slot')) {
+          target.classList.add('border-dashed', 'border-white/50');
+        }
+      }
+      function handleApiDrop(e) {
+        e.preventDefault();
+        const targetIndex = parseInt(e.currentTarget.getAttribute('data-index'));
+        if (draggedApiIndex !== null && draggedApiIndex !== targetIndex) {
+          // Reorder array
+          const item = apiList.splice(draggedApiIndex, 1)[0];
+          apiList.splice(targetIndex, 0, item);
+          renderApiDeck();
+        }
+        e.currentTarget.classList.remove('border-dashed', 'border-white/50');
+      }
+      function handleApiDragEnd(e) {
+        e.currentTarget.classList.remove('opacity-50', 'scale-95');
+        const slots = document.querySelectorAll('.api-slot');
+        slots.forEach(slot => slot.classList.remove('border-dashed', 'border-white/50'));
+        renderApiDeck(); // re-render to fix priority numbers
+      }
+
       // Thumbnail Horizontal Scroll (Drag) implementation
       document.addEventListener("DOMContentLoaded", () => {
         renderOrders();
         selectOrder(2); // Initially select #003 박서준
+        renderApiDeck(); // Render API deck on load
 
         const slider = document.getElementById('cinema-thumbnails');
         if (!slider) return;
