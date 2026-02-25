@@ -158,17 +158,53 @@
       class="fixed inset-0 z-[100] flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-[1500ms] ease-in-out"
       style="background-color: #030308"
     >
-      <!-- Full-Screen Base Dark Image -->
-      <img src="./assets/images/intro_dark.png" class="absolute inset-0 w-full h-full object-cover z-10" alt="Genesis Dark">
-      
-      <!-- Full-Screen Glowing Image (fades in on click) -->
-      <img id="intro-light-img" src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-cover z-20 opacity-0 transition-all duration-[1500ms] ease-in-out" alt="Genesis Light">
+      <!-- Deep Space Background Image -->
+      <div
+        class="absolute inset-0"
+        style="
+          background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80')
+            center/cover no-repeat;
+          opacity: 0.35;
+        "
+      ></div>
+      <!-- Dark Vignette Overlay -->
+      <div
+        class="absolute inset-0"
+        style="
+          background: radial-gradient(
+            ellipse at center,
+            transparent 20%,
+            rgba(3, 3, 8, 0.85) 70%,
+            rgba(3, 3, 8, 1) 100%
+          );
+        "
+      ></div>
 
       <!-- White Flash specific to the ending -->
       <div
         id="intro-flash"
         class="absolute inset-0 bg-white opacity-0 transition-opacity duration-[800ms] ease-in-out pointer-events-none z-30"
       ></div>
+
+      <!-- Center Content -->
+      <div id="intro-logo-wrap" class="relative z-10 flex flex-col items-center justify-center h-full transition-all duration-700 w-full">
+        <!-- The Cropped Image sequence isolating the Star -->
+        <div class="relative w-[340px] h-[340px] md:w-[480px] md:h-[480px] flex items-center justify-center overflow-hidden mb-6 rounded-full" style="-webkit-mask-image: radial-gradient(circle, black 40%, transparent 68%); mask-image: radial-gradient(circle, black 40%, transparent 68%);">
+             <img src="./assets/images/intro_dark.png" class="absolute inset-0 w-full h-full object-cover object-[center_35%] scale-[1.9] z-10" alt="Genesis Dark Star" />
+             <img id="intro-light-img" src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-cover object-[center_35%] scale-[1.9] z-20 opacity-0 transition-all duration-[1500ms] ease-in-out" alt="Genesis Light Star" />
+        </div>
+
+        <h1 class="text-3xl md:text-5xl font-mono font-bold tracking-[0.3em] text-nova-cyan drop-shadow-[0_0_15px_rgba(0,245,255,0.6)] z-10">
+          AUNOVA
+        </h1>
+        <div class="w-20 h-[1px] bg-gradient-to-r from-transparent via-nova-cyan to-transparent my-4 opacity-60 z-10"></div>
+        <p class="text-sm tracking-[0.5em] text-gray-500 opacity-50 mb-7 z-10">
+          DIGITAL GENESIS
+        </p>
+        <p class="text-xs md:text-sm text-gray-400 font-light tracking-widest opacity-80 animate-pulse-slow z-10 drop-shadow-md">
+          상상하는 모든 것이 현실이 되는 공간.
+        </p>
+      </div>
 
       <audio id="sfx-boom" preload="auto">
         <source
@@ -1799,10 +1835,12 @@
             boom.play().catch(() => {});
           }
           
-          // Scale the glowing image to simulate an explosion
-          if (lightImg) {
-            lightImg.style.transform = "scale(1.15)";
-            lightImg.style.filter = "brightness(2)";
+          // Scale the container (Star + Text) to simulate an explosion
+          const logoWrap = document.getElementById("intro-logo-wrap");
+          if (logoWrap) {
+            logoWrap.style.transition = "transform 1.2s ease-out, filter 1s ease-out, opacity 1s ease-out";
+            logoWrap.style.transform = "scale(1.3)";
+            logoWrap.style.filter = "brightness(4)";
           }
           
           // Soft White Flash
@@ -1819,6 +1857,11 @@
               ambient.volume = 0.12;
               ambient.play().catch(() => {});
             }
+          }, 600);
+          
+          // Container fades into white
+          setTimeout(() => {
+            if (logoWrap) logoWrap.style.opacity = "0";
           }, 600);
           
           // Begin page transition — fade the white out while 1P fades in
