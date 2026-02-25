@@ -1374,7 +1374,7 @@
             </div>
 
             <!-- AI MODEL DECK (Collapsible) -->
-            <div id="model-deck-parent" class="liquid-glass rounded-2xl px-5 py-4 flex flex-col overflow-hidden min-h-[64px] flex-1 transition-all duration-300">
+            <div id="model-deck-parent" class="liquid-glass rounded-2xl px-5 py-4 flex flex-col overflow-hidden min-h-[64px] shrink transition-all duration-300">
               <div class="flex justify-between items-center shrink-0 cursor-pointer select-none" onclick="toggleAccordion('model-deck-wrapper', 'model-chevron', 'model-deck-parent')">
                 <h3 class="text-nova-cyan font-bold text-sm tracking-wider pb-2">
                   AI MODEL DECK
@@ -1389,7 +1389,7 @@
             </div>
 
             <!-- AI API DECK (Collapsible) -->
-            <div id="api-deck-parent" class="liquid-glass rounded-2xl px-5 py-4 flex flex-col overflow-hidden min-h-[64px] shrink transition-all duration-300">
+            <div id="api-deck-parent" class="liquid-glass rounded-2xl px-5 py-4 flex flex-col overflow-hidden min-h-[72px] shrink transition-all duration-300" style="flex-shrink: 9999;">
               <div class="flex justify-between items-center shrink-0 cursor-pointer select-none" onclick="toggleAccordion('api-deck-wrapper', 'api-chevron', 'api-deck-parent')">
                 <div class="flex items-center gap-2 pb-2">
                   <h3 class="text-nova-cyan font-bold text-sm tracking-wider">AI API DECK</h3>
@@ -2259,11 +2259,9 @@
         if (isExpanded) {
           wrapper.style.display = 'none';
           chevron.style.transform = 'rotate(0deg)';
-          if(parentId === 'model-deck-parent') parent.classList.remove('flex-1');
         } else {
           wrapper.style.display = 'flex';
           chevron.style.transform = 'rotate(180deg)';
-          if(parentId === 'model-deck-parent') parent.classList.add('flex-1');
         }
       }
 
