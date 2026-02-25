@@ -357,8 +357,9 @@
         <!-- Top Navigation Bar -->
         <nav class="absolute md:fixed top-0 left-0 w-full h-20 px-8 flex justify-between items-center z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/5">
           <!-- Logo -->
-          <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('page-1')">
-            <h1 class="text-xl md:text-2xl font-black tracking-widest text-nova-cyan">ALINOVA</h1>
+          <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('page-1')">
+            <img src="./assets/images/logo_glass_a.png" alt="Aunova Logo" class="w-8 h-8 object-contain drop-shadow-[0_0_10px_rgba(0,245,255,0.6)]">
+            <h1 class="text-xl md:text-2xl font-black tracking-widest text-nova-cyan">AUNOVA</h1>
           </div>
           <!-- Center Links -->
           <div class="hidden md:flex items-center gap-10 text-xs font-bold tracking-[0.2em] text-white/70">
@@ -385,32 +386,45 @@
         <!-- Hero Section -->
         <div class="w-full flex flex-col items-center pt-8 pb-16 px-4 relative">
           <!-- The Glowing Star Background/Image -->
-          <div class="relative w-full max-w-4xl h-[340px] md:h-[500px] mt-16 flex items-center justify-center mb-10 pointer-events-none">
-            <!-- Utilizing the identical star logic for hero -->
-            <img src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-contain filter brightness-125 md:scale-125 drop-shadow-[0_0_50px_rgba(0,245,255,0.4)] z-10" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(circle, black 30%, transparent 60%); mask-image: radial-gradient(circle, black 30%, transparent 60%);">
+          <div class="relative w-full max-w-4xl h-[400px] md:h-[600px] flex items-center justify-center mb-0 pointer-events-none">
+            <!-- Increased height and adjusted mask to prevent clipping at the top -->
+            <img src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-contain filter brightness-125 md:scale-110 drop-shadow-[0_0_50px_rgba(0,245,255,0.4)] z-10" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);">
             
-            <!-- Radiating High-Quality Sample Images -->
-            <div class="absolute top-[5%] left-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+            <!-- Radiating High-Quality Sample Images (Pushed Outwards) -->
+            <div class="absolute top-[8%] left-[15%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
                <img src="https://images.unsplash.com/photo-1633424669815-568b209d7df9?w=300&q=80" class="w-16 h-24 md:w-24 md:h-32 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 1" />
             </div>
             
-            <div class="absolute bottom-[0%] left-[15%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+            <div class="absolute bottom-[20%] left-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" class="w-20 h-20 md:w-28 md:h-28 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 2" />
             </div>
 
-            <div class="absolute top-[0%] right-[15%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+            <div class="absolute top-[12%] right-[15%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
                <img src="https://images.unsplash.com/photo-1633394334057-7977a452bf91?w=300&q=80" class="w-20 h-16 md:w-28 md:h-24 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 3" />
             </div>
 
-            <div class="absolute bottom-[5%] right-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+            <div class="absolute bottom-[25%] right-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
                <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=300&q=80" class="w-16 h-20 md:w-24 md:h-28 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 4" />
             </div>
           </div>
           
-          <!-- Blinking Scroll Indicator -->
-          <div class="animate-bounce cursor-pointer z-20 flex flex-col items-center group" onclick="document.getElementById('page1-below').scrollIntoView({ behavior: 'smooth' })">
-             <p class="text-[10px] text-nova-cyan tracking-[0.4em] mb-2 opacity-70 group-hover:opacity-100 transition-opacity">SCROLL DOWN</p>
-             <svg class="w-6 h-6 text-nova-cyan opacity-70 group-hover:opacity-100 transition-opacity drop-shadow-[0_0_5px_rgba(0,245,255,0.4)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+          <!-- Red Box: Hero Text & Scroll Down Indicator (Moved lower) -->
+          <div class="z-20 flex flex-col items-center mt-[-60px] md:mt-[-80px]">
+            <!-- Logo & Title -->
+            <div class="flex flex-col md:flex-row items-center gap-4 mb-3">
+               <div class="w-16 h-16 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,245,255,0.3)] border border-white/20 bg-[#0A0A0B]">
+                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&q=80" class="w-full h-full object-cover">
+               </div>
+               <h2 class="text-4xl md:text-5xl font-mono font-bold text-white tracking-widest mt-2 md:mt-0">NOVA GENESIS</h2>
+            </div>
+            
+            <p class="text-sm md:text-base font-bold text-gray-400 mb-12 tracking-wider">상상하는 모든 것이 현실이 되는 공간.</p>
+            
+            <!-- Blinking Scroll Indicator -->
+            <div class="animate-bounce cursor-pointer flex flex-col items-center group" onclick="document.getElementById('page1-below').scrollIntoView({ behavior: 'smooth' })">
+               <p class="text-[10px] text-nova-cyan tracking-[0.4em] mb-2 opacity-70 group-hover:opacity-100 transition-opacity">SCROLL DOWN</p>
+               <svg class="w-6 h-6 text-nova-cyan opacity-70 group-hover:opacity-100 transition-opacity drop-shadow-[0_0_5px_rgba(0,245,255,0.4)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
           </div>
 
           <div class="w-[1px] h-16 bg-gradient-to-b from-nova-cyan to-transparent mt-8 mb-8 opacity-50 z-20"></div>
@@ -514,8 +528,8 @@
           </p>
 
           <!-- Video Promo Placeholder -->
-          <div class="w-full aspect-video liquid-glass rounded-3xl overflow-hidden relative group cursor-pointer border border-white/10 shadow-2xl">
-            <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=2564&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-700 group-hover:scale-105 transform" alt="Aunova Solution Video Promo" />
+          <div class="w-full aspect-video liquid-glass rounded-3xl overflow-hidden relative group cursor-pointer border border-white/10 shadow-2xl bg-black">
+            <img src="./assets/images/logo_glass_a.png" class="w-full h-full object-contain p-20 opacity-90 group-hover:scale-105 transition-transform duration-700" alt="Aunova Solution Video Promo" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
             
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10">

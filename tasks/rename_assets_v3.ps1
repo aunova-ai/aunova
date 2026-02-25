@@ -1,0 +1,13 @@
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1771978255938.png' -NewName '0_Landing_Page.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1771891472385.png' -NewName '1_Main_Page.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1772051475757.png' -NewName '2_Synthesis_Workspace.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1772053185348.png' -NewName '3_Processing_Wait_Page.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1772054402633.png' -NewName '4_Result_Viewer_Export.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1772056976662.png' -NewName '5_Delivery_Home.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1772058509747.png' -NewName 'a_Login_Page.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1772059920119.png' -NewName 'b_Signup_Page.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1772061362772.png' -NewName 'c_Deposit_Payment_Page.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1772061559828.png' -NewName 'd_Final_Payment_Page.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1771893692465.png' -NewName 'Admin_Factory_Page.png' -ErrorAction SilentlyContinue
+Rename-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__1771893940949.png' -NewName 'Admin_Lab_Page.png' -ErrorAction SilentlyContinue
+Move-Item -Path 'C:\antigravity\aunova옴니solution\page_flow_definition\media__*.png' -Destination 'C:\antigravity\aunova옴니solution\page_flow_definition\asset\' -ErrorAction SilentlyContinue
