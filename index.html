@@ -1428,32 +1428,30 @@
                   class="w-full"
                   oninput="updateVersion(this.value)"
                 />
-                <div
-                  class="flex justify-between text-[10px] text-gray-600 mt-1"
-                >
-                  <span>v1.0</span><span>v2.0</span><span>v3.0</span
-                  ><span>v4.0</span
-                  ><span id="ver-label" class="text-nova-cyan"
-                    >v5.0 (현재)</span
-                  >
+                <div id="version-labels" class="flex justify-between text-[10px] text-gray-600 mt-1">
+                  <!-- Labels injected by JS -->
                 </div>
               </div>
               <div
                 id="version-editor"
-                class="bg-black/40 rounded-xl p-4 font-mono text-sm text-gray-300 min-h-[200px] border border-white/5"
+                class="bg-black/40 rounded-xl p-4 font-mono text-xs text-gray-300 min-h-[200px] border border-nova-purple overflow-y-auto max-h-[45vh] whitespace-pre-wrap flex-1"
               >
-                <p class="text-nova-cyan mb-2">// v5.0 — Current Config</p>
-                <p>engine: "nova-v3"</p>
-                <p>mesh_quality: "ultra"</p>
-                <p>texture_mode: "neural"</p>
-                <p>priority: 1</p>
+                <!-- Content injected by JS -->
               </div>
-              <button
-                onclick="mergeAnimation()"
-                class="mt-4 w-full py-3 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/10 transition-all text-sm"
-              >
-                ⟳ 중복 적용 (Merge)
-              </button>
+              <div class="flex gap-2 mt-4 shrink-0">
+                <button
+                  onclick="loadVersion()"
+                  class="flex-1 py-3 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/10 transition-all text-sm"
+                >
+                  ⟳ 버전 복원 (Load)
+                </button>
+                <button
+                  onclick="cloneVersion()"
+                  class="flex-1 py-3 bg-nova-cyan text-black rounded-xl font-bold hover:bg-cyan-400 transition-all text-sm shadow-[0_0_15px_rgba(0,245,255,0.3)]"
+                >
+                  + 새 버전 (Clone)
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2273,6 +2271,148 @@
         { id: 'ai-4', name: 'Stable Diffusion XL', provider: 'Stability AI', apiKey: 'sk-sd-5678', active: true, usage: 60, margin: '30%', usageAmt: '600', remaining: '1,400', badgeColor: 'border-orange-400', color: 'text-orange-400' }
       ];
 
+      // === VERSION HISTORY STATE ===
+      let versionHistory = [
+        {
+          versionName: 'v1.0',
+          engine: 'nova-v1',
+          mesh_quality: 'standard',
+          texture_mode: 'basic',
+          priority: 5,
+          fixedPrompt: 'Cinematic lighting, 8k resolution',
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, usage: Math.floor(Math.random() * 100)}))
+        },
+        {
+          versionName: 'v2.0',
+          engine: 'nova-v2',
+          mesh_quality: 'high',
+          texture_mode: 'advanced',
+          priority: 4,
+          fixedPrompt: 'Photorealistic, unreal engine 5 render',
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, usage: Math.floor(Math.random() * 100)}))
+        },
+        {
+          versionName: 'v3.0',
+          engine: 'nova-v2-turbo',
+          mesh_quality: 'ultra',
+          texture_mode: 'neural',
+          priority: 2,
+          fixedPrompt: 'Masterpiece, best quality, highly detailed',
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, usage: Math.floor(Math.random() * 100)}))
+        },
+        {
+          versionName: 'v4.0',
+          engine: 'nova-v3-beta',
+          mesh_quality: 'ultra',
+          texture_mode: 'neural-plus',
+          priority: 1,
+          fixedPrompt: 'Octane render, volumetric fog, raw photo',
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, usage: Math.floor(Math.random() * 100)}))
+        },
+        {
+          versionName: 'v5.0 (현재)',
+          engine: 'nova-v3',
+          mesh_quality: 'ultra',
+          texture_mode: 'neural',
+          priority: 1,
+          fixedPrompt: 'Default, production ready',
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList))
+        }
+      ];
+
+      function renderVersionSlider() {
+        const slider = document.getElementById('version-slider');
+        const labelsContainer = document.getElementById('version-labels');
+        
+        slider.max = versionHistory.length;
+        // Keep the slider's value if it's within bounds, otherwise snap to end
+        if (slider.value > versionHistory.length) slider.value = versionHistory.length;
+        
+        let labelsHtml = '';
+        versionHistory.forEach((v, idx) => {
+          const isCurrent = (idx === versionHistory.length - 1);
+          const colorClass = isCurrent ? 'text-nova-cyan font-bold' : '';
+          labelsHtml += `<span class="${colorClass}">${v.versionName}</span>`;
+        });
+        labelsContainer.innerHTML = labelsHtml;
+        
+        renderVersionEditor(slider.value);
+      }
+
+      function updateVersion(val) {
+        renderVersionEditor(val);
+      }
+
+      function renderVersionEditor(sliderVal) {
+        const index = parseInt(sliderVal) - 1;
+        if(index < 0 || index >= versionHistory.length) return;
+        const v = versionHistory[index];
+        const editor = document.getElementById('version-editor');
+        
+        let apiText = '';
+        v.aiListSnapshot.forEach(api => {
+          apiText += `${api.name}: ${api.usage}%\n`;
+        });
+        
+        editor.innerHTML = `
+<span class="text-nova-cyan mb-2 block">// ${v.versionName} — Snapshot Data</span>
+engine: "${v.engine}"
+mesh_quality: "${v.mesh_quality}"
+texture_mode: "${v.texture_mode}"
+priority: ${v.priority}
+fixed_prompt: "${v.fixedPrompt}"
+<br/>
+<span class="text-nova-purple mb-1 mt-2 block">-- API Usage Map --</span>
+${apiText}
+        `.trim();
+      }
+
+      function loadVersion() {
+        const slider = document.getElementById('version-slider');
+        const index = parseInt(slider.value) - 1;
+        if(index < 0 || index >= versionHistory.length) return;
+        
+        // Deep clone the snapshot back into the live aiList
+        aiList = JSON.parse(JSON.stringify(versionHistory[index].aiListSnapshot));
+        renderDecks();
+        
+        const editor = document.getElementById('version-editor');
+        editor.classList.add('border-green-400', 'bg-green-400/10');
+        setTimeout(() => editor.classList.remove('border-green-400', 'bg-green-400/10'), 300);
+      }
+
+      function cloneVersion() {
+        const newVersionNum = versionHistory.length + 1;
+        
+        // Remove (현재) tag from the previous latest version
+        const prev = versionHistory[versionHistory.length - 1];
+        if (prev.versionName.includes('(현재)')) {
+          prev.versionName = prev.versionName.replace(' (현재)', '');
+        }
+
+        const newVersion = {
+          versionName: 'v' + newVersionNum + '.0 (현재)',
+          engine: 'nova-v' + Math.max(1, Math.floor(newVersionNum/2)),
+          mesh_quality: 'custom',
+          texture_mode: 'experimental',
+          priority: 1,
+          fixedPrompt: 'New cloned parameters',
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList))
+        };
+        
+        versionHistory.push(newVersion);
+        
+        const slider = document.getElementById('version-slider');
+        slider.max = versionHistory.length;
+        slider.value = versionHistory.length; // snap to the new version automatically
+        
+        renderVersionSlider();
+        
+        const editor = document.getElementById('version-editor');
+        editor.classList.add('bg-nova-cyan/20');
+        setTimeout(() => editor.classList.remove('bg-nova-cyan/20'), 300);
+      }
+
       function renderDecks() {
         renderModelDeck();
         renderApiDeck();
@@ -2493,6 +2633,7 @@
         renderOrders();
         selectOrder(2); // Initially select #003 박서준
         renderDecks(); // Render both AI decks on load
+        renderVersionSlider(); // Initialize Time Machine slider and Editor readout
 
         const slider = document.getElementById('cinema-thumbnails');
         if (!slider) return;
