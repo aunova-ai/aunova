@@ -264,69 +264,6 @@
           </p>
 
           <!-- My Page (Login Only) -->
-          <button
-            id="btn-mypage"
-            onclick="alert('마이페이지는 준비 중입니다.')"
-            class="hidden w-full text-left mb-4 group cursor-pointer"
-          >
-            <p
-              class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors"
-            >
-              My Page
-            </p>
-            <p class="text-[9px] text-white/25">Projects & More</p>
-          </button>
-
-          <!-- Aunova Gallery -->
-          <button
-            onclick="alert('갤러리는 준비 중입니다.')"
-            class="w-full text-left mb-4 group cursor-pointer"
-          >
-            <p
-              class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors"
-            >
-              Aunova Gallery
-            </p>
-            <p class="text-[9px] text-white/25">Community Showcase</p>
-          </button>
-
-          <!-- Reviews -->
-          <button
-            onclick="alert('후기 페이지는 준비 중입니다.')"
-            class="w-full text-left mb-4 group cursor-pointer"
-          >
-            <p
-              class="text-sm font-semibold text-white group-hover:text-nova-cyan transition-colors"
-            >
-              Reviews
-            </p>
-            <p class="text-[9px] text-white/25">User Feedback</p>
-          </button>
-        </div>
-
-        <!-- Bottom: Pricing (Page 2 Only) -->
-        <div id="sidebar-pricing" class="p-4 border-t border-white/5 hidden">
-          <p class="text-[9px] text-white/30 tracking-[0.2em] font-bold mb-2">
-            TOTAL ESTIMATE
-          </p>
-          <p id="total-price" class="text-xl font-black text-white tracking-tight">
-            25,000<span class="text-sm font-normal text-white/50">원</span>
-          </p>
-          <div class="flex justify-between items-center mt-2">
-            <span class="text-[10px] text-white/40">Deposit</span>
-            <span class="text-sm font-bold text-nova-cyan"
-              >15,000<span class="text-[10px] font-normal text-white/40"
-                >원</span
-              ></span
-            >
-          </div>
-          <p class="text-[8px] text-white/20 mt-1">
-            * 견적은 설정에 의해 변동됩니다
-          </p>
-
-          <!-- Social -->
-          <div class="flex gap-3 mt-4 justify-end">
-            <a
               href="#"
               class="text-white/20 hover:text-white/50 transition-colors"
             >
@@ -636,8 +573,9 @@
               }
             </style>
 
+            <!-- Pricing (Moved from Right sidebar to Bottom Left of Center Display later, but for now we remove it from the Left Sidebar. Wait, pricing was on the Right.) -->
             <!-- Project Title -->
-            <div>
+            <div class="mt-8">
               <p
                 class="text-nova-cyan text-[10px] font-bold tracking-widest mb-2"
               >
@@ -738,7 +676,7 @@
 
           <!-- RIGHT: Center Display (Aunova Logo) -->
           <div
-            class="flex flex-col items-center justify-center relative overflow-hidden border border-nova-cyan/30 shadow-[0_0_30px_rgba(0,245,255,0.1)]"
+            class="col-span-12 lg:col-span-9 flex flex-col items-center justify-center relative overflow-hidden border border-nova-cyan/30 shadow-[0_0_30px_rgba(0,245,255,0.1)] rounded-xl"
           >
             <!-- Top Navigation Tabs (Process Flow) -->
             <div class="fixed top-5 left-1/2 -translate-x-1/2 flex justify-center gap-4 z-50 pointer-events-none">
@@ -834,10 +772,26 @@
               alt="Sample"
             />
 
-            <!-- Footer Text -->
-            <p class="absolute bottom-4 text-[9px] text-white/15 tracking-widest uppercase">
-              powered by aunova-3d | v1.0.4 (Updated: 2026-02-22 23:00)
-            </p>
+            <!-- Footer Text & PRICING Block (Merged into Center Display bottom area) -->
+            <div id="sidebar-pricing" class="absolute bottom-4 w-full px-8 flex justify-between items-end z-20 hidden">
+              <!-- Left side: info text -->
+              <p class="text-[9px] text-white/15 tracking-widest uppercase mb-1">
+                powered by aunova-3d | v1.0.4 (Updated: 2026-02-22 23:00)
+              </p>
+              
+              <!-- Right side: TOTAL ESTIMATE -->
+              <div class="text-right pointer-events-auto bg-[#0A0A0B]/80 backdrop-blur-md border border-white/10 p-3 rounded-lg shadow-2xl">
+                <p class="text-[10px] text-nova-cyan font-bold tracking-widest mb-1 uppercase">Total Estimate</p>
+                <div class="flex items-baseline justify-end gap-1 mb-1">
+                  <p id="total-price" class="text-2xl font-black text-white">25,000<span class="text-xs font-normal text-white/50 ml-1">원</span></p>
+                </div>
+                <div class="flex justify-end items-center gap-2">
+                  <span class="text-[9px] text-gray-400">Deposit</span>
+                  <span class="text-xs font-bold text-nova-cyan">15,000원</span>
+                </div>
+                <p class="text-[7px] text-gray-500 mt-1">* 잔액은 성과에 의해 변동됩니다.</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -954,7 +908,7 @@
           AUNOVA
         </div>
         <div
-          class="w-full h-full grid grid-cols-1 md:grid-cols-[280px_1fr_280px] gap-6"
+          class="w-full h-full grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6"
         >
           <!-- LEFT: Style -->
           <div
@@ -2028,6 +1982,35 @@
       }
 
       // === PROCESSING ===
+      function handleGenerate() {
+        // Hide sample image and show loading logo state
+        document.getElementById("center-sample-img").style.opacity = "0";
+        document.getElementById("btn-generate").innerHTML = "GENERATING...";
+        document.getElementById("btn-generate").disabled = true;
+
+        // Animate Logo
+        document.getElementById("center-logo").classList.add("animate-[spin_2s_linear_infinite]");
+        
+        // Wait 3 seconds to emulate processing, then resolve center display
+        setTimeout(() => {
+          document.getElementById("center-logo").classList.remove("animate-[spin_2s_linear_infinite]");
+          document.getElementById("btn-generate").innerHTML = "GENERATE OBJECT";
+          document.getElementById("btn-generate").disabled = false;
+
+          const centerImg = document.getElementById("center-sample-img");
+          if (userRefImage) {
+             // User uploaded an image, show their image
+             centerImg.src = userRefImage;
+             centerImg.style.opacity = '1';
+          } else {
+             // No user image, ensure the logo is fully visible and the sample image is hidden
+             centerImg.style.opacity = '0';
+          }
+          
+          showToast('Generation complete.');
+        }, 3000);
+      }
+
       function startProcessing() {
         navigateTo("page-4");
         const title =
