@@ -1278,10 +1278,15 @@
               >
                 주문 리스트
               </h3>
+              <div class="mb-4 flex gap-2 no-print">
+                <input type="date" id="order-filter-date" class="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
+                <input type="text" id="order-filter-text" placeholder="고객명, 제목 검색..." class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" oninput="renderOrders()">
+              </div>
               <table class="w-full text-xs" id="order-table">
                 <thead>
                   <tr class="text-left text-gray-400 border-b border-white/10">
                     <th class="pb-2 pr-4">No.</th>
+                    <th class="pb-2 pr-4">접수일</th>
                     <th class="pb-2 pr-4">고객명</th>
                     <th class="pb-2 pr-4">제목</th>
                     <th class="pb-2 pr-4">Lv</th>
@@ -1289,40 +1294,8 @@
                     <th class="pb-2">금액</th>
                   </tr>
                 </thead>
-                <tbody class="text-gray-300">
-                  <tr
-                    class="border-b border-white/5 hover:bg-white/5 cursor-pointer"
-                    onclick="selectOrder(0)"
-                  >
-                    <td class="py-3 text-nova-cyan font-mono">#001</td>
-                    <td>김민수</td>
-                    <td>드래곤 피규어</td>
-                    <td>Lv.3</td>
-                    <td><span class="text-green-400">완료</span></td>
-                    <td>₩200,000</td>
-                  </tr>
-                  <tr
-                    class="border-b border-white/5 hover:bg-white/5 cursor-pointer"
-                    onclick="selectOrder(1)"
-                  >
-                    <td class="py-3 text-nova-cyan font-mono">#002</td>
-                    <td>이지현</td>
-                    <td>캐릭터 흉상</td>
-                    <td>Lv.2</td>
-                    <td><span class="text-yellow-400">진행중</span></td>
-                    <td>₩150,000</td>
-                  </tr>
-                  <tr
-                    class="border-b border-white/5 hover:bg-white/5 cursor-pointer"
-                    onclick="selectOrder(2)"
-                  >
-                    <td class="py-3 text-nova-cyan font-mono">#003</td>
-                    <td>박서준</td>
-                    <td>건축 모형</td>
-                    <td>Lv.5</td>
-                    <td><span class="text-gray-500">대기</span></td>
-                    <td>₩350,000</td>
-                  </tr>
+                <tbody class="text-gray-300" id="order-tbody">
+                  <!-- Orders injected here -->
                 </tbody>
               </table>
             </div>
@@ -1334,35 +1307,45 @@
                 CINEMA VIEWER
               </h3>
               <div
-                class="flex-1 bg-black/40 rounded-xl flex items-center justify-center min-h-[300px] relative"
+                id="cinema-main-viewer"
+                class="flex-1 bg-black/40 rounded-xl flex items-center justify-center min-h-[300px] relative overflow-hidden"
               >
                 <p class="text-gray-600 text-sm">모델 선택 시 표시</p>
               </div>
-              <div class="mt-4 grid grid-cols-4 gap-2">
-                <div class="aspect-square bg-gray-800 rounded-lg"></div>
-                <div class="aspect-square bg-gray-800 rounded-lg"></div>
-                <div class="aspect-square bg-gray-800 rounded-lg"></div>
-                <div class="aspect-square bg-gray-800 rounded-lg"></div>
+              <div id="cinema-thumbnails" class="mt-4 flex gap-2 overflow-x-auto hide-scrollbar cursor-grab pb-2 select-none" style="scroll-behavior: smooth;">
+                <!-- Thumbnails injected here -->
               </div>
               <div
-                class="mt-4 grid grid-cols-3 gap-3 text-xs text-gray-500 bg-black/20 rounded-lg p-3"
+                class="mt-4 grid grid-cols-5 gap-3 text-xs text-gray-500 bg-black/20 rounded-lg p-3"
               >
                 <div>
+                  <span class="text-gray-600">접수일</span><br /><span
+                    class="text-white" id="cv-date"
+                    >-</span
+                  >
+                </div>
+                <div>
                   <span class="text-gray-600">폴리곤</span><br /><span
-                    class="text-white"
-                    >124,800</span
+                    class="text-white" id="cv-poly"
+                    >-</span
                   >
                 </div>
                 <div>
                   <span class="text-gray-600">엔진</span><br /><span
-                    class="text-white"
-                    >Nova v3</span
+                    class="text-white" id="cv-engine"
+                    >-</span
+                  >
+                </div>
+                <div>
+                  <span class="text-gray-600">사용 AI</span><br /><span
+                    class="text-white" id="cv-ai"
+                    >-</span
                   >
                 </div>
                 <div>
                   <span class="text-gray-600">마진율</span><br /><span
-                    class="text-green-400"
-                    >34.2%</span
+                    class="text-green-400" id="cv-margin"
+                    >-</span
                   >
                 </div>
               </div>
@@ -2157,6 +2140,128 @@
         cur.style.top = e.clientY + "px";
         aura.style.left = e.clientX + "px";
         aura.style.top = e.clientY + "px";
+      });
+
+      // === ADMIN FACTORY LOGIC ===
+      const adminOrders = [
+        { id: '#001', name: '김민수', title: '드래곤 피규어', level: 'Lv.3', status: '완료', price: '₩200,000', date: '2026-02-24', polygon: '124,800', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '34.2%', img: 'asset/lv3.png', statusColor: 'text-green-400' },
+        { id: '#002', name: '이지현', title: '캐릭터 흉상', level: 'Lv.2', status: '진행중', price: '₩150,000', date: '2026-02-25', polygon: '89,500', engine: 'Nova v2', ai: 'Texture AI v1', margin: '41.5%', img: 'asset/lv2.png', statusColor: 'text-yellow-400' },
+        { id: '#003', name: '박서준', title: '건축 모형', level: 'Lv.5', status: '대기', price: '₩350,000', date: '2026-02-26', polygon: '512,000', engine: 'Nova v4', ai: 'Nova Engine v3', margin: '28.9%', img: 'asset/lv5.png', statusColor: 'text-gray-500' },
+        { id: '#004', name: '최윤아', title: '반지 디자인', level: 'Lv.1', status: '완료', price: '₩25,000', date: '2026-02-21', polygon: '15,200', engine: 'Nova v1', ai: '-', margin: '55.0%', img: 'asset/lv1.png', statusColor: 'text-green-400' },
+        { id: '#005', name: '정태호', title: '메카닉 건담', level: 'Lv.4', status: '완료', price: '₩100,000', date: '2026-02-23', polygon: '350,100', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '31.4%', img: 'asset/lv4.png', statusColor: 'text-green-400' },
+        { id: '#006', name: '강수연', title: '고양이 조각상', level: 'Lv.2', status: '진행중', price: '₩35,000', date: '2026-02-25', polygon: '42,000', engine: 'Nova v2', ai: 'Texture AI v1', margin: '48.2%', img: 'asset/lv2.png', statusColor: 'text-yellow-400' },
+        { id: '#007', name: '이동현', title: '게임 프랍 무기', level: 'Lv.3', status: '완료', price: '₩200,000', date: '2026-02-24', polygon: '210,500', engine: 'Nova v3', ai: 'Texture AI v1', margin: '33.1%', img: 'asset/lv3.png', statusColor: 'text-green-400' },
+        { id: '#008', name: '윤지아', title: '인테리어 소품', level: 'Lv.4', status: '대기', price: '₩100,000', date: '2026-02-26', polygon: '65,000', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '42.0%', img: 'asset/lv4.png', statusColor: 'text-gray-500' }
+      ];
+
+      let currentSelectedOrder = -1;
+
+      function renderOrders() {
+        const tbody = document.getElementById('order-tbody');
+        if (!tbody) return;
+        const dateFilter = document.getElementById('order-filter-date').value;
+        const textFilter = document.getElementById('order-filter-text').value.toLowerCase();
+        
+        tbody.innerHTML = '';
+        adminOrders.forEach((order, index) => {
+          if (dateFilter && order.date !== dateFilter) return;
+          if (textFilter && !order.name.toLowerCase().includes(textFilter) && !order.title.toLowerCase().includes(textFilter) && !order.id.toLowerCase().includes(textFilter)) return;
+          
+          tbody.innerHTML += `
+            <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer selection-row transition-colors" onclick="selectOrder(${index})">
+              <td class="py-3 text-nova-cyan font-mono">${order.id}</td>
+              <td class="pr-2">${order.date.substring(5)}</td>
+              <td class="pr-2">${order.name}</td>
+              <td class="pr-2">${order.title}</td>
+              <td class="pr-2">${order.level}</td>
+              <td class="pr-2"><span class="${order.statusColor}">${order.status}</span></td>
+              <td>${order.price}</td>
+            </tr>
+          `;
+        });
+      }
+
+      function selectOrder(index) {
+        if (index < 0 || index >= adminOrders.length) return;
+        currentSelectedOrder = index;
+        const order = adminOrders[index];
+        
+        // Highlight Table Row
+        const rows = document.querySelectorAll('.selection-row');
+        rows.forEach((row, i) => {
+           row.classList.toggle('bg-white/10', i === index);
+        });
+        
+        // Update Main Viewer
+        const viewer = document.getElementById('cinema-main-viewer');
+        if (viewer) {
+          viewer.innerHTML = `<img src="${order.img}" class="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(0,245,255,0.3)] animate-pulse-slow">
+                              <div class="absolute bottom-4 left-4 bg-black/60 px-3 py-1 rounded-lg border border-white/10 text-xs">
+                                <span class="text-nova-cyan font-bold">${order.name}</span> - ${order.title}
+                              </div>`;
+        }
+        
+        // Update Stats
+        if (document.getElementById('cv-date')) document.getElementById('cv-date').textContent = order.date;
+        if (document.getElementById('cv-poly')) document.getElementById('cv-poly').textContent = order.polygon;
+        if (document.getElementById('cv-engine')) document.getElementById('cv-engine').textContent = order.engine;
+        if (document.getElementById('cv-ai')) document.getElementById('cv-ai').textContent = order.ai;
+        if (document.getElementById('cv-margin')) document.getElementById('cv-margin').textContent = order.margin;
+
+        // Render Thumbnails
+        renderThumbnails();
+      }
+
+      function renderThumbnails() {
+        const container = document.getElementById('cinema-thumbnails');
+        if (!container) return;
+        container.innerHTML = '';
+        adminOrders.forEach((order, index) => {
+          if (index === currentSelectedOrder) return;
+          
+          container.innerHTML += `
+            <div class="flex-shrink-0 w-24 h-28 bg-[#111] rounded-lg relative overflow-hidden group border border-white/10 transition-all hover:border-nova-cyan/50 cursor-pointer" ondblclick="selectOrder(${index})">
+              <img src="${order.img}" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity pointer-events-none p-1">
+              <div class="absolute bottom-0 left-0 w-full bg-black/80 px-1 py-[2px] text-center text-[10px] text-white font-bold pointer-events-none truncate">
+                ${order.name}
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      // Thumbnail Horizontal Scroll (Drag) implementation
+      document.addEventListener("DOMContentLoaded", () => {
+        renderOrders();
+        selectOrder(2); // Initially select #003 박서준
+
+        const slider = document.getElementById('cinema-thumbnails');
+        if (!slider) return;
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+          isDown = true;
+          slider.classList.add('cursor-grabbing');
+          startX = e.pageX - slider.offsetLeft;
+          scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => {
+          isDown = false;
+          slider.classList.remove('cursor-grabbing');
+        });
+        slider.addEventListener('mouseup', () => {
+          isDown = false;
+          slider.classList.remove('cursor-grabbing');
+        });
+        slider.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const x = e.pageX - slider.offsetLeft;
+          const walk = (x - startX) * 2; // Scroll-fast
+          slider.scrollLeft = scrollLeft - walk;
+        });
       });
     </script>
   </body>
