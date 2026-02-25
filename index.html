@@ -1345,8 +1345,8 @@
       >
         <div class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen w-full">
           <!-- LEFT: AI Model Cards -->
-          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 border-r border-white/5 overflow-hidden h-screen">
-            <div class="flex flex-col gap-2 mb-4 no-print shrink-0">
+          <div class="bg-[#0D1117] p-4 flex flex-col gap-3 border-r border-white/5 overflow-hidden h-screen">
+            <div class="flex flex-col gap-2 no-print shrink-0">
               <!-- AUNOVA Title -->
               <div class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">
                 AUNOVA
@@ -1374,36 +1374,36 @@
             </div>
 
             <!-- AI MODEL DECK (Collapsible) -->
-            <div id="model-deck-parent" class="liquid-glass rounded-2xl p-5 flex flex-col min-h-0 flex-1 transition-all duration-300">
-              <div class="flex justify-between items-center mb-4 cursor-pointer select-none" onclick="toggleAccordion('model-deck-wrapper', 'model-chevron', 'model-deck-parent')">
-                <h3 class="text-nova-cyan font-bold text-sm tracking-wider">
+            <div id="model-deck-parent" class="liquid-glass rounded-2xl px-5 py-4 flex flex-col overflow-hidden min-h-[64px] flex-1 transition-all duration-300">
+              <div class="flex justify-between items-center shrink-0 cursor-pointer select-none" onclick="toggleAccordion('model-deck-wrapper', 'model-chevron', 'model-deck-parent')">
+                <h3 class="text-nova-cyan font-bold text-sm tracking-wider pb-2">
                   AI MODEL DECK
                 </h3>
                 <span id="model-chevron" class="text-gray-400 transform rotate-180 transition-transform duration-300 ease-in-out">▼</span>
               </div>
-              <div id="model-deck-wrapper" class="flex-1 overflow-y-auto hide-scrollbar" style="display: block;">
-                <div id="model-deck" class="space-y-3 pb-2">
+              <div id="model-deck-wrapper" class="flex-1 overflow-y-auto hide-scrollbar flex flex-col pt-2" style="display: flex;">
+                <div id="model-deck" class="space-y-3 pb-2 flex-1">
                   <!-- Models injected here -->
                 </div>
               </div>
             </div>
 
             <!-- AI API DECK (Collapsible) -->
-            <div id="api-deck-parent" class="liquid-glass rounded-2xl p-5 mt-2 flex flex-col min-h-0 flex-1 transition-all duration-300">
-              <div class="flex justify-between items-center mb-4 cursor-pointer select-none" onclick="toggleAccordion('api-deck-wrapper', 'api-chevron', 'api-deck-parent')">
-                <div class="flex items-center gap-2">
+            <div id="api-deck-parent" class="liquid-glass rounded-2xl px-5 py-4 flex flex-col overflow-hidden min-h-[64px] max-h-[45vh] shrink-0 transition-all duration-300">
+              <div class="flex justify-between items-center shrink-0 cursor-pointer select-none" onclick="toggleAccordion('api-deck-wrapper', 'api-chevron', 'api-deck-parent')">
+                <div class="flex items-center gap-2 pb-2">
                   <h3 class="text-nova-cyan font-bold text-sm tracking-wider">AI API DECK</h3>
                 </div>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 pb-2">
                   <button onclick="openApiModal(); event.stopPropagation();" class="px-2 py-1 bg-nova-cyan/20 text-nova-cyan rounded text-[10px] hover:bg-nova-cyan/40 transition-colors cursor-pointer">+ 새로 만들기</button>
                   <span id="api-chevron" class="text-gray-400 transform rotate-180 transition-transform duration-300 ease-in-out">▼</span>
                 </div>
               </div>
-              <div id="api-deck-wrapper" class="flex-1 overflow-y-auto hide-scrollbar" style="display: block;">
-                <div class="mb-2 flex justify-between px-1">
+              <div id="api-deck-wrapper" class="flex-1 overflow-y-auto hide-scrollbar flex flex-col border-t border-white/5 pt-2" style="display: flex;">
+                <div class="mb-2 flex justify-between px-1 shrink-0">
                   <span class="text-[10px] text-gray-500 font-normal">드래그 우선순위 배열</span>
                 </div>
-                <div id="api-deck" class="space-y-2 pb-2">
+                <div id="api-deck" class="space-y-2 pb-2 flex-1">
                   <!-- APIs injected here -->
                 </div>
               </div>
@@ -2259,34 +2259,44 @@
         if (isExpanded) {
           wrapper.style.display = 'none';
           chevron.style.transform = 'rotate(0deg)';
-          parent.classList.remove('flex-1');
+          if(parentId === 'model-deck-parent') parent.classList.remove('flex-1');
         } else {
-          wrapper.style.display = 'block';
+          wrapper.style.display = 'flex';
           chevron.style.transform = 'rotate(180deg)';
-          parent.classList.add('flex-1');
+          if(parentId === 'model-deck-parent') parent.classList.add('flex-1');
         }
       }
 
-      // === MODEL DECK ===
-      let modelList = [
-        { id: 'm-1', name: 'Nova Engine v3', usageAmt: '1,200', remaining: '800', percent: 72, margin: '42%', color: 'border-nova-cyan' },
-        { id: 'm-2', name: 'Mesh Refiner v2', usageAmt: '800', remaining: '1,200', percent: 45, margin: '35%', color: 'border-purple-400' },
-        { id: 'm-3', name: 'Texture AI v1', usageAmt: '300', remaining: '1,700', percent: 28, margin: '55%', color: 'border-amber-400' }
+      // === UNIFIED AI DATA LIST ===
+      let aiList = [
+        { id: 'ai-1', name: 'OpenAI GPT-4 Vision', provider: 'OpenAI', apiKey: 'sk-1A2B', active: true, usage: 85, margin: '42%', usageAmt: '1,200', remaining: '800', badgeColor: 'border-green-400', color: 'text-green-400' },
+        { id: 'ai-2', name: 'Claude 3 Opus', provider: 'Anthropic', apiKey: 'sk-ant-1234', active: true, usage: 40, margin: '35%', usageAmt: '800', remaining: '1,200', badgeColor: 'border-purple-400', color: 'text-purple-400' },
+        { id: 'ai-3', name: 'Midjourney v6', provider: 'Midjourney', apiKey: '', active: false, usage: 15, margin: '55%', usageAmt: '300', remaining: '1,700', badgeColor: 'border-blue-400', color: 'text-blue-400' },
+        { id: 'ai-4', name: 'Stable Diffusion XL', provider: 'Stability AI', apiKey: 'sk-sd-5678', active: true, usage: 60, margin: '30%', usageAmt: '600', remaining: '1,400', badgeColor: 'border-orange-400', color: 'text-orange-400' }
       ];
+
+      function renderDecks() {
+        renderModelDeck();
+        renderApiDeck();
+      }
 
       function renderModelDeck() {
         const deck = document.getElementById('model-deck');
         if(!deck) return;
         deck.innerHTML = '';
-        modelList.forEach((m, index) => {
+        aiList.forEach((m, index) => {
+          const opacityClass = m.active ? 'opacity-100' : 'opacity-40 grayscale';
+          const spinClass = m.active ? 'animate-[spin_3s_linear_infinite]' : '';
           deck.innerHTML += `
             <div
-              draggable="true"
-              class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center group relative overflow-hidden"
+              class="bg-white/5 border border-white/10 rounded-xl p-4 transition-all flex justify-between items-center group relative overflow-hidden ${opacityClass}"
             >
               <div class="flex-1 pr-4 relative z-10">
                 <div class="flex justify-between items-end mb-2">
-                  <p class="font-bold text-sm text-white">${m.name}</p>
+                  <div class="flex items-center gap-2">
+                    <span class="text-[10px] font-mono text-gray-500">P${index + 1}</span>
+                    <p class="font-bold text-sm text-white">${m.name}</p>
+                  </div>
                   <p class="text-[10px] text-green-400 border border-green-500/30 px-1 rounded bg-green-500/10 tracking-wider">마진율 ${m.margin}</p>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-[10px] text-gray-500 mb-2 font-mono">
@@ -2298,31 +2308,23 @@
                   </div>
                 </div>
                 <div class="w-full bg-black/50 h-1.5 rounded-full overflow-hidden mt-2">
-                  <div class="h-full bg-white/50" style="width: ${m.percent}%"></div>
+                  <div class="h-full bg-white/50" style="width: ${m.usage}%"></div>
                 </div>
               </div>
               <div class="shrink-0 flex items-center justify-center relative w-12 h-12 z-10">
-                <div class="absolute inset-0 rounded-full border-4 ${m.color} border-l-transparent animate-[spin_3s_linear_infinite]" style="border-radius: 50%"></div>
-                <span class="text-[10px] font-bold text-white relative z-10">${m.percent}%</span>
+                <div class="absolute inset-0 rounded-full border-4 ${m.badgeColor} border-l-transparent ${spinClass}" style="border-radius: 50%"></div>
+                <span class="text-[10px] font-bold text-white relative z-10">${m.usage}%</span>
               </div>
             </div>
           `;
         });
       }
 
-      // === API DECK ===
-      let apiList = [
-        { id: 'api-1', name: 'OpenAI GPT-4 Vision', provider: 'OpenAI', apiKey: 'sk-1A2B', active: true, usage: 85, color: 'text-green-400' },
-        { id: 'api-2', name: 'Claude 3 Opus', provider: 'Anthropic', apiKey: 'sk-ant-1234', active: true, usage: 40, color: 'text-purple-400' },
-        { id: 'api-3', name: 'Midjourney v6', provider: 'Midjourney', apiKey: '', active: false, usage: 15, color: 'text-blue-400' },
-        { id: 'api-4', name: 'Stable Diffusion XL', provider: 'Stability AI', apiKey: 'sk-sd-5678', active: true, usage: 60, color: 'text-orange-400' }
-      ];
-
       function renderApiDeck() {
         const deck = document.getElementById('api-deck');
         if (!deck) return;
         deck.innerHTML = '';
-        apiList.forEach((api, index) => {
+        aiList.forEach((api, index) => {
           const activeClass = api.active ? 'border-nova-cyan/50 bg-nova-cyan/5' : 'border-white/10 bg-white/5 opacity-60';
           const toggleBg = api.active ? 'bg-nova-cyan' : 'bg-gray-600';
           const toggleDot = api.active ? 'translate-x-4' : 'translate-x-0';
@@ -2374,14 +2376,14 @@
 
       function toggleApi(index, e) {
         if(e) e.stopPropagation();
-        apiList[index].active = !apiList[index].active;
-        renderApiDeck();
+        aiList[index].active = !aiList[index].active;
+        renderDecks();
       }
 
       function updateApiUsage(index, val, e) {
         if(e) e.stopPropagation();
-        apiList[index].usage = parseInt(val);
-        renderApiDeck();
+        aiList[index].usage = parseInt(val);
+        renderDecks();
       }
 
       function openApiModal(index = -1) {
@@ -2392,13 +2394,15 @@
         
         if (index >= 0) {
           document.getElementById('api-modal-title').textContent = 'API 정보 수정';
-          document.getElementById('api-modal-name').value = apiList[index].name;
-          document.getElementById('api-modal-provider').value = apiList[index].provider;
-          document.getElementById('api-modal-usage').value = apiList[index].usage;
+          document.getElementById('api-modal-name').value = aiList[index].name;
+          document.getElementById('api-modal-provider').value = aiList[index].provider;
+          document.getElementById('api-modal-apikey').value = aiList[index].apiKey || '';
+          document.getElementById('api-modal-usage').value = aiList[index].usage;
         } else {
           document.getElementById('api-modal-title').textContent = '새 API 추가';
           document.getElementById('api-modal-name').value = '';
           document.getElementById('api-modal-provider').value = '';
+          document.getElementById('api-modal-apikey').value = '';
           document.getElementById('api-modal-usage').value = '50';
         }
       }
@@ -2413,37 +2417,43 @@
         const index = parseInt(document.getElementById('api-modal-index').value);
         const name = document.getElementById('api-modal-name').value || 'New API';
         const provider = document.getElementById('api-modal-provider').value || 'Unknown';
+        const apiKey = document.getElementById('api-modal-apikey').value || '';
         const usage = parseInt(document.getElementById('api-modal-usage').value) || 50;
         
         if (index >= 0) {
-          apiList[index].name = name;
-          apiList[index].provider = provider;
-          apiList[index].usage = usage;
+          aiList[index].name = name;
+          aiList[index].provider = provider;
+          aiList[index].apiKey = apiKey;
+          aiList[index].usage = usage;
         } else {
-          apiList.push({
+          aiList.push({
             id: 'api-' + Date.now(),
             name: name,
             provider: provider,
+            apiKey: apiKey,
             active: true,
             usage: usage,
+            margin: '40%',
+            usageAmt: '600',
+            remaining: '1,400',
+            badgeColor: 'border-nova-cyan',
             color: 'text-nova-cyan'
           });
         }
         closeApiModal();
-        renderApiDeck();
+        renderDecks();
       }
 
       function duplicateApi(index, e) {
         e.stopPropagation(); // prevent drag or double click
-        const origin = apiList[index];
+        const origin = aiList[index];
         const newApi = {
           ...origin,
           id: 'api-' + Date.now(),
           name: origin.name + ' (복사본)'
         };
-        // Insert right below the duplicated item
-        apiList.splice(index + 1, 0, newApi);
-        renderApiDeck();
+        aiList.splice(index + 1, 0, newApi);
+        renderDecks();
       }
 
       let draggedApiIndex = null;
@@ -2466,10 +2476,9 @@
         e.preventDefault();
         const targetIndex = parseInt(e.currentTarget.getAttribute('data-index'));
         if (draggedApiIndex !== null && draggedApiIndex !== targetIndex) {
-          // Reorder array
-          const item = apiList.splice(draggedApiIndex, 1)[0];
-          apiList.splice(targetIndex, 0, item);
-          renderApiDeck();
+          const item = aiList.splice(draggedApiIndex, 1)[0];
+          aiList.splice(targetIndex, 0, item);
+          renderDecks();
         }
         e.currentTarget.classList.remove('border-dashed', 'border-white/50');
       }
@@ -2478,15 +2487,14 @@
         if(slot) slot.classList.remove('opacity-50', 'scale-95');
         const slots = document.querySelectorAll('.api-slot');
         slots.forEach(s => s.classList.remove('border-dashed', 'border-white/50'));
-        renderApiDeck(); // re-render to fix priority numbers
+        renderDecks(); // re-render to fix priority numbers
       }
 
       // Thumbnail Horizontal Scroll (Drag) implementation
       document.addEventListener("DOMContentLoaded", () => {
         renderOrders();
         selectOrder(2); // Initially select #003 박서준
-        renderModelDeck(); // Render Model deck on load
-        renderApiDeck(); // Render API deck on load
+        renderDecks(); // Render both AI decks on load
 
         const slider = document.getElementById('cinema-thumbnails');
         if (!slider) return;
