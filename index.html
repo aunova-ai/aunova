@@ -222,105 +222,47 @@
     <!-- ═══════════ APP SHELL ═══════════ -->
     <div id="app-shell" class="opacity-0 transition-opacity duration-1000">
 
-
-      <!-- Right Sidebar (Conditionally Visible) -->
-      <aside
-        id="right-sidebar"
-        class="fixed right-0 top-0 z-[45] w-[192px] h-full bg-[#0A0A0B]/95 border-l border-white/5 flex flex-col no-print backdrop-blur-sm"
-        style="display: none"
-      >
-        <!-- Top: Auth Buttons -->
-        <div class="flex gap-2 p-4 pt-5">
-          <button
-            id="btn-login"
-            onclick="openModal('auth-modal')"
-            class="flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-transparent text-white/70 border border-white/15 hover:bg-white/10 transition-all"
-          >
-            LOGIN
+      <!-- Global Top Navigation Bar -->
+      <nav class="fixed top-0 left-0 w-full h-20 px-8 flex justify-between items-center z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/5">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('page-1')">
+          <img src="./assets/images/logo_glass_a.png" alt="Aunova Logo" class="w-8 h-8 object-contain drop-shadow-[0_0_10px_rgba(0,245,255,0.6)]">
+          <h1 class="text-xl md:text-2xl font-black tracking-widest text-nova-cyan hover:text-cyan-300 transition-colors">AUNOVA</h1>
+        </div>
+        <!-- Center Links (Slot Mode Indicator/Menu) -->
+        <div class="hidden md:flex items-center text-[11px] font-bold tracking-[0.2em] text-white/70 border border-nova-cyan/70 rounded-full p-1 shadow-[0_0_15px_rgba(0,245,255,0.3)] bg-[#0A0A0B]/50 backdrop-blur-md">
+          <!-- Active Mode -->
+          <div class="text-black bg-nova-cyan flex items-center justify-center rounded-full px-6 py-2 shadow-[0_0_10px_rgba(0,245,255,0.6)] cursor-pointer" onclick="navigateTo('page-2')">
+            NOVA-3D
+          </div>
+          <!-- Inactive Links -->
+          <a href="#" class="text-white/50 hover:text-white transition-colors cursor-pointer px-6 py-2 rounded-full hover:bg-white/5" onclick="showToast('Service unavailable.')">NOVA-LIVE</a>
+          <a href="#" class="text-white/50 hover:text-white transition-colors cursor-pointer px-6 py-2 rounded-full hover:bg-white/5" onclick="showToast('Service unavailable.')">NOVA-GOODS</a>
+        </div>
+        <!-- Right Auth & CTA -->
+        <div class="flex items-center gap-3">
+          <!-- Auth State Handlers -->
+          <button id="btn-mypage" class="hidden text-xs font-bold text-white/70 hover:text-white tracking-widest px-6 py-2.5 border border-white/20 rounded-md hover:bg-white/10 transition-colors">
+            MY PAGE
           </button>
-          <button
-            id="btn-signup-sidebar"
-            onclick="openModal('signup-modal')"
-            class="flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-nova-cyan text-black hover:bg-cyan-300 transition-all"
-          >
-            SIGN UP
-          </button>
-          <button
-            id="btn-logout"
-            onclick="handleLogout()"
-            class="hidden flex-1 py-2 rounded-md text-[10px] font-bold tracking-wider bg-red-500/15 text-red-400 border border-red-500/20 hover:bg-red-500/25 transition-all"
-          >
+          <button id="btn-logout" onclick="handleLogout()" class="hidden text-xs font-bold text-red-400 hover:text-red-300 tracking-widest px-6 py-2.5 border border-red-500/20 rounded-md hover:bg-red-500/10 transition-colors">
             LOGOUT
           </button>
+          <button id="btn-login" onclick="openModal('auth-modal')" class="text-xs font-bold text-white/70 hover:text-white tracking-widest px-6 py-2.5 border border-white/20 rounded-md hover:bg-white/10 transition-colors">
+            LOGIN
+          </button>
+          <button id="btn-signup-sidebar" onclick="openModal('signup-modal')" class="text-xs font-bold text-black bg-nova-cyan hover:bg-cyan-300 tracking-widest px-6 py-2.5 flex items-center justify-center gap-2 rounded-md transition-all shadow-[0_0_15px_rgba(0,245,255,0.4)] hover:shadow-[0_0_25px_rgba(0,245,255,0.6)]">
+            SIGN UP
+          </button>
         </div>
+      </nav>
 
-        <!-- Cyan Divider -->
-        <div class="mx-4 h-[2px] bg-nova-cyan/40 rounded-full"></div>
 
-        <!-- Menu Section -->
-        <div class="p-4 flex-1">
-          <p class="text-[9px] text-white/30 tracking-[0.3em] font-bold mb-4">
-            MENU
-          </p>
-
-          <!-- Social Links -->
-          <div class="flex items-center gap-4 mt-6">
-            <a
-              href="#"
-              class="text-white/20 hover:text-white/50 transition-colors"
-            >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-                />
-              </svg>
-            </a>
-            <a
-              href="#"
-              class="text-white/20 hover:text-white/50 transition-colors"
-            >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
-                />
-              </svg>
-            </a>
-          </div>
-          </div>
-        </div>
-      </aside>
+      
 
       <!-- ═══════════ 1P: GENESIS (LANDING) ═══════════ -->
-      <section id="page-1" class="spa-page active flex flex-col relative w-full overflow-x-hidden pt-20 pb-0">
+      <section id="page-1" class="spa-page active flex flex-col relative w-full overflow-x-hidden pt-28 pb-0">
         
-        <!-- Top Navigation Bar -->
-        <nav class="absolute md:fixed top-0 left-0 w-full h-20 px-8 flex justify-between items-center z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/5">
-          <!-- Logo -->
-          <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('page-1')">
-            <img src="./assets/images/logo_glass_a.png" alt="Aunova Logo" class="w-8 h-8 object-contain drop-shadow-[0_0_10px_rgba(0,245,255,0.6)]">
-            <h1 class="text-xl md:text-2xl font-black tracking-widest text-nova-cyan">AUNOVA</h1>
-          </div>
-          <!-- Center Links (Slot Mode Indicator) -->
-          <div class="hidden md:flex items-center text-[11px] font-bold tracking-[0.2em] text-white/70 border border-nova-cyan/70 rounded-full p-1 shadow-[0_0_15px_rgba(0,245,255,0.3)] bg-[#0A0A0B]/50 backdrop-blur-md">
-            <!-- Active Mode -->
-            <div class="text-black bg-nova-cyan flex items-center justify-center rounded-full px-6 py-2 shadow-[0_0_10px_rgba(0,245,255,0.6)] cursor-default">
-              NOVA-3D
-            </div>
-            <!-- Inactive Links -->
-            <a href="#" class="text-white/50 hover:text-white transition-colors cursor-pointer px-6 py-2 rounded-full hover:bg-white/5" onclick="showToast('Service unavailable.')">NOVA-LIVE</a>
-            <a href="#" class="text-white/50 hover:text-white transition-colors cursor-pointer px-6 py-2 rounded-full hover:bg-white/5" onclick="showToast('Service unavailable.')">NOVA-GOODS</a>
-          </div>
-          <!-- Right Auth & CTA -->
-          <div class="flex items-center gap-3">
-            <button onclick="openModal('auth-modal')" class="text-xs font-bold text-white/70 hover:text-white tracking-widest px-6 py-2.5 border border-white/20 rounded-sm hover:bg-white/10 transition-colors">
-              LOGIN
-            </button>
-            <button onclick="openModal('signup-modal')" class="text-xs font-bold text-black bg-nova-cyan hover:bg-cyan-300 tracking-widest px-6 py-2.5 flex items-center justify-center gap-2 rounded-sm transition-all shadow-[0_0_15px_rgba(0,245,255,0.4)] hover:shadow-[0_0_25px_rgba(0,245,255,0.6)]">
-              SIGN IN
-            </button>
-          </div>
-        </nav>
-
         <!-- Hero Section -->
         <div class="w-full flex flex-col items-center pt-8 pb-16 px-4 relative">
           <!-- The Glowing Star Background/Image -->
@@ -483,6 +425,74 @@
             추억을 당신 곁에 두세요.
           </p>
 
+          <!-- New: Review & Gallery Section -->
+          <div class="w-full max-w-7xl mx-auto my-16 px-4 mb-24">
+            <div class="flex items-center justify-between mb-8">
+              <h3 class="text-white text-xl font-bold tracking-widest border-l-4 border-nova-cyan pl-4">COMMUNITY REVIEWS</h3>
+              <a href="#" class="text-nova-cyan hover:text-cyan-300 text-sm flex items-center gap-2 transition-colors">
+                View Gallery <span>→</span>
+              </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <!-- Review Card 1 -->
+              <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:-translate-y-2 hover:border-nova-cyan/50 transition-all duration-300 group cursor-pointer">
+                <div class="w-full aspect-square rounded-lg overflow-hidden mb-4 bg-black/50">
+                  <img src="https://images.unsplash.com/photo-1633424669815-568b209d7df9?w=300&q=80" alt="Review 1" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
+                </div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-nova-cyan text-xs font-bold uppercase tracking-wider">Level 3</span>
+                  <div class="flex text-yellow-400 text-xs">★★★★★</div>
+                </div>
+                <p class="text-white font-semibold mb-1 truncate">결과물이 정말 놀랍습니다!</p>
+                <p class="text-gray-500 text-xs line-clamp-2">"평범한 사진이 이렇게 디테일한 3D 모델로 완성될 줄 몰랐습니다. 친구 선물용으로 정말 최고네요. 배송도 아주 빨랐습니다."</p>
+                <p class="text-gray-600 text-[10px] mt-4 font-mono text-right">- user_xyz</p>
+              </div>
+
+              <!-- Review Card 2 -->
+              <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:-translate-y-2 hover:border-nova-cyan/50 transition-all duration-300 group cursor-pointer">
+                <div class="w-full aspect-square rounded-lg overflow-hidden mb-4 bg-black/50">
+                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" alt="Review 2" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
+                </div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-green-400 text-xs font-bold uppercase tracking-wider">Level 1</span>
+                  <div class="flex text-yellow-400 text-xs">★★★★★</div>
+                </div>
+                <p class="text-white font-semibold mb-1 truncate">FDM 출력 퀄리티 대박</p>
+                <p class="text-gray-500 text-xs line-clamp-2">"기본 레벨인데도 표면 퀄리티가 상당히 우수합니다. 다음에는 레진(Level 2)으로도 의뢰해보고 싶습니다. 강추합니다."</p>
+                <p class="text-gray-600 text-[10px] mt-4 font-mono text-right">- k_crafter</p>
+              </div>
+
+              <!-- Review Card 3 -->
+              <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:-translate-y-2 hover:border-nova-cyan/50 transition-all duration-300 group cursor-pointer hidden md:block">
+                <div class="w-full aspect-square rounded-lg overflow-hidden mb-4 bg-black/50">
+                  <img src="https://images.unsplash.com/photo-1633394334057-7977a452bf91?w=300&q=80" alt="Review 3" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
+                </div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-purple-400 text-xs font-bold uppercase tracking-wider">Level 4</span>
+                  <div class="flex text-yellow-400 text-xs">★★★★☆</div>
+                </div>
+                <p class="text-white font-semibold mb-1 truncate">조립형 모형, 완벽한 치수</p>
+                <p class="text-gray-500 text-xs line-clamp-2">"설계한 형상 그대로 수축 없이 딱 맞게 조립됩니다. 다만 색상 배합에서 제가 원했던 톤보다 살짝 어두운 감이 있어서 별 하나 뺐습니다."</p>
+                <p class="text-gray-600 text-[10px] mt-4 font-mono text-right">- desigN_er_9</p>
+              </div>
+
+              <!-- Review Card 4 -->
+              <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:-translate-y-2 hover:border-nova-cyan/50 transition-all duration-300 group cursor-pointer hidden lg:block">
+                <div class="w-full aspect-square rounded-lg overflow-hidden mb-4 bg-black/50 border border-nova-cyan/20">
+                  <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=300&q=80" alt="Review 4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
+                </div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-yellow-400 text-xs font-bold uppercase tracking-wider">Level 5</span>
+                  <div class="flex text-yellow-400 text-xs">★★★★★</div>
+                </div>
+                <p class="text-white font-semibold mb-1 truncate">마스터피스 그 자체</p>
+                <p class="text-gray-500 text-xs line-clamp-2">"도색 퀄리티, 마감, 재질 모두가 하이엔드급입니다. 전시용으로 만들었는데 주변에서 정말 많이 물어보네요. 기다린 보람이 있습니다."</p>
+                <p class="text-gray-600 text-[10px] mt-4 font-mono text-right">- vvip_member</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Empty Video Container -->
           <div class="w-full aspect-video rounded-3xl border border-white/10 bg-[#0A0A0B]/50 shadow-2xl flex items-center justify-center relative group">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none rounded-3xl"></div>
@@ -562,7 +572,7 @@
       <!-- ═══════════ 2P: SYNTHESIS (WORKSPACE) ═══════════ -->
       <section
         id="page-2"
-        class="spa-page h-screen flex-col pt-0 pb-0 pl-0 pr-[192px] overflow-hidden"
+        class="spa-page h-screen flex-col pt-20 pb-0 overflow-hidden"
       >
         <!-- Main Content: Vertical Split (Top Workspace, Bottom Summary) -->
         <div
@@ -574,10 +584,6 @@
           <div
             class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5"
           >
-            <!-- AUNOVA Title -->
-            <div class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">
-              AUNOVA
-            </div>
 
             <!-- Level Tabs with Arrows -->
             <div class="flex items-center gap-1">
@@ -733,91 +739,81 @@
             <button
               id="btn-generate"
               onclick="handleGenerate()"
-              class="w-full py-4 bg-nova-cyan text-black font-black rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-[0.2em] text-sm mt-auto disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-none mb-2"
-              disabled
+              class="w-full py-4 bg-nova-cyan text-black font-black rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-[0.2em] text-sm mt-auto mb-2"
             >
               GENERATE OBJECT
             </button>
           </div>
 
-          <!-- RIGHT: Center Display (Only Preview Image, No Logo) -->
-          <div
-            class="flex-1 flex flex-col items-center justify-center relative overflow-hidden border border-nova-cyan/20 bg-black/40 shadow-[0_0_30px_rgba(0,245,255,0.05)] rounded-xl min-h-0 h-full"
-          >
-            <!-- Top Navigation Tabs (Process Flow) -->
-            <div class="fixed top-5 left-1/2 -translate-x-1/2 flex justify-center gap-4 z-50 pointer-events-none">
-              <!-- Current Step (Red) -->
-              <div class="w-32 h-8 border border-red-500 bg-red-500/10 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-red-500/20" onclick="navigateTo('page-2')">
-                <span class="text-[10px] font-bold text-red-500 tracking-widest text-shadow-sm shadow-red-500/50">SYNTHESIS</span>
-              </div>
-              <!-- Next Step (Blue) -->
-              <div class="w-32 h-8 border border-blue-500 bg-blue-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-blue-500/15" onclick="alert('결과 페이지는 생성 후 접근 가능합니다.')">
-                <span class="text-[10px] font-bold text-blue-500 tracking-widest text-shadow-sm shadow-blue-500/50">RESULT</span>
-              </div>
-              <!-- Final Step (Purple) -->
-              <div class="w-32 h-8 border border-purple-500 bg-purple-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-purple-500/15" onclick="alert('배송조회 및 3D 프린팅 결제 시 접근 가능합니다.')">
-                <span class="text-[10px] font-bold text-purple-500 tracking-widest text-shadow-sm shadow-purple-500/50">DELIVERY</span>
-              </div>
-            </div>
-
-            <!-- Animated Background -->
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.04)_0%,transparent_70%)]"></div>
-
-            <!-- Center Sample Image -->
-            <img
-              id="center-sample-img"
-              src=""
-              class="absolute z-10 w-full h-full object-contain p-8 rounded-xl transition-all duration-500 opacity-0 pointer-events-none"
-              alt="Sample"
-            />
-          </div>
-        </div>
-
-        <!-- BOTTOM ROW: Logo & Horizontal Pricing Bar -->
-        <div class="w-full h-[180px] lg:h-[220px] flex-shrink-0 mt-4 mb-4 relative flex items-center justify-between overflow-hidden border border-nova-cyan/20 bg-[#06080A] shadow-[0_0_30px_rgba(0,245,255,0.05)] rounded-xl px-12 z-20">
-          
-          <!-- Left: Logo inside Bottom Bar -->
-          <div id="center-display" class="relative z-10 flex flex-col items-center justify-center scale-[0.7] transform origin-left">
-            <!-- Glow Ring -->
-            <div class="absolute w-[300px] h-[300px] rounded-full border border-nova-cyan/20 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
-            <div class="absolute w-[250px] h-[250px] rounded-full border border-nova-cyan/10"></div>
+          <!-- RIGHT: Center Display (flex-1 fill space + Pricing included below) -->
+          <div class="flex-1 flex flex-col p-4">
             
-            <svg id="center-logo" viewBox="0 0 200 200" class="w-56 h-56 drop-shadow-[0_0_30px_#00F5FF] transition-all duration-500">
-              <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="3" fill="none"/>
-              <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="3" fill="none"/>
-              <circle cx="100" cy="100" r="55" stroke="#00F5FF" stroke-width="1" fill="none" opacity="0.3"/>
-              <text x="100" y="105" text-anchor="middle" fill="#00F5FF" font-size="10" font-weight="bold" letter-spacing="2" class="font-black">★</text>
-            </svg>
-            <p class="text-nova-cyan text-4xl font-black tracking-tighter mt-4 drop-shadow-[0_0_10px_#00F5FF]">AUNOVA</p>
-            <p id="center-level-label" class="text-[12px] text-white/40 tracking-widest mt-2 uppercase font-mono">Lv.1 — BASIC</p>
+            <div class="flex-1 flex flex-col items-center justify-center relative overflow-hidden border border-nova-cyan/20 bg-black/40 shadow-[0_0_30px_rgba(0,245,255,0.05)] rounded-xl min-h-0 w-full mb-4">
+              <!-- Top Navigation Tabs (Process Flow) -->
+              <div class="absolute top-5 left-1/2 -translate-x-1/2 flex justify-center gap-4 z-50 pointer-events-none">
+                <!-- Current Step (Red) -->
+                <div class="w-32 h-8 border border-red-500 bg-red-500/10 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-red-500/20" onclick="navigateTo('page-2')">
+                  <span class="text-[10px] font-bold text-red-500 tracking-widest text-shadow-sm shadow-red-500/50">SYNTHESIS</span>
+                </div>
+                <!-- Next Step (Blue) -->
+                <div class="w-32 h-8 border border-blue-500 bg-blue-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-blue-500/15" onclick="alert('결과 페이지는 생성 후 접근 가능합니다.')">
+                  <span class="text-[10px] font-bold text-blue-500 tracking-widest text-shadow-sm shadow-blue-500/50">RESULT</span>
+                </div>
+                <!-- Final Step (Purple) -->
+                <div class="w-32 h-8 border border-purple-500 bg-purple-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-purple-500/15" onclick="alert('배송조회 및 3D 프린팅 결제 시 접근 가능합니다.')">
+                  <span class="text-[10px] font-bold text-purple-500 tracking-widest text-shadow-sm shadow-purple-500/50">DELIVERY</span>
+                </div>
+              </div>
+
+              <!-- Animated Background -->
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.04)_0%,transparent_70%)]"></div>
+
+              <!-- Center Sample Image -->
+              <img
+                id="center-sample-img"
+                src=""
+                class="absolute z-10 w-full h-full object-contain p-8 rounded-xl transition-all duration-500 opacity-0 pointer-events-none"
+                alt="Sample"
+              />
+            </div>
+
+            <!-- BOTTOM PRICING ROW IN CENTER DISPLAY -->
+            <div id="sidebar-pricing" class="w-full flex-shrink-0 relative flex items-center justify-between overflow-hidden border border-nova-cyan/40 bg-black/60 shadow-[0_0_20px_rgba(0,245,255,0.1)] rounded-xl py-6 px-12 z-20 backdrop-blur-md">
+              <!-- Left: Logo & Pulse -->
+              <div id="center-display" class="relative z-10 flex flex-col items-center justify-center scale-75 origin-left w-64 h-24">
+                <div class="absolute w-[140px] h-[140px] rounded-full border border-nova-cyan/20 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                <!-- Image Logo -->
+                <img id="center-logo" src="./assets/images/logo_glass_a.png" alt="Aunova Logo" class="w-16 h-16 object-contain drop-shadow-[0_0_15px_#00F5FF] transition-all duration-500 mb-2" />
+                <div class="flex items-center gap-4 ml-6">
+                  <p class="text-nova-cyan text-xl md:text-2xl font-black tracking-widest drop-shadow-[0_0_10px_#00F5FF]">AUNOVA</p>
+                  <span id="center-level-label" class="text-[12px] text-white/50 tracking-widest mt-1 uppercase font-mono px-2 py-0.5 border border-white/20 rounded">Lv.1</span>
+                </div>
+              </div>
+
+              <!-- Right: Detailed Estimate Pricing -->
+              <div class="relative z-20 self-center pointer-events-auto flex items-center gap-6">
+                <div class="flex flex-col text-right justify-center">
+                  <p class="text-[11px] text-nova-cyan font-bold tracking-[0.2em] uppercase mb-1 drop-shadow-[0_0_5px_#00F5FF]">Total Estimate</p>
+                  <p class="text-[9px] text-gray-400 font-mono mt-1 mb-2">v1.0.4 AI Server Sync</p>
+                  <p class="text-[8px] text-white/30">* 견적은 옵션에 의해 능동 변동됩니다.</p>
+                </div>
+                
+                <div class="flex items-center gap-6 h-[80%] border-l border-white/10 pl-6 self-center my-auto py-2">
+                  <!-- Deposit -->
+                  <div class="flex flex-col text-right justify-center pr-2">
+                    <span class="text-[10px] text-white/40 tracking-wider mb-1 uppercase font-bold">Deposit</span>
+                    <span class="text-base font-bold text-gray-300 tracking-wider font-mono">15,000</span>
+                  </div>
+                  <!-- Total -->
+                  <div class="flex flex-col items-end justify-center pl-2">
+                    <span class="text-[9px] text-white/30 tracking-wider mb-1 uppercase text-right w-full">Final Output Amount</span>
+                    <p id="total-price" class="text-[32px] md:text-[40px] leading-none font-black text-white tracking-tight drop-shadow-lg tabular-nums">25,000<span class="text-sm font-light text-white/50 ml-2">원</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Center: Left side of Bottom Bar: info text -->
-          <div class="relative z-20 flex self-end pb-8">
-            <p class="text-[9px] text-white/20 tracking-[0.2em] font-light leading-relaxed hidden md:block text-center">
-              POWERED BY AUNOVA-3D | v1.0.4<br/>(UPDATED: 2026-02-22 23:00)
-            </p>
-          </div>
-          
-          <!-- Right: Right side of Bottom Bar: TOTAL ESTIMATE -->
-          <div class="relative z-20 self-center pointer-events-auto flex items-end gap-8 bg-black/20 backdrop-blur-sm p-4 px-6 rounded-xl border border-white/5 h-[80%]">
-            <div class="flex flex-col text-right h-full justify-center">
-              <p class="text-[10px] text-nova-cyan font-bold tracking-[0.2em] uppercase mb-4 drop-shadow-[0_0_5px_#00F5FF]">Total Estimate</p>
-              <p class="text-[8px] text-gray-500">* 견적은 설정에 의해 변동됩니다.</p>
-            </div>
-            
-            <div class="flex items-center gap-6 h-[80%] border-l border-white/10 pl-6 self-center">
-              <!-- Deposit -->
-              <div class="flex flex-col text-right h-full justify-center pr-4">
-                <span class="text-[9px] text-white/40 tracking-wider mb-2">Deposit</span>
-                <span class="text-sm font-bold text-nova-cyan tracking-wider drop-shadow-[0_0_2px_#00F5FF]">15,000 <span class="text-[10px] font-light text-white/50 ml-0.5">원</span></span>
-              </div>
-              <!-- Total -->
-              <div class="flex items-end h-full justify-center pl-2">
-                <p id="total-price" class="text-[40px] leading-none font-black text-white tracking-tight drop-shadow-lg">25,000<span class="text-sm font-light text-white/50 ml-2">원</span></p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       </div>
@@ -830,10 +826,7 @@
         id="page-3"
         class="spa-page min-h-screen flex-col items-center justify-center px-4 relative"
       >
-        <!-- AUNOVA Top Left Logo -->
-        <div class="absolute top-5 left-4 text-lg font-black tracking-tighter text-nova-cyan cursor-pointer z-50" onclick="navigateTo('page-1')">
-          AUNOVA
-        </div>
+        <!-- AUNOVA Top Left Logo (Removed due to Global Navbar) -->
         <div class="max-w-lg mx-auto mt-40">
           <div class="liquid-glass rounded-2xl p-8 border border-yellow-500/20">
             <div
@@ -894,22 +887,19 @@
         id="page-4"
         class="spa-page min-h-screen flex-col items-center justify-center px-4 relative"
       >
-        <!-- AUNOVA Top Left Logo -->
-        <div class="absolute top-5 left-4 text-lg font-black tracking-tighter text-nova-cyan cursor-pointer z-50" onclick="navigateTo('page-1')">
-          AUNOVA
-        </div>
+        <!-- AUNOVA Top Left Logo (Removed due to Global Navbar) -->
         <div class="text-center">
-          <div class="relative w-32 h-32 mx-auto mb-8">
-            <svg
-              id="spin-star"
-              viewBox="0 0 100 100"
-              class="w-full h-full animate-spin-fast drop-shadow-[0_0_30px_#00F5FF]"
-            >
-              <path
-                d="M50 0 L60 35 L95 50 L60 65 L50 100 L40 65 L5 50 L40 35 Z"
-                fill="#00F5FF"
-              />
-            </svg>
+          <div class="relative w-40 h-40 mx-auto mb-8 flex items-center justify-center">
+            <!-- Aurora Glow Behind Logo -->
+            <div class="absolute inset-0 rounded-full bg-nova-cyan/20 blur-xl animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+            <div class="absolute inset-4 rounded-full bg-nova-cyan/30 blur-lg animate-pulse"></div>
+            <!-- Static Image Logo -->
+            <img
+              id="processing-logo"
+              src="./assets/images/logo_glass_a.png"
+              alt="Aunova Processing Logo"
+              class="relative z-10 w-28 h-28 object-contain drop-shadow-[0_0_25px_#00F5FF]"
+            />
           </div>
           <p
             id="typing-text"
@@ -929,13 +919,11 @@
       <!-- ═══════════ 5P: RESULT & 2ND PAYMENT ═══════════ -->
       <section
         id="page-5"
-        class="spa-page min-h-screen flex-col pt-24 pb-8 pl-5 pr-[212px] relative"
+        class="spa-page min-h-screen flex-col pt-24 pb-8 px-5 relative"
       >
-        <div class="absolute top-5 left-5 text-lg font-black tracking-tighter text-nova-cyan cursor-pointer z-[60]" onclick="navigateTo('page-1')">
-          AUNOVA
-        </div>
+        <!-- Top Left Logo Removed -->
         <div
-          class="w-full h-full grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6"
+          class="w-full h-full grid grid-cols-1 md:grid-cols-[360px_1fr] gap-6"
         >
           <!-- LEFT: Style -->
           <div
@@ -967,19 +955,65 @@
               >
                 D
               </div>
-              <div
-                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400 col-span-2"
+            </div>
+
+            <!-- EXPORT Section Moved Here -->
+            <div class="mt-6 flex flex-col gap-4">
+              <h3
+                class="text-nova-cyan font-bold tracking-widest text-sm border-b border-white/10 pb-3"
               >
-                E
+                EXPORT
+              </h3>
+              <div class="space-y-3 mt-4">
+                <button
+                  class="w-full py-3 bg-nova-cyan/10 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/20 transition-all text-sm"
+                >
+                  ↓ Download STL
+                </button>
+                <button
+                  class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm"
+                >
+                  ↓ Download OBJ
+                </button>
+                <button
+                  class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm"
+                >
+                  ↓ Download PLY
+                </button>
+              </div>
+              <div class="border-t border-white/10 pt-4 mt-4">
+                <button
+                  onclick="request3DPrint()"
+                  id="btn-3dprint"
+                  class="w-full py-4 bg-gray-800 border border-gray-700 text-gray-500 rounded-xl font-bold transition-all relative overflow-hidden"
+                >
+                  <span>3D Print 요청</span>
+                </button>
+                <p class="text-sm text-yellow-500 font-bold mt-2 text-center">
+                  잔액 ₩178,000 추가 결제 필요
+                </p>
               </div>
             </div>
 
           </div>
           <!-- CENTER: Clean Viewer -->
           <div
+            id="page-5-viewer"
             class="flex items-center justify-center w-full h-[85vh] relative sticky top-24 bg-gradient-to-br from-gray-900 to-black rounded-2xl ring-1 ring-white/5 shadow-2xl overflow-hidden"
             style="cursor: default"
           >
+            <!-- Center Aurora Logo -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-40 pointer-events-none">
+              <!-- Aurora Glow Behind Logo -->
+              <div class="absolute inset-0 rounded-full bg-nova-cyan/20 blur-xl animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+              <div class="absolute inset-4 rounded-full bg-nova-cyan/30 blur-lg animate-pulse"></div>
+              <!-- Static Image Logo -->
+              <img
+                src="./assets/images/logo_glass_a.png"
+                alt="Aunova Logo"
+                class="relative z-10 w-24 h-24 object-contain drop-shadow-[0_0_20px_#00F5FF]"
+              />
+            </div>
             <!-- Floating Color Palette overlay (Top-Left) -->
             <div class="absolute top-6 left-6 z-40 bg-black/50 p-4 rounded-xl backdrop-blur-md border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
               <h4 class="text-[10px] text-gray-400 font-bold tracking-widest mb-3 w-full text-center border-b border-gray-700/50 pb-2">
@@ -993,66 +1027,14 @@
                 <div class="w-7 h-7 rounded-full bg-amber-500 cursor-pointer hover:scale-110 transition-transform"></div>
               </div>
             </div>
-            <!-- Top Navigation Tabs (Process Flow - Page 5 Active) -->
-            <div class="fixed top-5 left-1/2 -translate-x-1/2 flex justify-center gap-4 z-50 pointer-events-none">
-              <!-- Previous Step (Red) -->
-              <div class="w-32 h-8 border border-red-500 bg-red-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-red-500/15" onclick="navigateTo('page-2')">
-                <span class="text-[10px] font-bold text-red-500/50 tracking-widest">SYNTHESIS</span>
-              </div>
-              <!-- Current Step (Blue) -->
-              <div class="w-32 h-8 border border-blue-400 bg-blue-500/10 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-                <span class="text-[10px] font-bold text-blue-400 tracking-widest text-shadow-sm shadow-blue-500/50">RESULT</span>
-              </div>
-              <!-- Next Step (Purple) -->
-              <div class="w-32 h-8 border border-purple-500 bg-purple-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-purple-500/15" onclick="alert('배송조회는 3D 프린트 결제 후 접근 가능합니다.')">
-                <span class="text-[10px] font-bold text-purple-500/50 tracking-widest">DELIVERY</span>
-              </div>
-            </div>
+
 
             <!-- Enlarged 3D Model Viewer text to signify it occupies the full space transparently -->
             <p class="text-gray-500/50 text-2xl font-bold tracking-widest text-center mt-8">
               3D Model Viewer
             </p>
           </div>
-          <!-- RIGHT: Export -->
-          <div
-            class="liquid-glass rounded-2xl p-5 flex flex-col gap-4 sticky top-24 h-[85vh] overflow-y-auto hide-scrollbar"
-          >
-            <h3
-              class="text-nova-cyan font-bold tracking-widest text-sm border-b border-white/10 pb-3"
-            >
-              EXPORT
-            </h3>
-            <div class="space-y-3 mt-4">
-              <button
-                class="w-full py-3 bg-nova-cyan/10 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/20 transition-all text-sm"
-              >
-                ↓ Download STL
-              </button>
-              <button
-                class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm"
-              >
-                ↓ Download OBJ
-              </button>
-              <button
-                class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm"
-              >
-                ↓ Download PLY
-              </button>
-            </div>
-            <div class="border-t border-white/10 pt-4 mt-4">
-              <button
-                onclick="request3DPrint()"
-                id="btn-3dprint"
-                class="w-full py-4 bg-gray-800 border border-gray-700 text-gray-500 rounded-xl font-bold transition-all relative overflow-hidden"
-              >
-                <span>3D Print 요청</span>
-              </button>
-              <p class="text-sm text-yellow-500 font-bold mt-2 text-center">
-                잔액 ₩178,000 추가 결제 필요
-              </p>
-            </div>
-          </div>
+
         </div>
       </section>
       <!-- ═══════════ 6P: DELIVERY ═══════════ -->
@@ -1060,26 +1042,8 @@
         id="page-6"
         class="spa-page min-h-screen flex-col items-center justify-center px-4 relative"
       >
-        <!-- AUNOVA Top Left Logo -->
-        <div class="absolute top-5 left-5 text-lg font-black tracking-tighter text-nova-cyan cursor-pointer z-50" onclick="navigateTo('page-1')">
-          AUNOVA
-        </div>
+        <!-- AUNOVA Top Left Logo (Removed due to Global Navbar) -->
 
-        <!-- Top Navigation Tabs (Process Flow - Page 6 Active) -->
-        <div class="fixed top-5 left-1/2 -translate-x-1/2 flex justify-center gap-4 z-50 pointer-events-none">
-          <!-- Previous Step (Red) -->
-          <div class="w-32 h-8 border border-red-500 bg-red-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-red-500/15" onclick="navigateTo('page-2')">
-            <span class="text-[10px] font-bold text-red-500/50 tracking-widest">SYNTHESIS</span>
-          </div>
-          <!-- Previous Step (Blue) -->
-          <div class="w-32 h-8 border border-blue-500 bg-blue-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-blue-500/15" onclick="navigateTo('page-5')">
-            <span class="text-[10px] font-bold text-blue-500/50 tracking-widest">RESULT</span>
-          </div>
-          <!-- Current Step (Purple) -->
-          <div class="w-32 h-8 border border-purple-400 bg-purple-500/10 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all shadow-[0_0_15px_rgba(168,85,247,0.3)]">
-            <span class="text-[10px] font-bold text-purple-400 tracking-widest text-shadow-sm shadow-purple-500/50">DELIVERY</span>
-          </div>
-        </div>
 
         <div class="text-center mt-16">
           <div class="relative w-32 h-32 mx-auto mb-8">
@@ -1828,17 +1792,6 @@
           window.scrollTo(0, 0);
           currentPage = id;
         }
-        
-        // Hide global right sidebar on landing/intro to prevent overlap with navbar
-        const rightSidebar = document.getElementById("right-sidebar");
-        if (rightSidebar) {
-          if (id === "page-0" || id === "page-1") {
-            rightSidebar.style.display = "none";
-          } else {
-            rightSidebar.style.display = "flex";
-          }
-        }
-
         // Toggle pricing visibility (page-2 only)
         const pricing = document.getElementById("sidebar-pricing");
         if (pricing) {
@@ -1884,8 +1837,6 @@
         document.getElementById("btn-logout").classList.remove("hidden");
         document.getElementById("btn-mypage").classList.remove("hidden");
         document.getElementById("btn-mypage").style.display = "block";
-        const genBtn = document.getElementById("btn-generate");
-        if (genBtn) genBtn.disabled = false;
       }
       function handleLogout() {
         isLoggedIn = false;
@@ -1897,8 +1848,6 @@
         document.getElementById("btn-mypage").style.display = "none";
         document.getElementById("login-id").value = "";
         document.getElementById("login-pw").value = "";
-        const genBtn = document.getElementById("btn-generate");
-        if (genBtn) genBtn.disabled = true;
       }
       document.getElementById("login-pw").addEventListener("keydown", (e) => {
         if (e.key === "Enter") handleLogin();
@@ -2010,34 +1959,6 @@
       }
 
       // === PROCESSING ===
-      function handleGenerate() {
-        // Hide sample image and show loading logo state
-        document.getElementById("center-sample-img").style.opacity = "0";
-        document.getElementById("btn-generate").innerHTML = "GENERATING...";
-        document.getElementById("btn-generate").disabled = true;
-
-        // Animate Logo
-        document.getElementById("center-logo").classList.add("animate-[spin_2s_linear_infinite]");
-        
-        // Wait 3 seconds to emulate processing, then resolve center display
-        setTimeout(() => {
-          document.getElementById("center-logo").classList.remove("animate-[spin_2s_linear_infinite]");
-          document.getElementById("btn-generate").innerHTML = "GENERATE OBJECT";
-          document.getElementById("btn-generate").disabled = false;
-
-          const centerImg = document.getElementById("center-sample-img");
-          if (userRefImage) {
-             // User uploaded an image, show their image
-             centerImg.src = userRefImage;
-             centerImg.style.opacity = '1';
-          } else {
-             // No user image, ensure the logo is fully visible and the sample image is hidden
-             centerImg.style.opacity = '0';
-          }
-          
-          showToast('Generation complete.');
-        }, 3000);
-      }
 
       function startProcessing() {
         navigateTo("page-4");
@@ -2055,7 +1976,11 @@
         }, 60);
         document.getElementById("btn-next-5").classList.add("hidden");
         setTimeout(() => {
-          document.getElementById("spin-star").style.animation = "none";
+          const aurora = document.getElementById("processing-logo");
+          if (aurora) {
+            // Keep aurora pulsing or manually target glows if you want them to stop.
+            // For now, just allow the NEXT button to show without JS error.
+          }
           document.getElementById("btn-next-5").classList.remove("hidden");
         }, 3500);
       }
