@@ -1481,7 +1481,12 @@
                 <div class="flex-1 flex flex-col gap-4">
                   <!-- Live Prompt String -->
                   <div class="shrink-0 flex flex-col h-[100px]">
-                    <span class="text-xs text-gray-400 mb-1">Live Prompt Text</span>
+                    <div class="flex justify-between items-center mb-1">
+                      <span class="text-xs text-gray-400">Live Prompt Text</span>
+                      <select id="prompt-target-api" class="bg-black/40 border border-white/10 rounded text-[10px] text-gray-300 px-2 py-1 outline-none focus:border-nova-cyan">
+                        <option value="">(API를 선택하세요)</option>
+                      </select>
+                    </div>
                     <textarea id="live-prompt-string" class="flex-1 w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-gray-300 focus:border-nova-cyan outline-none font-mono resize-none"></textarea>
                   </div>
                   <!-- Slots Inventory -->
@@ -2323,8 +2328,7 @@
           mesh_quality: 'standard',
           texture_mode: 'basic',
           priority: 5,
-          fixedPrompt: 'Cinematic lighting, 8k resolution',
-          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, usage: Math.floor(Math.random() * 100)}))
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map((api, i) => ({...api, usage: Math.floor(Math.random() * 100), apiPrompt: i === 0 ? 'Cinematic lighting, 8k resolution' : ''}))
         },
         {
           versionName: 'v2.0',
@@ -2332,8 +2336,7 @@
           mesh_quality: 'high',
           texture_mode: 'advanced',
           priority: 4,
-          fixedPrompt: 'Photorealistic, unreal engine 5 render',
-          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, usage: Math.floor(Math.random() * 100)}))
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map((api, i) => ({...api, usage: Math.floor(Math.random() * 100), apiPrompt: i === 1 ? 'Photorealistic, unreal engine 5 render' : ''}))
         },
         {
           versionName: 'v3.0',
@@ -2341,8 +2344,7 @@
           mesh_quality: 'ultra',
           texture_mode: 'neural',
           priority: 2,
-          fixedPrompt: 'Masterpiece, best quality, highly detailed',
-          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, usage: Math.floor(Math.random() * 100)}))
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map((api, i) => ({...api, usage: Math.floor(Math.random() * 100), apiPrompt: i === 2 ? 'Masterpiece, best quality, highly detailed' : ''}))
         },
         {
           versionName: 'v4.0',
@@ -2350,8 +2352,7 @@
           mesh_quality: 'ultra',
           texture_mode: 'neural-plus',
           priority: 1,
-          fixedPrompt: 'Octane render, volumetric fog, raw photo',
-          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, usage: Math.floor(Math.random() * 100)}))
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map((api, i) => ({...api, usage: Math.floor(Math.random() * 100), apiPrompt: i === 0 ? 'Octane render, volumetric fog, raw photo' : ''}))
         },
         {
           versionName: 'v5.0 (현재)',
@@ -2359,8 +2360,7 @@
           mesh_quality: 'ultra',
           texture_mode: 'neural',
           priority: 1,
-          fixedPrompt: 'Default, production ready',
-          aiListSnapshot: JSON.parse(JSON.stringify(aiList))
+          aiListSnapshot: JSON.parse(JSON.stringify(aiList)).map(api => ({...api, apiPrompt: ''}))
         }
       ];
 
@@ -2392,10 +2392,25 @@
         if(index < 0 || index >= versionHistory.length) return;
         const v = versionHistory[index];
         const editor = document.getElementById('version-editor');
+        const selector = document.getElementById('prompt-target-api');
+        
+        // Refresh Select Dropdown
+        if (selector) {
+          selector.innerHTML = '<option value="">(API를 선택하세요)</option>';
+          v.aiListSnapshot.forEach(api => {
+            if(api.active) {
+              selector.innerHTML += `<option value="${api.id}">${api.name}</option>`;
+            }
+          });
+        }
         
         let apiText = '';
         v.aiListSnapshot.forEach(api => {
+          if(!api.active) return;
           apiText += `${api.name}: ${api.usage}%\n`;
+          if(api.apiPrompt) {
+            apiText += `  ↳ Prompt: "${api.apiPrompt}"\n`;
+          }
         });
         
         editor.innerHTML = `
@@ -2404,9 +2419,8 @@ engine: "${v.engine}"
 mesh_quality: "${v.mesh_quality}"
 texture_mode: "${v.texture_mode}"
 priority: ${v.priority}
-fixed_prompt: "${v.fixedPrompt}"
 <br/>
-<span class="text-nova-purple mb-1 mt-2 block">-- API Usage Map --</span>
+<span class="text-nova-purple mb-1 mt-2 block">-- API Usage Map & Per-API Prompts --</span>
 ${apiText}
         `.trim();
       }
@@ -2440,7 +2454,6 @@ ${apiText}
           mesh_quality: 'custom',
           texture_mode: 'experimental',
           priority: 1,
-          fixedPrompt: 'New cloned parameters',
           aiListSnapshot: JSON.parse(JSON.stringify(aiList))
         };
         
@@ -2758,16 +2771,31 @@ ${apiText}
 
       function applyPromptToVersion() {
         const slider = document.getElementById('version-slider');
+        const selector = document.getElementById('prompt-target-api');
         const index = parseInt(slider.value) - 1;
         if(index < 0 || index >= versionHistory.length) return;
         
+        const targetApiId = selector.value;
+        if(!targetApiId) {
+          alert("먼저 프롬프트를 적용할 대상 API를 드롭다운에서 선택해 주세요.");
+          return;
+        }
+
         const textarea = document.getElementById('live-prompt-string');
         const newText = textarea.value.trim();
         
         if(!newText) return;
         
-        versionHistory[index].fixedPrompt = newText;
+        // Find the specific API in the selected snapshot and assign prompt
+        const snapshot = versionHistory[index].aiListSnapshot;
+        const apiNode = snapshot.find(a => a.id === targetApiId);
+        if(apiNode) {
+          apiNode.apiPrompt = newText;
+        }
+        
+        // Render update and clear textarea
         renderVersionEditor(slider.value); // Update terminal readout
+        textarea.value = '';
         
         textarea.classList.add('border-nova-cyan', 'shadow-[0_0_15px_rgba(0,245,255,0.2)]');
         setTimeout(() => textarea.classList.remove('border-nova-cyan', 'shadow-[0_0_15px_rgba(0,245,255,0.2)]'), 500);
