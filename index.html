@@ -1239,7 +1239,7 @@
       >
         <div class="grid grid-cols-1 xl:grid-cols-[850px_1fr] gap-0 h-screen w-full">
           <!-- LEFT: Order List -->
-          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5 relative">
+          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 border-r border-white/5 relative overflow-hidden">
             <div class="flex flex-col gap-2 mb-4 no-print shrink-0">
               <!-- AUNOVA Title -->
               <div class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">
@@ -1274,38 +1274,42 @@
             </div>
 
             <!-- Order List Table -->
-            <div class="liquid-glass rounded-2xl p-5 overflow-x-auto w-full no-print flex-1 content-start">
-              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print">주문 리스트</h3>
-              <div class="mb-4 flex flex-col gap-2 no-print min-w-[500px]">
-                <div class="flex gap-2">
-                  <input type="date" id="order-filter-date" class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
-                  <select id="order-filter-status" class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
-                    <option value="">(상태 전체)</option>
-                    <option value="대기">대기</option>
-                    <option value="진행중">진행중</option>
-                    <option value="완료">완료</option>
-                  </select>
+            <div class="liquid-glass rounded-2xl p-5 overflow-hidden w-full no-print flex-1 flex flex-col min-h-0">
+              <div class="shrink-0 mb-4">
+                <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print">주문 리스트</h3>
+                <div class="flex flex-col gap-2 no-print min-w-[500px]">
+                  <div class="flex gap-2">
+                    <input type="date" id="order-filter-date" class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
+                    <select id="order-filter-status" class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
+                      <option value="">(상태 전체)</option>
+                      <option value="대기">대기</option>
+                      <option value="진행중">진행중</option>
+                      <option value="완료">완료</option>
+                    </select>
+                  </div>
+                  <input type="text" id="order-filter-text" placeholder="고객명, 제목 검색..." class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" oninput="renderOrders()">
                 </div>
-                <input type="text" id="order-filter-text" placeholder="고객명, 제목 검색..." class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" oninput="renderOrders()">
               </div>
-              <table class="w-full text-xs" id="order-table">
-                <thead>
-                  <tr class="text-left text-gray-400 border-b border-white/10 whitespace-nowrap">
-                    <th class="pb-2 pr-2">No.</th>
-                    <th class="pb-2 pr-2">접수일</th>
-                    <th class="pb-2 pr-2">고객명</th>
-                    <th class="pb-2 pr-2">제목</th>
-                    <th class="pb-2 pr-2">사용 AI</th>
-                    <th class="pb-2 pr-2">디테일(엔진)</th>
-                    <th class="pb-2 pr-2">Lv</th>
-                    <th class="pb-2 pr-2">상태</th>
-                    <th class="pb-2">금액</th>
-                  </tr>
-                </thead>
-                <tbody class="text-gray-300" id="order-tbody">
-                  <!-- Orders injected here -->
-                </tbody>
-              </table>
+              <div class="flex-1 overflow-y-auto hide-scrollbar relative">
+                <table class="w-full text-xs" id="order-table">
+                  <thead class="sticky top-0 bg-[#0A0E13] z-10 shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                    <tr class="text-left text-gray-400 border-b border-white/10 whitespace-nowrap">
+                      <th class="py-2 pr-2 bg-[#0A0E13]">No.</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13]">접수일</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13]">고객명</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13]">제목</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13]">사용 AI</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13]">디테일(엔진)</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13]">Lv</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13]">상태</th>
+                      <th class="py-2 bg-[#0A0E13]">금액</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-300" id="order-tbody">
+                    <!-- Orders injected here -->
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
