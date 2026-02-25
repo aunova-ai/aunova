@@ -496,29 +496,62 @@
         </div>
 
         <!-- Section 3: Footer / Company Info -->
-        <footer class="w-full bg-[#06080A] py-16 px-8 mt-auto border-t border-white/5 relative z-20" id="company-footer">
-          <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
-            <div class="flex flex-col gap-6">
+        <footer class="w-full bg-[#06080A] py-16 px-12 mt-auto border-t border-white/5 relative z-20" id="company-footer">
+          <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 font-sans md:px-8">
+            
+            <!-- Column 1: Logo & Slogan -->
+            <div class="flex flex-col gap-4 max-w-[280px]">
               <div class="flex items-center gap-3">
-                <h2 class="text-xl font-black tracking-widest text-nova-cyan">AUNOVA</h2>
+                <img src="./assets/images/logo_glass_a.png" alt="Aunova Logo" class="w-8 h-8 opacity-90" />
+                <h2 class="text-xl font-bold tracking-widest text-white">AUNOVA</h2>
               </div>
-              <div class="text-[12px] text-gray-500 tracking-widest leading-relaxed">
-                <p><span class="text-white/50">상호명:</span> 아우노바 (AUNOVA)<span class="mx-3 border-l border-white/10 h-3 inline-block align-middle"></span><span class="text-white/50">대표:</span> 장동석</p>
-                <p><span class="text-white/50">사업자등록번호:</span> 000-00-00000<span class="mx-3 border-l border-white/10 h-3 inline-block align-middle"></span><span class="text-white/50">통신판매업신고:</span> 제2024-서울-0000호</p>
-                <p><span class="text-white/50">주소:</span> 서울특별시 강남구 역삼동 000-0</p>
-                <p><span class="text-white/50">이메일:</span> contact@aunova.ai<span class="mx-3 border-l border-white/10 h-3 inline-block align-middle"></span><span class="text-white/50">대표전화:</span> 02-000-0000</p>
+              <div class="text-[12px] text-gray-400 tracking-wide leading-relaxed mt-2">
+                <p>AI 기반 3D 합성 기술로<br/>디지털 창작의 새로운 지평을 엽니다.</p>
               </div>
             </div>
-            <div class="flex flex-col gap-6 md:text-right md:items-end">
-              <div class="flex gap-6 text-[11px] text-gray-400 font-bold tracking-widest justify-start md:justify-end uppercase">
-                <a href="#" class="hover:text-nova-cyan transition-colors">이용약관</a>
-                <a href="#" class="hover:text-nova-cyan transition-colors">개인정보처리방침</a>
-                <a href="#" class="hover:text-nova-cyan transition-colors">고객센터</a>
-              </div>
-              <p class="text-[10px] text-gray-600 tracking-widest mt-auto uppercase">
-                © 2026 AUNOVA ALL RIGHTS RESERVED.
-              </p>
+
+            <!-- Column 2: SERVICE -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-white font-bold tracking-widest text-[13px] mb-2 uppercase">SERVICE</h3>
+              <ul class="flex flex-col gap-3 text-[12px] text-gray-500">
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Synthesis</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Printing</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Video</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">3D Others</a></li>
+              </ul>
             </div>
+
+            <!-- Column 3: COMPANY -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-white font-bold tracking-widest text-[13px] mb-2 uppercase">COMPANY</h3>
+              <ul class="flex flex-col gap-3 text-[12px] text-gray-500">
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">About Us</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">이용약관</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">개인정보처리방침</a></li>
+                <li><a href="#" class="hover:text-nova-cyan transition-colors">Partners</a></li>
+              </ul>
+            </div>
+
+            <!-- Column 4: CONTACT -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-white font-bold tracking-widest text-[13px] mb-2 uppercase">CONTACT</h3>
+              <ul class="flex flex-col gap-3 text-[12px] text-gray-500">
+                <li class="flex items-center gap-2">
+                  <span class="text-white/50 text-xs text-center w-4">✉</span> contact@aunova.ai
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-white/50 text-xs text-center w-4">📞</span> 02-0000-0000
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-white/50 text-xs text-center w-4">📍</span> 서울특별시 강남구
+                </li>
+              </ul>
+              <div class="flex gap-4 mt-2 text-[12px] text-gray-500">
+                <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-white transition-colors">YouTube</a>
+              </div>
+            </div>
+
           </div>
         </footer>
 
@@ -1773,6 +1806,7 @@
           
           // Begin page transition — fade the white out while 1P fades in
           setTimeout(() => {
+            window.scrollTo(0, 0);
             document.getElementById("app-shell").style.opacity = "1";
             document.getElementById("page-0").style.opacity = "0";
             // Cleanup
