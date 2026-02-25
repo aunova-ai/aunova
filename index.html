@@ -1272,37 +1272,11 @@
                 </button>
               </div>
             </div>
-            <div class="liquid-glass rounded-2xl p-5 overflow-x-auto">
-              <h3
-                class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print"
-              >
-                주문 리스트
-              </h3>
-              <div class="mb-4 flex gap-2 no-print">
-                <input type="date" id="order-filter-date" class="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
-                <input type="text" id="order-filter-text" placeholder="고객명, 제목 검색..." class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" oninput="renderOrders()">
-              </div>
-              <table class="w-full text-xs" id="order-table">
-                <thead>
-                  <tr class="text-left text-gray-400 border-b border-white/10">
-                    <th class="pb-2 pr-4">No.</th>
-                    <th class="pb-2 pr-4">접수일</th>
-                    <th class="pb-2 pr-4">고객명</th>
-                    <th class="pb-2 pr-4">제목</th>
-                    <th class="pb-2 pr-4">Lv</th>
-                    <th class="pb-2 pr-4">상태</th>
-                    <th class="pb-2">금액</th>
-                  </tr>
-                </thead>
-                <tbody class="text-gray-300" id="order-tbody">
-                  <!-- Orders injected here -->
-                </tbody>
-              </table>
-            </div>
           </div>
-          <!-- RIGHT: Cinema Viewer -->
-          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B]">
-            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print h-full w-full">
+          <!-- RIGHT: Main Content Area (Viewer + Table) -->
+          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B] flex flex-col gap-6">
+            <!-- TOP: Cinema Viewer -->
+            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print w-full shrink-0">
               <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
                 CINEMA VIEWER
               </h3>
@@ -1349,6 +1323,37 @@
                   >
                 </div>
               </div>
+            </div>
+            
+            <!-- BOTTOM: Order List -->
+            <div class="liquid-glass rounded-2xl p-5 overflow-x-auto w-full no-print">
+              <h3
+                class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print"
+              >
+                주문 리스트
+              </h3>
+              <div class="mb-4 flex gap-2 no-print">
+                <input type="date" id="order-filter-date" class="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
+                <input type="text" id="order-filter-text" placeholder="고객명, 제목 검색..." class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" oninput="renderOrders()">
+              </div>
+              <table class="w-full text-xs" id="order-table" style="min-width: 800px;">
+                <thead>
+                  <tr class="text-left text-gray-400 border-b border-white/10 whitespace-nowrap">
+                    <th class="pb-2 pr-4">No.</th>
+                    <th class="pb-2 pr-4">접수일</th>
+                    <th class="pb-2 pr-4">고객명</th>
+                    <th class="pb-2 pr-4">제목</th>
+                    <th class="pb-2 pr-4">사용 AI</th>
+                    <th class="pb-2 pr-4">디테일(엔진)</th>
+                    <th class="pb-2 pr-4">Lv</th>
+                    <th class="pb-2 pr-4">상태</th>
+                    <th class="pb-2">금액</th>
+                  </tr>
+                </thead>
+                <tbody class="text-gray-300" id="order-tbody">
+                  <!-- Orders injected here -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -2168,13 +2173,15 @@
           if (textFilter && !order.name.toLowerCase().includes(textFilter) && !order.title.toLowerCase().includes(textFilter) && !order.id.toLowerCase().includes(textFilter)) return;
           
           tbody.innerHTML += `
-            <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer selection-row transition-colors" onclick="selectOrder(${index})">
+            <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer selection-row transition-colors whitespace-nowrap" onclick="selectOrder(${index})">
               <td class="py-3 text-nova-cyan font-mono">${order.id}</td>
-              <td class="pr-2">${order.date.substring(5)}</td>
-              <td class="pr-2">${order.name}</td>
-              <td class="pr-2">${order.title}</td>
-              <td class="pr-2">${order.level}</td>
-              <td class="pr-2"><span class="${order.statusColor}">${order.status}</span></td>
+              <td class="pr-4">${order.date.substring(5)}</td>
+              <td class="pr-4">${order.name}</td>
+              <td class="pr-4">${order.title}</td>
+              <td class="pr-4 text-gray-400">${order.ai}</td>
+              <td class="pr-4 text-gray-400">${order.engine}</td>
+              <td class="pr-4 font-bold">${order.level}</td>
+              <td class="pr-4"><span class="${order.statusColor}">${order.status}</span></td>
               <td>${order.price}</td>
             </tr>
           `;
