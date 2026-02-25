@@ -199,51 +199,15 @@
         id="intro-logo-wrap"
         class="relative z-10 flex flex-col items-center animate-pulse-glow transition-all duration-700 mt-16"
       >
-        <!-- Image Slot (나중에 이미지로 교체) -->
+        <!-- Image Slot: Crossfade Animation -->
         <div
           id="intro-image-slot"
-          class="w-[340px] h-[340px] md:w-[460px] md:h-[460px] rounded-2xl border border-dashed border-white/10 flex items-center justify-center relative overflow-hidden mb-8"
+          class="w-[340px] h-[340px] md:w-[460px] md:h-[460px] rounded-2xl relative overflow-hidden mb-8"
         >
-          <svg
-            viewBox="0 0 200 200"
-            class="w-64 h-64 md:w-80 md:h-80 drop-shadow-[0_0_25px_rgba(0,245,255,0.5)] opacity-30"
-            fill="none"
-          >
-            <circle
-              cx="100"
-              cy="100"
-              r="90"
-              stroke="rgba(150,150,150,0.3)"
-              stroke-width="1.5"
-            />
-            <polygon
-              points="100,10 120,100 100,190 80,100"
-              stroke="#00F5FF"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <polygon
-              points="10,100 100,80 190,100 100,120"
-              stroke="#00F5FF"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <polygon
-              points="30,30 120,80 170,170 80,120"
-              stroke="#00F5FF"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <polygon
-              points="170,30 120,120 30,170 80,80"
-              stroke="#00F5FF"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <p class="absolute bottom-3 text-[10px] text-gray-600 tracking-wider">
-            IMAGE SLOT
-          </p>
+          <!-- Base Dark Image -->
+          <img src="./assets/images/intro_dark.png" class="absolute inset-0 w-full h-full object-cover z-10" alt="Genesis Dark">
+          <!-- Top glowing Image (fades in on click) -->
+          <img src="./assets/images/intro_light.png" id="intro-light-img" class="absolute inset-0 w-full h-full object-cover z-20 opacity-0 transition-opacity duration-[1500ms] ease-in-out" alt="Genesis Light">
         </div>
         <h1
           class="text-3xl md:text-5xl font-mono font-bold tracking-[0.3em] text-nova-cyan drop-shadow-[0_0_15px_rgba(0,245,255,0.6)]"
@@ -1859,39 +1823,53 @@
       document.getElementById("page-0").addEventListener("click", function () {
         if (this.dataset.played) return;
         this.dataset.played = "1";
+
+        // 1. Crossfade to light image
+        const lightImg = document.getElementById("intro-light-img");
+        if (lightImg) lightImg.style.opacity = "1";
+
         const boom = document.getElementById("sfx-boom");
         const ambient = document.getElementById("sfx-ambient");
-        boom.volume = 0.5;
-        boom.play().catch(() => {});
-        // Soft White Flash
-        const flash = document.getElementById("intro-flash");
-        const logoWrap = document.getElementById("intro-logo-wrap");
-        logoWrap.style.transition =
-          "transform 1.2s ease-out, filter 1s ease-out, opacity 1s ease-out";
-        logoWrap.style.transform = "scale(1.3)";
-        logoWrap.style.filter = "brightness(4)";
-        // Gradual white wash
+        
+        // Let the crossfade run for 1.2s before explosion
         setTimeout(() => {
-          flash.style.opacity = "0.85";
-        }, 200);
-        // Ambient sound
-        setTimeout(() => {
-          ambient.volume = 0.12;
-          ambient.play().catch(() => {});
-        }, 600);
-        // Logo fades into white
-        setTimeout(() => {
-          logoWrap.style.opacity = "0";
-        }, 600);
-        // Begin page transition — fade the white out while 1P fades in
-        setTimeout(() => {
-          document.getElementById("app-shell").style.opacity = "1";
-          document.getElementById("page-0").style.opacity = "0";
-          // Cleanup
+          boom.volume = 0.5;
+          boom.play().catch(() => {});
+          
+          // Soft White Flash & Scale
+          const flash = document.getElementById("intro-flash");
+          const logoWrap = document.getElementById("intro-logo-wrap");
+          logoWrap.style.transition =
+            "transform 1.2s ease-out, filter 1s ease-out, opacity 1s ease-out";
+          logoWrap.style.transform = "scale(1.3)";
+          logoWrap.style.filter = "brightness(4)";
+          
+          // Gradual white wash
           setTimeout(() => {
-            document.getElementById("page-0").style.display = "none";
-          }, 1500);
-        }, 1200);
+            flash.style.opacity = "0.85";
+          }, 200);
+          
+          // Ambient sound
+          setTimeout(() => {
+            ambient.volume = 0.12;
+            ambient.play().catch(() => {});
+          }, 600);
+          
+          // Logo fades into white
+          setTimeout(() => {
+            logoWrap.style.opacity = "0";
+          }, 600);
+          
+          // Begin page transition — fade the white out while 1P fades in
+          setTimeout(() => {
+            document.getElementById("app-shell").style.opacity = "1";
+            document.getElementById("page-0").style.opacity = "0";
+            // Cleanup
+            setTimeout(() => {
+              document.getElementById("page-0").style.display = "none";
+            }, 1500);
+          }, 1200);
+        }, 1200); // Wait 1.2s for image glow to materialize
       });
 
       // === SPA NAV ===
