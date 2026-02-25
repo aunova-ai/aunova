@@ -1237,7 +1237,7 @@
         id="page-admin-1"
         class="spa-page h-screen flex-col pt-0 pb-0 px-0 overflow-hidden"
       >
-        <div class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen w-full">
+        <div class="grid grid-cols-1 xl:grid-cols-[850px_1fr] gap-0 h-screen w-full">
           <!-- LEFT: Order List -->
           <div class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5 relative">
             <div class="flex flex-col gap-2 mb-4 no-print shrink-0">
@@ -2131,7 +2131,17 @@
         { id: '#005', name: '정태호', title: '메카닉 건담', level: 'Lv.4', status: '완료', price: '₩100,000', date: '2026-02-23', polygon: '350,100', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '31.4%', img: 'asset/lv4.png', statusColor: 'text-green-400' },
         { id: '#006', name: '강수연', title: '고양이 조각상', level: 'Lv.2', status: '진행중', price: '₩35,000', date: '2026-02-25', polygon: '42,000', engine: 'Nova v2', ai: 'Texture AI v1', margin: '48.2%', img: 'asset/lv2.png', statusColor: 'text-yellow-400' },
         { id: '#007', name: '이동현', title: '게임 프랍 무기', level: 'Lv.3', status: '완료', price: '₩200,000', date: '2026-02-24', polygon: '210,500', engine: 'Nova v3', ai: 'Texture AI v1', margin: '33.1%', img: 'asset/lv3.png', statusColor: 'text-green-400' },
-        { id: '#008', name: '윤지아', title: '인테리어 소품', level: 'Lv.4', status: '대기', price: '₩100,000', date: '2026-02-26', polygon: '65,000', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '42.0%', img: 'asset/lv4.png', statusColor: 'text-gray-500' }
+        { id: '#008', name: '윤지아', title: '인테리어 소품', level: 'Lv.4', status: '대기', price: '₩100,000', date: '2026-02-26', polygon: '65,000', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '42.0%', img: 'asset/lv4.png', statusColor: 'text-gray-500' },
+        { id: '#009', name: '홍길동', title: '캐릭터 3D 프린팅', level: 'Lv.2', status: '완료', price: '₩45,000', date: '2026-02-20', polygon: '55,000', engine: 'Nova v2', ai: '-', margin: '50.1%', img: 'asset/lv2.png', statusColor: 'text-green-400' },
+        { id: '#010', name: '김유신', title: '전통 갑옷 모형', level: 'Lv.4', status: '대기', price: '₩120,000', date: '2026-02-27', polygon: '280,000', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '38.5%', img: 'asset/lv4.png', statusColor: 'text-gray-500' },
+        { id: '#011', name: '신사임당', title: '디퓨저 병기', level: 'Lv.1', status: '진행중', price: '₩15,000', date: '2026-02-25', polygon: '8,000', engine: 'Nova v1', ai: '-', margin: '60.0%', img: 'asset/lv1.png', statusColor: 'text-yellow-400' },
+        { id: '#012', name: '안중근', title: '총기 프랍 모델', level: 'Lv.3', status: '완료', price: '₩180,000', date: '2026-02-22', polygon: '190,000', engine: 'Nova v3', ai: 'Texture AI v1', margin: '36.8%', img: 'asset/lv3.png', statusColor: 'text-green-400' },
+        { id: '#013', name: '유관순', title: '기념탑 렌더링', level: 'Lv.5', status: '대기', price: '₩400,000', date: '2026-02-26', polygon: '650,000', engine: 'Nova v4', ai: 'Nova Engine v3', margin: '25.0%', img: 'asset/lv5.png', statusColor: 'text-gray-500' },
+        { id: '#014', name: '이순신', title: '거북선 피규어', level: 'Lv.4', status: '완료', price: '₩150,000', date: '2026-02-21', polygon: '310,000', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '30.5%', img: 'asset/lv4.png', statusColor: 'text-green-400' },
+        { id: '#015', name: '장보고', title: '선박 프로토타입', level: 'Lv.5', status: '진행중', price: '₩450,000', date: '2026-02-25', polygon: '800,000', engine: 'Nova v4', ai: 'Nova Engine v3', margin: '22.0%', img: 'asset/lv5.png', statusColor: 'text-yellow-400' },
+        { id: '#016', name: '계백', title: '전투 마차 모형', level: 'Lv.3', status: '완료', price: '₩210,000', date: '2026-02-23', polygon: '240,000', engine: 'Nova v3', ai: 'Texture AI v1', margin: '31.2%', img: 'asset/lv3.png', statusColor: 'text-green-400' },
+        { id: '#017', name: '김춘추', title: '왕관 디자인', level: 'Lv.2', status: '대기', price: '₩60,000', date: '2026-02-26', polygon: '95,000', engine: 'Nova v2', ai: '-', margin: '45.0%', img: 'asset/lv2.png', statusColor: 'text-gray-500' },
+        { id: '#018', name: '선덕여왕', title: '천문대 모형', level: 'Lv.4', status: '진행중', price: '₩130,000', date: '2026-02-25', polygon: '400,000', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '39.0%', img: 'asset/lv4.png', statusColor: 'text-yellow-400' }
       ];
 
       let currentSelectedOrder = -1;
