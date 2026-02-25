@@ -1239,8 +1239,8 @@
       >
         <div class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen w-full">
           <!-- LEFT: Order List -->
-          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5">
-            <div class="flex flex-col gap-2 mb-4 no-print">
+          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5 relative">
+            <div class="flex flex-col gap-2 mb-4 no-print shrink-0">
               <!-- AUNOVA Title -->
               <div class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">
                 AUNOVA
@@ -1272,69 +1272,21 @@
                 </button>
               </div>
             </div>
-          </div>
-          <!-- RIGHT: Main Content Area (Viewer + Table) -->
-          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B] flex flex-col gap-6">
-            <!-- TOP: Cinema Viewer -->
-            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print w-full shrink-0">
-              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
-                CINEMA VIEWER
-              </h3>
-              <div
-                id="cinema-main-viewer"
-                class="flex-1 bg-black/40 rounded-xl flex items-center justify-center min-h-[300px] relative overflow-hidden"
-              >
-                <p class="text-gray-600 text-sm">모델 선택 시 표시</p>
-              </div>
-              <div id="cinema-thumbnails" class="mt-4 flex gap-2 overflow-x-auto hide-scrollbar cursor-grab pb-2 select-none" style="scroll-behavior: smooth;">
-                <!-- Thumbnails injected here -->
-              </div>
-              <div
-                class="mt-4 grid grid-cols-5 gap-3 text-xs text-gray-500 bg-black/20 rounded-lg p-3"
-              >
-                <div>
-                  <span class="text-gray-600">접수일</span><br /><span
-                    class="text-white" id="cv-date"
-                    >-</span
-                  >
+
+            <!-- Order List Table -->
+            <div class="liquid-glass rounded-2xl p-5 overflow-x-auto w-full no-print flex-1 content-start">
+              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print">주문 리스트</h3>
+              <div class="mb-4 flex flex-col gap-2 no-print min-w-[500px]">
+                <div class="flex gap-2">
+                  <input type="date" id="order-filter-date" class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
+                  <select id="order-filter-status" class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
+                    <option value="">(상태 전체)</option>
+                    <option value="대기">대기</option>
+                    <option value="진행중">진행중</option>
+                    <option value="완료">완료</option>
+                  </select>
                 </div>
-                <div>
-                  <span class="text-gray-600">폴리곤</span><br /><span
-                    class="text-white" id="cv-poly"
-                    >-</span
-                  >
-                </div>
-                <div>
-                  <span class="text-gray-600">엔진</span><br /><span
-                    class="text-white" id="cv-engine"
-                    >-</span
-                  >
-                </div>
-                <div>
-                  <span class="text-gray-600">사용 AI</span><br /><span
-                    class="text-white" id="cv-ai"
-                    >-</span
-                  >
-                </div>
-                <div>
-                  <span class="text-gray-600">마진율</span><br /><span
-                    class="text-green-400" id="cv-margin"
-                    >-</span
-                  >
-                </div>
-              </div>
-            </div>
-            
-            <!-- BOTTOM: Order List -->
-            <div class="liquid-glass rounded-2xl p-5 overflow-x-auto w-full no-print">
-              <h3
-                class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print"
-              >
-                주문 리스트
-              </h3>
-              <div class="mb-4 flex gap-2 no-print">
-                <input type="date" id="order-filter-date" class="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" onchange="renderOrders()">
-                <input type="text" id="order-filter-text" placeholder="고객명, 제목 검색..." class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" oninput="renderOrders()">
+                <input type="text" id="order-filter-text" placeholder="고객명, 제목 검색..." class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" oninput="renderOrders()">
               </div>
               <table class="w-full text-xs" id="order-table" style="min-width: 800px;">
                 <thead>
@@ -1354,6 +1306,29 @@
                   <!-- Orders injected here -->
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          <!-- RIGHT: Main Content Area (Viewer) -->
+          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B] flex flex-col gap-6">
+            <!-- TOP: Cinema Viewer -->
+            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print w-full h-full max-w-[1000px] mx-auto">
+              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
+                CINEMA VIEWER
+              </h3>
+              <div id="cinema-main-viewer" class="flex-1 bg-black/40 rounded-xl flex items-center justify-center min-h-[300px] relative overflow-hidden">
+                <p class="text-gray-600 text-sm">모델 선택 시 표시</p>
+              </div>
+              <div id="cinema-thumbnails" class="mt-4 flex gap-2 overflow-x-auto hide-scrollbar cursor-grab pb-2 select-none" style="scroll-behavior: smooth;">
+                <!-- Thumbnails injected here -->
+              </div>
+              <div class="mt-4 grid grid-cols-5 gap-3 text-xs text-gray-500 bg-black/20 rounded-lg p-3">
+                <div><span class="text-gray-600">접수일</span><br /><span class="text-white" id="cv-date">-</span></div>
+                <div><span class="text-gray-600">폴리곤</span><br /><span class="text-white" id="cv-poly">-</span></div>
+                <div><span class="text-gray-600">엔진</span><br /><span class="text-white" id="cv-engine">-</span></div>
+                <div><span class="text-gray-600">사용 AI</span><br /><span class="text-white" id="cv-ai">-</span></div>
+                <div><span class="text-gray-600">마진율</span><br /><span class="text-green-400" id="cv-margin">-</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -2165,11 +2140,13 @@
         const tbody = document.getElementById('order-tbody');
         if (!tbody) return;
         const dateFilter = document.getElementById('order-filter-date').value;
+        const statusFilter = document.getElementById('order-filter-status').value;
         const textFilter = document.getElementById('order-filter-text').value.toLowerCase();
         
         tbody.innerHTML = '';
         adminOrders.forEach((order, index) => {
           if (dateFilter && order.date !== dateFilter) return;
+          if (statusFilter && order.status !== statusFilter) return;
           if (textFilter && !order.name.toLowerCase().includes(textFilter) && !order.title.toLowerCase().includes(textFilter) && !order.id.toLowerCase().includes(textFilter)) return;
           
           tbody.innerHTML += `
