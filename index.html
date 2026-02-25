@@ -194,16 +194,7 @@
              <img id="intro-light-img" src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-cover object-[center_35%] scale-[1.9] z-20 opacity-0 transition-all duration-[1500ms] ease-in-out" alt="Genesis Light Star" />
         </div>
 
-        <h1 class="text-3xl md:text-5xl font-mono font-bold tracking-[0.3em] text-nova-cyan drop-shadow-[0_0_15px_rgba(0,245,255,0.6)] z-10">
-          AUNOVA
-        </h1>
-        <div class="w-20 h-[1px] bg-gradient-to-r from-transparent via-nova-cyan to-transparent my-4 opacity-60 z-10"></div>
-        <p class="text-sm tracking-[0.5em] text-gray-500 opacity-50 mb-7 z-10">
-          DIGITAL GENESIS
-        </p>
-        <p class="text-xs md:text-sm text-gray-400 font-light tracking-widest opacity-80 animate-pulse-slow z-10 drop-shadow-md">
-          상상하는 모든 것이 현실이 되는 공간.
-        </p>
+        <div class="w-20 h-[1px] bg-gradient-to-r from-transparent via-nova-cyan to-transparent my-4 opacity-60 z-10 hidden" id="intro-divider"></div>
       </div>
 
       <audio id="sfx-boom" preload="auto">
@@ -386,24 +377,24 @@
         <!-- Hero Section -->
         <div class="w-full flex flex-col items-center pt-8 pb-16 px-4 relative">
           <!-- The Glowing Star Background/Image -->
-          <div class="relative w-full max-w-4xl h-[400px] md:h-[600px] flex items-center justify-center mb-0 pointer-events-none">
-            <!-- Increased height and adjusted mask to prevent clipping at the top -->
-            <img src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-contain filter brightness-125 md:scale-110 drop-shadow-[0_0_50px_rgba(0,245,255,0.4)] z-10" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);">
+          <div class="relative w-full max-w-5xl h-[450px] md:h-[650px] flex items-center justify-center mb-0 pointer-events-none mt-4">
+            <!-- Increased height and widened mask to completely prevent clipping at the top -->
+            <img src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-contain filter brightness-125 md:scale-100 drop-shadow-[0_0_50px_rgba(0,245,255,0.4)] z-10" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(ellipse at center, black 50%, transparent 80%); mask-image: radial-gradient(ellipse at center, black 50%, transparent 80%);">
             
-            <!-- Radiating High-Quality Sample Images (Pushed Outwards) -->
-            <div class="absolute top-[8%] left-[15%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+            <!-- Radiating High-Quality Sample Images (Pushed Outwards significantly) -->
+            <div class="absolute top-[5%] left-[5%] md:left-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
                <img src="https://images.unsplash.com/photo-1633424669815-568b209d7df9?w=300&q=80" class="w-16 h-24 md:w-24 md:h-32 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 1" />
             </div>
             
-            <div class="absolute bottom-[20%] left-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+            <div class="absolute bottom-[10%] left-[2%] md:left-[8%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" class="w-20 h-20 md:w-28 md:h-28 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 2" />
             </div>
 
-            <div class="absolute top-[12%] right-[15%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+            <div class="absolute top-[8%] right-[5%] md:right-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
                <img src="https://images.unsplash.com/photo-1633394334057-7977a452bf91?w=300&q=80" class="w-20 h-16 md:w-28 md:h-24 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 3" />
             </div>
 
-            <div class="absolute bottom-[25%] right-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+            <div class="absolute bottom-[15%] right-[2%] md:right-[8%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
                <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=300&q=80" class="w-16 h-20 md:w-24 md:h-28 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 4" />
             </div>
           </div>
@@ -581,6 +572,25 @@
           </div>
         </div>
 
+        <!-- Section 2: AUNOVA SOLUTION Video Promo (Empty Space Reserved) -->
+        <div class="w-full max-w-5xl mx-auto px-4 py-8 mb-20">
+          <h3 class="text-nova-cyan text-sm md:text-base font-bold tracking-[0.3em] mb-4">AUNOVA SOLUTION</h3>
+          <p class="text-gray-400 text-sm md:text-base mb-12 max-w-2xl leading-relaxed">
+            AUNOVA 솔루션을 사용하여 추억을 남기세요.<br/>
+            추억을 당신 곁에 두세요.
+          </p>
+
+          <!-- Empty Video Container -->
+          <div class="w-full aspect-video rounded-3xl border border-white/10 bg-[#0A0A0B]/50 shadow-2xl flex items-center justify-center relative group">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none rounded-3xl"></div>
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+              <div class="w-24 h-24 rounded-full border border-white/20 bg-black/30 backdrop-blur-md flex items-center justify-center transition-all duration-500">
+                <div class="w-0 h-0 border-t-[12px] border-t-transparent border-l-[24px] border-l-white border-b-[12px] border-b-transparent ml-3 transition-colors"></div>
+              </div>
+            </div>
+            <p class="text-white/30 tracking-[0.2em] text-sm absolute bottom-6 left-8 z-10 font-bold">VIDEO PLACEHOLDER</p>
+          </div>
+        </div>
       </section>
 
 
