@@ -500,10 +500,12 @@
         id="page-2"
         class="spa-page h-screen flex-col pt-0 pb-0 pl-0 pr-[192px] overflow-hidden"
       >
-        <!-- Main Content: 2 Columns -->
+        <!-- Main Content: Vertical Split (Top Workspace, Bottom Summary) -->
         <div
-          class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen"
+          class="flex flex-col w-full h-screen"
         >
+          <!-- TOP ROW: Input Panel + Center Display -->
+          <div class="grid grid-cols-1 md:grid-cols-[360px_1fr] flex-1 min-h-0 border-b border-nova-cyan/10">
           <!-- LEFT: Input Panel -->
           <div
             class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5"
@@ -667,16 +669,16 @@
             <button
               id="btn-generate"
               onclick="handleGenerate()"
-              class="w-full py-4 bg-nova-cyan text-black font-black rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-[0.2em] text-sm mt-auto disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-none"
+              class="w-full py-4 bg-nova-cyan text-black font-black rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all tracking-[0.2em] text-sm mt-auto disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-none mb-2"
               disabled
             >
               GENERATE OBJECT
             </button>
           </div>
 
-          <!-- RIGHT: Center Display (Aunova Logo) -->
+          <!-- RIGHT: Center Display (Only Preview Image, No Logo) -->
           <div
-            class="col-span-12 lg:col-span-7 flex flex-col items-center justify-center relative overflow-hidden border border-nova-cyan/30 shadow-[0_0_30px_rgba(0,245,255,0.1)] rounded-xl"
+            class="col-span-12 lg:col-span-7 flex flex-col items-center justify-center relative overflow-hidden border border-nova-cyan/20 bg-black/40 shadow-[0_0_30px_rgba(0,245,255,0.05)] rounded-xl min-h-0 h-full"
           >
             <!-- Top Navigation Tabs (Process Flow) -->
             <div class="fixed top-5 left-1/2 -translate-x-1/2 flex justify-center gap-4 z-50 pointer-events-none">
@@ -695,110 +697,15 @@
             </div>
 
             <!-- Animated Background -->
-            <div
-              class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.04)_0%,transparent_70%)]"
-            ></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.04)_0%,transparent_70%)]"></div>
 
-            <!-- Glow Ring -->
-            <div
-              class="absolute w-[300px] h-[300px] rounded-full border border-nova-cyan/10 animate-pulse"
-            ></div>
-            <div
-              class="absolute w-[250px] h-[250px] rounded-full border border-nova-cyan/5"
-            ></div>
-
-            <!-- Star Logo (default) -->
-            <div
-              id="center-display"
-              class="relative z-10 flex flex-col items-center"
-            >
-              <svg
-                id="center-logo"
-                viewBox="0 0 200 200"
-                class="w-56 h-56 drop-shadow-[0_0_30px_#00F5FF] transition-all duration-500"
-              >
-                <polygon
-                  points="100,10 120,100 100,190 80,100"
-                  stroke="#00F5FF"
-                  stroke-width="3"
-                  fill="none"
-                />
-                <polygon
-                  points="10,100 100,80 190,100 100,120"
-                  stroke="#00F5FF"
-                  stroke-width="3"
-                  fill="none"
-                />
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="55"
-                  stroke="#00F5FF"
-                  stroke-width="1"
-                  fill="none"
-                  opacity="0.3"
-                />
-                <text
-                  x="100"
-                  y="105"
-                  text-anchor="middle"
-                  fill="#00F5FF"
-                  font-size="10"
-                  font-weight="bold"
-                  letter-spacing="2"
-                  class="font-black"
-                >
-                  ★
-                </text>
-              </svg>
-              <p
-                class="text-nova-cyan text-3xl font-black tracking-tighter mt-2"
-              >
-                AUNOVA
-              </p>
-              <p
-                id="center-level-label"
-                class="text-[10px] text-white/25 tracking-widest mt-1"
-              >
-                Lv.1 — BASIC
-              </p>
-            </div>
-
-            <!-- Center Sample Image (shown when level selected) -->
+            <!-- Center Sample Image -->
             <img
               id="center-sample-img"
               src=""
-              class="absolute z-10 w-[70%] max-h-[70%] object-contain rounded-xl transition-all duration-500 opacity-0 pointer-events-none"
+              class="absolute z-10 w-full h-full object-contain p-8 rounded-xl transition-all duration-500 opacity-0 pointer-events-none"
               alt="Sample"
             />
-
-            <!-- Footer Text & PRICING Block (Bottom Horizontal Bar) -->
-            <div id="sidebar-pricing" class="absolute bottom-0 left-0 w-full px-8 py-4 flex justify-between items-center z-20 bg-[#0A0A0B]/80 backdrop-blur-md border-t border-white/10 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
-              <!-- Left side: info text -->
-              <p class="text-[9px] text-white/30 tracking-widest uppercase mb-1 hidden md:block">
-                powered by aunova-3d | v1.0.4<br/>(Updated: 2026-02-22 23:00)
-              </p>
-              
-              <!-- Right side: TOTAL ESTIMATE (Horizontal Layout) -->
-              <div class="pointer-events-auto flex items-center gap-8">
-                <div class="flex flex-col text-right">
-                  <p class="text-[10px] text-nova-cyan font-bold tracking-widest uppercase">Total Estimate</p>
-                  <p class="text-[8px] text-gray-500 mt-1">* 견적은 설정에 의해 변동됩니다.</p>
-                </div>
-                
-                <div class="flex items-center gap-6">
-                  <!-- Deposit (Bottom right of green box in diagram) -->
-                  <div class="flex flex-col text-right border-r border-white/10 pr-6">
-                    <span class="text-[10px] text-gray-400 mb-1">Deposit</span>
-                    <span class="text-sm font-bold text-nova-cyan">15,000<span class="text-[10px] font-normal text-white/50 ml-1">원</span></span>
-                  </div>
-                  <!-- Total -->
-                  <div class="flex items-baseline gap-1">
-                    <p id="total-price" class="text-3xl font-black text-white">25,000<span class="text-sm font-normal text-white/50 ml-1">원</span></p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           
           <!-- RIGHT: Reserved Empty Space (To maintain layout and push center display to center-left) -->
@@ -806,6 +713,59 @@
             <!-- Empty: Menu removed as requested -->
           </div>
         </div>
+
+        <!-- BOTTOM ROW: Logo & Horizontal Pricing Bar -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[240px] flex-shrink-0 mt-4 relative">
+          <!-- Col 10: spans across Left Canvas and Center Preview -->
+          <div class="col-span-12 lg:col-span-10 flex items-center justify-between relative overflow-hidden border border-nova-cyan/20 bg-[#06080A] shadow-[0_0_30px_rgba(0,245,255,0.05)] rounded-xl px-10">
+            
+            <!-- Logo inside Bottom Bar -->
+            <div id="center-display" class="relative z-10 flex flex-col items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-[0.6]">
+              <!-- Glow Ring -->
+              <div class="absolute w-[300px] h-[300px] rounded-full border border-nova-cyan/20 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+              <div class="absolute w-[250px] h-[250px] rounded-full border border-nova-cyan/10"></div>
+              
+              <svg id="center-logo" viewBox="0 0 200 200" class="w-56 h-56 drop-shadow-[0_0_30px_#00F5FF] transition-all duration-500">
+                <polygon points="100,10 120,100 100,190 80,100" stroke="#00F5FF" stroke-width="3" fill="none"/>
+                <polygon points="10,100 100,80 190,100 100,120" stroke="#00F5FF" stroke-width="3" fill="none"/>
+                <circle cx="100" cy="100" r="55" stroke="#00F5FF" stroke-width="1" fill="none" opacity="0.3"/>
+                <text x="100" y="105" text-anchor="middle" fill="#00F5FF" font-size="10" font-weight="bold" letter-spacing="2" class="font-black">★</text>
+              </svg>
+              <p class="text-nova-cyan text-4xl font-black tracking-tighter mt-4 drop-shadow-[0_0_10px_#00F5FF]">AUNOVA</p>
+              <p id="center-level-label" class="text-[12px] text-white/40 tracking-widest mt-2 uppercase font-mono">Lv.1 — BASIC</p>
+            </div>
+
+            <!-- Left side of Bottom Bar: info text -->
+            <div class="relative z-20 flex self-end pb-6">
+              <p class="text-[9px] text-white/20 tracking-[0.2em] font-light leading-relaxed hidden md:block">
+                POWERED BY AUNOVA-3D | v1.0.4<br/>(UPDATED: 2026-02-22 23:00)
+              </p>
+            </div>
+            
+            <!-- Right side of Bottom Bar: TOTAL ESTIMATE -->
+            <div class="relative z-20 self-end pb-4 pt-4 pointer-events-auto flex items-end gap-8 bg-black/20 backdrop-blur-sm p-4 rounded-xl border border-white/5">
+              <div class="flex flex-col text-right h-full justify-between">
+                <p class="text-[10px] text-nova-cyan font-bold tracking-[0.2em] uppercase mb-4 drop-shadow-[0_0_5px_#00F5FF]">Total Estimate</p>
+                <p class="text-[8px] text-gray-500">* 견적은 설정에 의해 변동됩니다.</p>
+              </div>
+              
+              <div class="flex items-center gap-6 h-full border-l border-white/10 pl-6">
+                <!-- Deposit -->
+                <div class="flex flex-col text-right h-full justify-end pr-4">
+                  <span class="text-[9px] text-white/40 tracking-wider mb-2">Deposit</span>
+                  <span class="text-sm font-bold text-nova-cyan tracking-wider drop-shadow-[0_0_2px_#00F5FF]">15,000 <span class="text-[10px] font-light text-white/50 ml-0.5">원</span></span>
+                </div>
+                <!-- Total -->
+                <div class="flex items-end h-full justify-end pl-2">
+                  <p id="total-price" class="text-[40px] leading-none font-black text-white tracking-tight drop-shadow-lg">25,000<span class="text-sm font-light text-white/50 ml-2">원</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Col 2: Empty Space Alignment -->
+          <div class="col-span-12 lg:col-span-2 hidden lg:block"></div>
+        </div>
+      </div>
 
 
       </section>
