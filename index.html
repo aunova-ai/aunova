@@ -373,7 +373,10 @@
           </div>
           <!-- Right Auth & CTA -->
           <div class="flex items-center gap-4">
-            <button onclick="openModal('auth-modal')" class="text-xs font-bold text-black bg-nova-cyan hover:bg-cyan-300 tracking-widest px-8 py-2.5 flex items-center gap-2 rounded-sm transition-all shadow-[0_0_15px_rgba(0,245,255,0.4)] hover:shadow-[0_0_25px_rgba(0,245,255,0.6)]">
+            <button onclick="openModal('auth-modal')" class="text-xs font-bold text-white/70 hover:text-white tracking-widest px-4 py-2 border border-white/20 rounded-sm hover:bg-white/10 transition-colors">
+              LOGIN
+            </button>
+            <button onclick="openModal('auth-modal')" class="text-xs font-bold text-black bg-nova-cyan hover:bg-cyan-300 tracking-widest px-6 py-2.5 flex items-center gap-2 rounded-sm transition-all shadow-[0_0_15px_rgba(0,245,255,0.4)] hover:shadow-[0_0_25px_rgba(0,245,255,0.6)]">
               <svg fill="currentColor" viewBox="0 0 24 24" class="w-4 h-4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
               SIGN IN
             </button>
@@ -383,21 +386,27 @@
         <!-- Hero Section -->
         <div class="w-full flex flex-col items-center pt-8 pb-16 px-4 relative">
           <!-- The Glowing Star Background/Image -->
-          <div class="relative w-full max-w-4xl h-[340px] md:h-[500px] flex items-center justify-center mb-0 pointer-events-none">
+          <div class="relative w-full max-w-4xl h-[340px] md:h-[500px] mt-16 flex items-center justify-center mb-10 pointer-events-none">
             <!-- Utilizing the identical star logic for hero -->
             <img src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-contain filter brightness-125 md:scale-125 drop-shadow-[0_0_50px_rgba(0,245,255,0.4)] z-10" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(circle, black 30%, transparent 60%); mask-image: radial-gradient(circle, black 30%, transparent 60%);">
             
-            <!-- Mock Floating objects -->
-            <div class="absolute top-[20%] left-[10%] drop-shadow-2xl z-20"><span class="text-3xl opacity-70">🗽</span></div>
-            <div class="absolute bottom-[20%] left-[20%] drop-shadow-2xl z-20"><span class="text-4xl opacity-70">🧠</span></div>
-            <div class="absolute top-[10%] right-[20%] drop-shadow-2xl opacity-60 z-20"><span class="text-3xl">🎥</span></div>
-            <div class="absolute bottom-[20%] right-[10%] drop-shadow-2xl opacity-80 z-20"><span class="text-5xl">📖</span></div>
-          </div>
+            <!-- Radiating High-Quality Sample Images -->
+            <div class="absolute top-[5%] left-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+               <img src="https://images.unsplash.com/photo-1633424669815-568b209d7df9?w=300&q=80" class="w-16 h-24 md:w-24 md:h-32 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 1" />
+            </div>
+            
+            <div class="absolute bottom-[0%] left-[15%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+               <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" class="w-20 h-20 md:w-28 md:h-28 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 2" />
+            </div>
 
-          <!-- Hero Text -->
-          <h2 class="text-4xl md:text-5xl font-mono font-bold text-white tracking-widest mb-4 z-20 text-center">NOVA</h2>
-          <p class="text-xl md:text-3xl font-bold text-white mb-2 z-20 text-center">Stop asking questions.</p>
-          <p class="text-xl md:text-3xl font-bold text-white z-20 text-center mb-10">Start creating worlds.</p>
+            <div class="absolute top-[0%] right-[15%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+               <img src="https://images.unsplash.com/photo-1633394334057-7977a452bf91?w=300&q=80" class="w-20 h-16 md:w-28 md:h-24 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 3" />
+            </div>
+
+            <div class="absolute bottom-[5%] right-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
+               <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=300&q=80" class="w-16 h-20 md:w-24 md:h-28 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 4" />
+            </div>
+          </div>
           
           <!-- Blinking Scroll Indicator -->
           <div class="animate-bounce cursor-pointer z-20 flex flex-col items-center group" onclick="document.getElementById('page1-below').scrollIntoView({ behavior: 'smooth' })">
