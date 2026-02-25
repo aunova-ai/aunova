@@ -1345,8 +1345,8 @@
       >
         <div class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen w-full">
           <!-- LEFT: AI Model Cards -->
-          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5">
-            <div class="flex flex-col gap-2 mb-4 no-print">
+          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 border-r border-white/5 overflow-hidden h-screen">
+            <div class="flex flex-col gap-2 mb-4 no-print shrink-0">
               <!-- AUNOVA Title -->
               <div class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">
                 AUNOVA
@@ -1372,38 +1372,40 @@
                 </button>
               </div>
             </div>
-            <div class="liquid-glass rounded-2xl p-5">
-              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
-                AI MODEL DECK
-              </h3>
-              <div id="model-deck" class="space-y-3">
-                <div
-                  draggable="true"
-                  class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center"
-                >
-                  <div>
-                    <p class="font-bold text-sm">Nova Engine v3</p>
-                    <p class="text-xs text-gray-500">사용량 72%</p>
-                  </div>
-                  <div
-                    class="w-12 h-12 rounded-full border-4 border-nova-cyan border-r-transparent animate-[spin_3s_linear_infinite]"
-                    style="border-radius: 50%"
-                  ></div>
+
+            <!-- AI MODEL DECK (Collapsible) -->
+            <div id="model-deck-parent" class="liquid-glass rounded-2xl p-5 flex flex-col min-h-0 flex-1 transition-all duration-300">
+              <div class="flex justify-between items-center mb-4 cursor-pointer select-none" onclick="toggleAccordion('model-deck-wrapper', 'model-chevron', 'model-deck-parent')">
+                <h3 class="text-nova-cyan font-bold text-sm tracking-wider">
+                  AI MODEL DECK
+                </h3>
+                <span id="model-chevron" class="text-gray-400 transform rotate-180 transition-transform duration-300 ease-in-out">▼</span>
+              </div>
+              <div id="model-deck-wrapper" class="flex-1 overflow-y-auto hide-scrollbar" style="display: block;">
+                <div id="model-deck" class="space-y-3 pb-2">
+                  <!-- Models injected here -->
                 </div>
-                <!-- Other models removed for brevity, will eventually be dynamic too -->
               </div>
             </div>
 
-            <div class="liquid-glass rounded-2xl p-5 mt-4">
-              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4 flex justify-between items-center">
-                <span>AI API DECK</span>
+            <!-- AI API DECK (Collapsible) -->
+            <div id="api-deck-parent" class="liquid-glass rounded-2xl p-5 mt-2 flex flex-col min-h-0 flex-1 transition-all duration-300">
+              <div class="flex justify-between items-center mb-4 cursor-pointer select-none" onclick="toggleAccordion('api-deck-wrapper', 'api-chevron', 'api-deck-parent')">
                 <div class="flex items-center gap-2">
-                  <span class="text-xs text-gray-500 font-normal">드래그 우선순위</span>
-                  <button onclick="openApiModal()" class="px-2 py-1 bg-nova-cyan/20 text-nova-cyan rounded text-xs hover:bg-nova-cyan/40 transition-colors cursor-pointer">+ 새로 만들기</button>
+                  <h3 class="text-nova-cyan font-bold text-sm tracking-wider">AI API DECK</h3>
                 </div>
-              </h3>
-              <div id="api-deck" class="space-y-2">
-                <!-- APIs injected here -->
+                <div class="flex items-center gap-3">
+                  <button onclick="openApiModal(); event.stopPropagation();" class="px-2 py-1 bg-nova-cyan/20 text-nova-cyan rounded text-[10px] hover:bg-nova-cyan/40 transition-colors cursor-pointer">+ 새로 만들기</button>
+                  <span id="api-chevron" class="text-gray-400 transform rotate-180 transition-transform duration-300 ease-in-out">▼</span>
+                </div>
+              </div>
+              <div id="api-deck-wrapper" class="flex-1 overflow-y-auto hide-scrollbar" style="display: block;">
+                <div class="mb-2 flex justify-between px-1">
+                  <span class="text-[10px] text-gray-500 font-normal">드래그 우선순위 배열</span>
+                </div>
+                <div id="api-deck" class="space-y-2 pb-2">
+                  <!-- APIs injected here -->
+                </div>
               </div>
             </div>
           </div>
@@ -1472,6 +1474,10 @@
           <div>
             <label class="block text-xs text-gray-400 mb-1">제공자 (Provider)</label>
             <input type="text" id="api-modal-provider" class="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-nova-cyan outline-none" placeholder="ex. OpenAI">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">API Key</label>
+            <input type="password" id="api-modal-apikey" class="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-sm text-white focus:border-nova-cyan outline-none" placeholder="sk-...">
           </div>
           <div>
             <label class="block text-xs text-gray-400 mb-1">초기 사용량 (%)</label>
@@ -2242,12 +2248,74 @@
         });
       }
 
-      // === ADMIN LAB API DECK LOGIC ===
+      // === ADMIN LAB LOGIC ===
+
+      function toggleAccordion(wrapperId, chevronId, parentId) {
+        const wrapper = document.getElementById(wrapperId);
+        const chevron = document.getElementById(chevronId);
+        const parent = document.getElementById(parentId);
+        
+        const isExpanded = wrapper.style.display !== 'none';
+        if (isExpanded) {
+          wrapper.style.display = 'none';
+          chevron.style.transform = 'rotate(0deg)';
+          parent.classList.remove('flex-1');
+        } else {
+          wrapper.style.display = 'block';
+          chevron.style.transform = 'rotate(180deg)';
+          parent.classList.add('flex-1');
+        }
+      }
+
+      // === MODEL DECK ===
+      let modelList = [
+        { id: 'm-1', name: 'Nova Engine v3', usageAmt: '1,200', remaining: '800', percent: 72, margin: '42%', color: 'border-nova-cyan' },
+        { id: 'm-2', name: 'Mesh Refiner v2', usageAmt: '800', remaining: '1,200', percent: 45, margin: '35%', color: 'border-purple-400' },
+        { id: 'm-3', name: 'Texture AI v1', usageAmt: '300', remaining: '1,700', percent: 28, margin: '55%', color: 'border-amber-400' }
+      ];
+
+      function renderModelDeck() {
+        const deck = document.getElementById('model-deck');
+        if(!deck) return;
+        deck.innerHTML = '';
+        modelList.forEach((m, index) => {
+          deck.innerHTML += `
+            <div
+              draggable="true"
+              class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-grab hover:border-nova-cyan/30 transition-all flex justify-between items-center group relative overflow-hidden"
+            >
+              <div class="flex-1 pr-4 relative z-10">
+                <div class="flex justify-between items-end mb-2">
+                  <p class="font-bold text-sm text-white">${m.name}</p>
+                  <p class="text-[10px] text-green-400 border border-green-500/30 px-1 rounded bg-green-500/10 tracking-wider">마진율 ${m.margin}</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[10px] text-gray-500 mb-2 font-mono">
+                  <div>
+                    <span class="block">USE: <span class="text-white">${m.usageAmt}</span> API/s</span>
+                  </div>
+                  <div>
+                    <span class="block text-right">REM: <span class="text-white">${m.remaining}</span> GEN</span>
+                  </div>
+                </div>
+                <div class="w-full bg-black/50 h-1.5 rounded-full overflow-hidden mt-2">
+                  <div class="h-full bg-white/50" style="width: ${m.percent}%"></div>
+                </div>
+              </div>
+              <div class="shrink-0 flex items-center justify-center relative w-12 h-12 z-10">
+                <div class="absolute inset-0 rounded-full border-4 ${m.color} border-l-transparent animate-[spin_3s_linear_infinite]" style="border-radius: 50%"></div>
+                <span class="text-[10px] font-bold text-white relative z-10">${m.percent}%</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      // === API DECK ===
       let apiList = [
-        { id: 'api-1', name: 'OpenAI GPT-4 Vision', provider: 'OpenAI', active: true, usage: 85, color: 'text-green-400' },
-        { id: 'api-2', name: 'Claude 3 Opus', provider: 'Anthropic', active: true, usage: 40, color: 'text-purple-400' },
-        { id: 'api-3', name: 'Midjourney v6', provider: 'Midjourney', active: false, usage: 15, color: 'text-blue-400' },
-        { id: 'api-4', name: 'Stable Diffusion XL', provider: 'Stability AI', active: true, usage: 60, color: 'text-orange-400' }
+        { id: 'api-1', name: 'OpenAI GPT-4 Vision', provider: 'OpenAI', apiKey: 'sk-1A2B', active: true, usage: 85, color: 'text-green-400' },
+        { id: 'api-2', name: 'Claude 3 Opus', provider: 'Anthropic', apiKey: 'sk-ant-1234', active: true, usage: 40, color: 'text-purple-400' },
+        { id: 'api-3', name: 'Midjourney v6', provider: 'Midjourney', apiKey: '', active: false, usage: 15, color: 'text-blue-400' },
+        { id: 'api-4', name: 'Stable Diffusion XL', provider: 'Stability AI', apiKey: 'sk-sd-5678', active: true, usage: 60, color: 'text-orange-400' }
       ];
 
       function renderApiDeck() {
@@ -2259,6 +2327,13 @@
           const toggleBg = api.active ? 'bg-nova-cyan' : 'bg-gray-600';
           const toggleDot = api.active ? 'translate-x-4' : 'translate-x-0';
           
+          let maskedKey = 'Empty';
+          if (api.apiKey && api.apiKey.length > 4) {
+            maskedKey = '••••' + api.apiKey.slice(-4);
+          } else if (api.apiKey) {
+            maskedKey = '••••';
+          }
+
           deck.innerHTML += `
             <div 
               class="api-slot relative border rounded-xl p-3 flex flex-col gap-3 cursor-pointer transition-all ${activeClass}"
@@ -2279,7 +2354,7 @@
                       <span class="text-xs font-mono text-gray-500">P${index + 1}</span>
                       <p class="font-bold text-sm ${api.active ? 'text-white' : 'text-gray-400'}">${api.name}</p>
                     </div>
-                    <p class="text-[10px] text-gray-500">${api.provider}</p>
+                    <p class="text-[10px] text-gray-500">${api.provider} <span class="opacity-50 mx-1">|</span> Key: <span class="font-mono text-nova-cyan">${maskedKey}</span></p>
                   </div>
                 </div>
                 <div class="flex items-center gap-3">
@@ -2410,6 +2485,7 @@
       document.addEventListener("DOMContentLoaded", () => {
         renderOrders();
         selectOrder(2); // Initially select #003 박서준
+        renderModelDeck(); // Render Model deck on load
         renderApiDeck(); // Render API deck on load
 
         const slider = document.getElementById('cinema-thumbnails');
