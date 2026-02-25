@@ -386,8 +386,8 @@
         <div class="w-full flex flex-col items-center pt-8 pb-16 px-4 relative">
           <!-- The Glowing Star Background/Image -->
           <div class="relative w-full max-w-5xl h-[450px] md:h-[650px] flex items-center justify-center mb-0 mt-4">
-            <!-- Utilizing the original cleaned background without the heavy drop-shadow fog to keep it natural -->
-            <img src="./assets/images/intro_light_no_text.jpg" class="absolute inset-0 w-full h-full object-cover mix-blend-screen z-10 opacity-90" alt="Aunova Star">
+            <!-- Added a very soft radial mask to blend out the hard edges of the jpg image into the black background -->
+            <img src="./assets/images/intro_light_no_text.jpg" class="absolute inset-0 w-full h-full object-cover mix-blend-screen z-10 opacity-90" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);">
             
             <!-- Radiating High-Quality Sample Images (Pushed Outwards significantly) -->
             <div class="absolute top-[10%] left-[5%] md:left-[10%] drop-shadow-2xl z-20 cursor-pointer hover:scale-110 transition-transform duration-500">
