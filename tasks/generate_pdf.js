@@ -18,7 +18,7 @@ mdContent = mdContent.replace(/!\[(.*?)\]\(\.\/([^)]+\.png)\)/g, (match, alt, fi
     let html = `<div style="display: flex; flex-direction: column; gap: 30px; margin: 40px 0; page-break-inside: avoid;">`;
     
     if (fs.existsSync(cleanPath)) {
-        const cleanUri = "file:///" + cleanPath.replace(/\\/g, '/');
+        const cleanUri = encodeURI("file:///" + cleanPath.replace(/\\/g, '/'));
         html += `
           <div style="border: 2px solid #ddd; border-radius: 8px; padding: 15px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
             <h3 style="margin-top: 0; margin-bottom: 10px; color: #222; font-family: sans-serif; border-bottom: 1px solid #eee; padding-bottom: 10px;">?? UI Screen</h3>
@@ -28,7 +28,7 @@ mdContent = mdContent.replace(/!\[(.*?)\]\(\.\/([^)]+\.png)\)/g, (match, alt, fi
     }
     
     if (fs.existsSync(annotatedPath)) {
-        const annUri = "file:///" + annotatedPath.replace(/\\/g, '/');
+        const annUri = encodeURI("file:///" + annotatedPath.replace(/\\/g, '/'));
         html += `
           <div style="border: 2px solid #00F5FF; border-radius: 8px; padding: 15px; background: #0A0A0B; box-shadow: 0 8px 15px rgba(0, 245, 255, 0.1);">
             <h3 style="margin-top: 0; margin-bottom: 10px; color: #00F5FF; font-family: sans-serif; border-bottom: 1px solid #333; padding-bottom: 10px;">Annotated UI/UX Regions</h3>
@@ -123,7 +123,16 @@ downloadMarked().then(markedJs => {
     <script>
         const rawMd = ${JSON.stringify(mdContent)};
         document.getElementById('content').innerHTML = marked.parse(rawMd);
-        window.__done = true;
+        
+        Promise.all(Array.from(document.images).map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(resolve => {
+                img.onload = resolve;
+                img.onerror = resolve;
+            });
+        })).then(() => {
+            window.__done = true;
+        });
     </script>
 </body>
 </html>
@@ -158,6 +167,6 @@ downloadMarked().then(markedJs => {
         
         console.log("PDF generated successfully at: " + pdfPath);
         await browser.close();
-        fs.unlinkSync(tmpHtml);
+        // fs.unlinkSync(tmpHtml); // Leave it for debugging
     })();
 }).catch(console.error);
