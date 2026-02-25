@@ -1409,9 +1409,10 @@
               </div>
             </div>
           </div>
-          <!-- RIGHT: Time Machine -->
-          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B]">
-            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print h-full w-full">
+          <!-- RIGHT: Time Machine & Prompt Composer -->
+          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B] flex flex-col gap-6">
+            <!-- TIME MACHINE BLOCK -->
+            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print shrink-0">
               <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
                 TIME MACHINE
               </h3>
@@ -1434,7 +1435,7 @@
               </div>
               <div
                 id="version-editor"
-                class="bg-black/40 rounded-xl p-4 font-mono text-xs text-gray-300 min-h-[200px] border border-nova-purple overflow-y-auto max-h-[45vh] whitespace-pre-wrap flex-1"
+                class="bg-black/40 rounded-xl p-4 font-mono text-xs text-gray-300 min-h-[150px] border border-nova-purple overflow-y-auto max-h-[30vh] whitespace-pre-wrap flex-1"
               >
                 <!-- Content injected by JS -->
               </div>
@@ -1451,6 +1452,49 @@
                 >
                   + 새 버전 (Clone)
                 </button>
+              </div>
+            </div>
+
+            <!-- PROMPT COMPOSER BLOCK -->
+            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print flex-1 min-h-[350px]">
+              <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
+                PROMPT COMPOSER
+              </h3>
+              <div class="flex flex-1 gap-6 overflow-hidden">
+                <!-- Left: LLM Chat -->
+                <div class="flex-1 flex flex-col border border-white/10 rounded-xl bg-black/20 overflow-hidden">
+                  <div class="bg-white/5 p-2 border-b border-white/10">
+                    <span class="text-xs text-gray-400 font-bold">LLM Assistant</span>
+                  </div>
+                  <div id="llm-chat-window" class="flex-1 p-3 overflow-y-auto hide-scrollbar space-y-3 text-xs flex flex-col">
+                    <div class="bg-nova-purple/20 border border-nova-purple/40 rounded-lg p-3 text-purple-200 self-start max-w-[90%]">
+                      현재 설정에 맞는 프롬프트 조각을 추천해 드릴까요? "시네마틱", "언리얼엔진" 등 키워드를 말씀해 주세요.
+                    </div>
+                  </div>
+                  <div class="p-2 border-t border-white/10 flex gap-2">
+                    <input type="text" id="llm-chat-input" placeholder="프롬프트 추천 요청..." class="flex-1 bg-black/50 border border-white/20 rounded px-3 py-2 text-xs text-white focus:border-nova-cyan outline-none" onkeypress="if(event.key === 'Enter') sendLlmChat()">
+                    <button onclick="sendLlmChat()" class="px-3 py-2 bg-nova-cyan/20 text-nova-cyan rounded hover:bg-nova-cyan/40 transition-colors text-xs font-bold">Send</button>
+                  </div>
+                </div>
+
+                <!-- Right: Prompt Slots Builder -->
+                <div class="flex-1 flex flex-col gap-4">
+                  <!-- Live Prompt String -->
+                  <div class="shrink-0 flex flex-col h-[100px]">
+                    <span class="text-xs text-gray-400 mb-1">Live Prompt Text</span>
+                    <textarea id="live-prompt-string" class="flex-1 w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-gray-300 focus:border-nova-cyan outline-none font-mono resize-none"></textarea>
+                  </div>
+                  <!-- Slots Inventory -->
+                  <div class="flex-1 flex flex-col min-h-0">
+                    <div class="flex justify-between items-end mb-2">
+                      <span class="text-xs text-gray-400">Available Slots</span>
+                      <button onclick="applyPromptToVersion()" class="text-[10px] px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-gray-300">현재 버전에 적용</button>
+                    </div>
+                    <div id="prompt-slots-container" class="flex-1 bg-black/20 border border-white/10 rounded-xl p-3 overflow-y-auto hide-scrollbar flex flex-wrap gap-2 content-start">
+                      <!-- Slots injected by JS -->
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -2628,15 +2672,118 @@ ${apiText}
         renderDecks(); // re-render to fix priority numbers
       }
 
+      // === PROMPT COMPOSER LOGIC ===
+      let promptSlots = [
+        { id: 'p1', name: 'Cinematic Lighting', value: 'Cinematic lighting, volumetric rays' },
+        { id: 'p2', name: '8k Resolution', value: '8k resolution, highly detailed' },
+        { id: 'p3', name: 'Unreal Engine', value: 'Unreal engine 5 render, octane render' },
+        { id: 'p4', name: 'Cyberpunk', value: 'Cyberpunk style, neon lights, dark city' }
+      ];
+      
+      function renderPromptSlots() {
+        const container = document.getElementById('prompt-slots-container');
+        if(!container) return;
+        container.innerHTML = '';
+        promptSlots.forEach(slot => {
+          container.innerHTML += `
+            <div onclick="addPromptSlot('${slot.value}')" class="px-3 py-1.5 bg-nova-purple/20 border border-nova-purple/40 text-purple-200 text-[10px] rounded-lg cursor-pointer hover:bg-nova-purple/40 hover:-translate-y-0.5 transition-all shrink-0 shadow-[0_4px_10px_rgba(0,0,0,0.3)]">
+              + ${slot.name}
+            </div>
+          `;
+        });
+      }
+
+      function addPromptSlot(val) {
+        const textarea = document.getElementById('live-prompt-string');
+        const current = textarea.value.trim();
+        if(current) {
+          textarea.value = current + ', ' + val;
+        } else {
+          textarea.value = val;
+        }
+        textarea.classList.add('bg-nova-purple/10');
+        setTimeout(() => textarea.classList.remove('bg-nova-purple/10'), 300);
+      }
+
+      function sendLlmChat() {
+        const input = document.getElementById('llm-chat-input');
+        const text = input.value.trim();
+        if(!text) return;
+        
+        const chatWindow = document.getElementById('llm-chat-window');
+        
+        // Add user message bubble
+        chatWindow.innerHTML += `
+          <div class="bg-white/10 border border-white/20 rounded-lg p-3 text-white self-end max-w-[90%]">
+            ${text}
+          </div>
+        `;
+        input.value = '';
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        
+        // Simulate LLM Processing and response
+        setTimeout(() => {
+          let reply = '요청하신 내용을 바탕으로 프롬프트 조각을 생성했습니다. 우측 슬롯을 탭해 조합해 보세요!';
+          let newSlots = [];
+          
+          if(text.includes('사이버펑크') || text.includes('미래') || text.includes('사펑')) {
+            newSlots = [
+              { id: 'p' + Date.now(), name: 'Neon City Aesthetic', value: 'Neon city aesthetic, futuristic, glowing lights, rainy streets' },
+              { id: 'p' + (Date.now()+1), name: 'Holographic', value: 'floating holograms, highly detailed cyberpunk architecture' }
+            ];
+          } else if(text.includes('애니') || text.includes('카툰')) {
+            newSlots = [
+              { id: 'p' + Date.now(), name: 'Anime Style', value: 'Anime style, Studio Ghibli inspired, vibrant colors, clear sky' },
+              { id: 'p' + (Date.now()+1), name: 'Cel Shading', value: 'Cel shading, crisp outlines, flat colors' }
+            ];
+          } else {
+            newSlots = [
+              { id: 'p' + Date.now(), name: 'Custom Concept', value: text + ' inspired, beautiful design, trending on artstation' }
+            ];
+          }
+          
+          promptSlots = [...newSlots, ...promptSlots];
+          if(promptSlots.length > 12) promptSlots = promptSlots.slice(0, 12); // Limit slots
+          
+          // Add LLM reply bubble
+          chatWindow.innerHTML += `
+            <div class="bg-nova-purple/20 border border-nova-purple/40 rounded-lg p-3 text-purple-200 self-start max-w-[90%]">
+              ${reply}
+            </div>
+          `;
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+          renderPromptSlots(); // Refresh UI slots
+        }, 800);
+      }
+
+      function applyPromptToVersion() {
+        const slider = document.getElementById('version-slider');
+        const index = parseInt(slider.value) - 1;
+        if(index < 0 || index >= versionHistory.length) return;
+        
+        const textarea = document.getElementById('live-prompt-string');
+        const newText = textarea.value.trim();
+        
+        if(!newText) return;
+        
+        versionHistory[index].fixedPrompt = newText;
+        renderVersionEditor(slider.value); // Update terminal readout
+        
+        textarea.classList.add('border-nova-cyan', 'shadow-[0_0_15px_rgba(0,245,255,0.2)]');
+        setTimeout(() => textarea.classList.remove('border-nova-cyan', 'shadow-[0_0_15px_rgba(0,245,255,0.2)]'), 500);
+      }
+
       // Thumbnail Horizontal Scroll (Drag) implementation
       document.addEventListener("DOMContentLoaded", () => {
         renderOrders();
         selectOrder(2); // Initially select #003 박서준
         renderDecks(); // Render both AI decks on load
         renderVersionSlider(); // Initialize Time Machine slider and Editor readout
+        renderPromptSlots(); // Initialize Prompt Slots
 
         const slider = document.getElementById('cinema-thumbnails');
         if (!slider) return;
+
         let isDown = false;
         let startX;
         let scrollLeft;
