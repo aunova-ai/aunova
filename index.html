@@ -1288,17 +1288,17 @@
                 </div>
                 <input type="text" id="order-filter-text" placeholder="고객명, 제목 검색..." class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white" oninput="renderOrders()">
               </div>
-              <table class="w-full text-xs" id="order-table" style="min-width: 800px;">
+              <table class="w-full text-xs" id="order-table">
                 <thead>
                   <tr class="text-left text-gray-400 border-b border-white/10 whitespace-nowrap">
-                    <th class="pb-2 pr-4">No.</th>
-                    <th class="pb-2 pr-4">접수일</th>
-                    <th class="pb-2 pr-4">고객명</th>
-                    <th class="pb-2 pr-4">제목</th>
-                    <th class="pb-2 pr-4">사용 AI</th>
-                    <th class="pb-2 pr-4">디테일(엔진)</th>
-                    <th class="pb-2 pr-4">Lv</th>
-                    <th class="pb-2 pr-4">상태</th>
+                    <th class="pb-2 pr-2">No.</th>
+                    <th class="pb-2 pr-2">접수일</th>
+                    <th class="pb-2 pr-2">고객명</th>
+                    <th class="pb-2 pr-2">제목</th>
+                    <th class="pb-2 pr-2">사용 AI</th>
+                    <th class="pb-2 pr-2">디테일(엔진)</th>
+                    <th class="pb-2 pr-2">Lv</th>
+                    <th class="pb-2 pr-2">상태</th>
                     <th class="pb-2">금액</th>
                   </tr>
                 </thead>
@@ -2161,14 +2161,14 @@
           
           tbody.innerHTML += `
             <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer selection-row transition-colors whitespace-nowrap" onclick="selectOrder(${index})">
-              <td class="py-3 text-nova-cyan font-mono">${order.id}</td>
-              <td class="pr-4">${order.date.substring(5)}</td>
-              <td class="pr-4">${order.name}</td>
-              <td class="pr-4">${order.title}</td>
-              <td class="pr-4 text-gray-400">${order.ai}</td>
-              <td class="pr-4 text-gray-400">${order.engine}</td>
-              <td class="pr-4 font-bold">${order.level}</td>
-              <td class="pr-4"><span class="${order.statusColor}">${order.status}</span></td>
+              <td class="py-3 text-nova-cyan font-mono pr-2">${order.id}</td>
+              <td class="pr-2">${order.date.substring(5)}</td>
+              <td class="pr-2">${order.name}</td>
+              <td class="pr-2 truncate max-w-[120px]" title="${order.title}">${order.title}</td>
+              <td class="pr-2 text-gray-400">${order.ai}</td>
+              <td class="pr-2 text-gray-400">${order.engine}</td>
+              <td class="pr-2 font-bold">${order.level}</td>
+              <td class="pr-2"><span class="${order.statusColor}">${order.status}</span></td>
               <td>${order.price}</td>
             </tr>
           `;
