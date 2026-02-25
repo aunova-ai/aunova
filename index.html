@@ -379,7 +379,7 @@
           <!-- The Glowing Star Background/Image -->
           <div class="relative w-full max-w-5xl h-[450px] md:h-[650px] flex items-center justify-center mb-0 pointer-events-none mt-4">
             <!-- Increased height and widened mask to completely prevent clipping at the top -->
-            <img src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-contain filter brightness-125 md:scale-100 drop-shadow-[0_0_50px_rgba(0,245,255,0.4)] z-10" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(ellipse at center, black 50%, transparent 80%); mask-image: radial-gradient(ellipse at center, black 50%, transparent 80%);">
+            <img src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-contain filter brightness-125 md:scale-100 drop-shadow-[0_0_50px_rgba(0,245,255,0.4)] z-10" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%); mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);">
             
             <!-- Radiating High-Quality Sample Images (Pushed Outwards significantly) -->
             <div class="absolute top-[5%] left-[5%] md:left-[10%] drop-shadow-2xl z-20 pointer-events-auto cursor-pointer hover:scale-110 transition-transform duration-500">
@@ -401,12 +401,7 @@
           
           <!-- Red Box: Hero Text & Scroll Down Indicator (Moved lower) -->
           <div class="z-20 flex flex-col items-center mt-[-60px] md:mt-[-80px]">
-            <!-- Title -->
-            <div class="flex flex-col md:flex-row items-center gap-4 mb-3">
-               <h2 class="text-4xl md:text-5xl font-mono font-bold text-white tracking-widest mt-2 md:mt-0">NOVA GENESIS</h2>
-            </div>
-            
-            <p class="text-sm md:text-base font-bold text-gray-400 mb-12 tracking-wider">상상하는 모든 것이 현실이 되는 공간.</p>
+            <!-- Redundant Title text removed since it is natively baked into the intro_light image -->
             
             <!-- Blinking Scroll Indicator -->
             <div class="animate-bounce cursor-pointer flex flex-col items-center group" onclick="document.getElementById('page1-below').scrollIntoView({ behavior: 'smooth' })">
@@ -516,6 +511,25 @@
           </p>
         </div> -->
 
+        <!-- Section 2: AUNOVA SOLUTION Video Promo (Empty Space Reserved) -->
+        <div class="w-full max-w-5xl mx-auto px-4 py-8 mb-20">
+          <h3 class="text-nova-cyan text-sm md:text-base font-bold tracking-[0.3em] mb-4">AUNOVA SOLUTION</h3>
+          <p class="text-gray-400 text-sm md:text-base mb-12 max-w-2xl leading-relaxed">
+            AUNOVA 솔루션을 사용하여 추억을 남기세요.<br/>
+            추억을 당신 곁에 두세요.
+          </p>
+
+          <!-- Empty Video Container -->
+          <div class="w-full aspect-video rounded-3xl border border-white/10 bg-[#0A0A0B]/50 shadow-2xl flex items-center justify-center relative group">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none rounded-3xl"></div>
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+              <div class="w-24 h-24 rounded-full border border-white/20 bg-black/30 backdrop-blur-md flex items-center justify-center transition-all duration-500">
+                <div class="w-0 h-0 border-t-[12px] border-t-transparent border-l-[24px] border-l-white border-b-[12px] border-b-transparent ml-3 transition-colors"></div>
+              </div>
+            </div>
+            <p class="text-white/30 tracking-[0.2em] text-sm absolute bottom-6 left-8 z-10 font-bold">VIDEO PLACEHOLDER</p>
+          </div>
+        </div>
       </section>
 
         <!-- Company Info Footer (Bottom, Full Width, High Z) -->
@@ -571,27 +585,6 @@
             <p class="text-[10px] text-gray-600">사업자등록번호: 000-00-00000 | 대표: OOO</p>
           </div>
         </div>
-
-        <!-- Section 2: AUNOVA SOLUTION Video Promo (Empty Space Reserved) -->
-        <div class="w-full max-w-5xl mx-auto px-4 py-8 mb-20">
-          <h3 class="text-nova-cyan text-sm md:text-base font-bold tracking-[0.3em] mb-4">AUNOVA SOLUTION</h3>
-          <p class="text-gray-400 text-sm md:text-base mb-12 max-w-2xl leading-relaxed">
-            AUNOVA 솔루션을 사용하여 추억을 남기세요.<br/>
-            추억을 당신 곁에 두세요.
-          </p>
-
-          <!-- Empty Video Container -->
-          <div class="w-full aspect-video rounded-3xl border border-white/10 bg-[#0A0A0B]/50 shadow-2xl flex items-center justify-center relative group">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none rounded-3xl"></div>
-            <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-              <div class="w-24 h-24 rounded-full border border-white/20 bg-black/30 backdrop-blur-md flex items-center justify-center transition-all duration-500">
-                <div class="w-0 h-0 border-t-[12px] border-t-transparent border-l-[24px] border-l-white border-b-[12px] border-b-transparent ml-3 transition-colors"></div>
-              </div>
-            </div>
-            <p class="text-white/30 tracking-[0.2em] text-sm absolute bottom-6 left-8 z-10 font-bold">VIDEO PLACEHOLDER</p>
-          </div>
-        </div>
-      </section>
 
 
 
