@@ -2336,19 +2336,16 @@
 
           deck.innerHTML += `
             <div 
-              class="api-slot relative border rounded-xl p-3 flex flex-col gap-3 cursor-pointer transition-all ${activeClass}"
-              draggable="true"
+              class="api-slot relative border rounded-xl p-3 flex flex-col gap-3 transition-all ${activeClass}"
               data-index="${index}"
-              ondragstart="handleApiDragStart(event)"
               ondragover="handleApiDragOver(event)"
               ondrop="handleApiDrop(event)"
-              ondragend="handleApiDragEnd(event)"
               ondblclick="openApiModal(${index})"
               title="더블클릭하여 수정"
             >
               <div class="flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                  <div class="text-gray-500 cursor-grab hover:text-white" title="드래그하여 이동">⋮⋮</div>
+                  <div class="text-gray-500 cursor-grab hover:text-white" title="드래그하여 이동" draggable="true" ondragstart="handleApiDragStart(event)" ondragend="handleApiDragEnd(event)">⋮⋮</div>
                   <div>
                     <div class="flex items-center gap-2">
                       <span class="text-xs font-mono text-gray-500">P${index + 1}</span>
@@ -2367,7 +2364,7 @@
               </div>
               <div class="w-full flex items-center gap-2 px-6">
                 <span class="text-[10px] text-gray-600">0%</span>
-                <input type="range" min="0" max="100" value="${api.usage}" class="flex-1 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer" oninput="updateApiUsage(${index}, this.value, event)" ondblclick="event.stopPropagation()">
+                <input type="range" min="0" max="100" value="${api.usage}" class="flex-1 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer" onmousedown="event.stopPropagation()" ondragstart="event.preventDefault(); event.stopPropagation();" oninput="updateApiUsage(${index}, this.value, event)" ondblclick="event.stopPropagation()">
                 <span class="text-[10px] text-gray-600">100%</span>
               </div>
             </div>
@@ -2451,8 +2448,10 @@
 
       let draggedApiIndex = null;
       function handleApiDragStart(e) {
-        draggedApiIndex = parseInt(e.currentTarget.getAttribute('data-index'));
-        e.currentTarget.classList.add('opacity-50', 'scale-95');
+        const slot = e.target.closest('.api-slot');
+        if(!slot) return;
+        draggedApiIndex = parseInt(slot.getAttribute('data-index'));
+        slot.classList.add('opacity-50', 'scale-95');
         e.dataTransfer.effectAllowed = 'move';
       }
       function handleApiDragOver(e) {
@@ -2475,9 +2474,10 @@
         e.currentTarget.classList.remove('border-dashed', 'border-white/50');
       }
       function handleApiDragEnd(e) {
-        e.currentTarget.classList.remove('opacity-50', 'scale-95');
+        const slot = e.target.closest('.api-slot');
+        if(slot) slot.classList.remove('opacity-50', 'scale-95');
         const slots = document.querySelectorAll('.api-slot');
-        slots.forEach(slot => slot.classList.remove('border-dashed', 'border-white/50'));
+        slots.forEach(s => s.classList.remove('border-dashed', 'border-white/50'));
         renderApiDeck(); // re-render to fix priority numbers
       }
 
