@@ -224,10 +224,11 @@
     <div id="app-shell" class="opacity-0 transition-opacity duration-1000">
 
 
-      <!-- Right Sidebar (Always Visible) -->
+      <!-- Right Sidebar (Conditionally Visible) -->
       <aside
         id="right-sidebar"
         class="fixed right-0 top-0 z-[45] w-[192px] h-full bg-[#0A0A0B]/95 border-l border-white/5 flex flex-col no-print backdrop-blur-sm"
+        style="display: none"
       >
         <!-- Top: Auth Buttons -->
         <div class="flex gap-2 p-4 pt-5">
@@ -351,219 +352,245 @@
       </aside>
 
       <!-- ═══════════ 1P: GENESIS (LANDING) ═══════════ -->
-      <section id="page-1" class="spa-page active flex-col relative">
-
-        <!-- Left Sidebar (Mode Selector) -->
-        <aside
-          id="left-sidebar"
-          class="fixed left-0 top-0 z-[45] w-[144px] h-full bg-[#0A0A0B]/95 border-r border-white/5 flex flex-col no-print backdrop-blur-sm"
-        >
-          <div class="p-4 pt-5">
-            <div
-              class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer mb-6"
-              onclick="navigateTo('page-1')"
-            >
-              AUNOVA
-            </div>
+      <section id="page-1" class="spa-page active flex flex-col relative w-full overflow-x-hidden pt-20 pb-0">
+        
+        <!-- Top Navigation Bar -->
+        <nav class="absolute md:fixed top-0 left-0 w-full h-20 px-8 flex justify-between items-center z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/5">
+          <!-- Logo -->
+          <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('page-1')">
+            <h1 class="text-xl md:text-2xl font-black tracking-widest text-nova-cyan">ALINOVA</h1>
           </div>
-          <div class="p-4 pt-0">
-            <p class="text-[9px] text-white/30 tracking-[0.3em] font-bold mb-4">
-              MODE
-            </p>
-
-            <button
-              onclick="selectMode('3d')"
-              id="mode-3d"
-              class="mode-tab mode-active w-full text-left mb-3 group cursor-pointer"
-            >
-              <p
-                class="text-sm font-semibold text-nova-cyan group-hover:text-nova-cyan transition-colors"
-              >
-                NOVA-3D
-              </p>
-              <p class="text-[9px] text-white/25">3D Modeling</p>
+          <!-- Center Links -->
+          <div class="hidden md:flex items-center gap-8 text-[11px] font-bold tracking-[0.2em] text-white/70">
+            <a href="#" class="text-nova-cyan hover:text-white transition-colors">NOVA-FORM</a>
+            <a href="#" class="hover:text-nova-cyan transition-colors">NOVA-MOTION</a>
+            <a href="#" class="hover:text-nova-cyan transition-colors">NOVA-OBJECT</a>
+            <a href="#" class="hover:text-nova-cyan transition-colors">NOVA-ARCHIVE</a>
+          </div>
+          <!-- Right Auth & CTA -->
+          <div class="flex items-center gap-4">
+            <button onclick="openModal('auth-modal')" class="text-xs font-bold text-white/70 hover:text-white tracking-widest px-4 py-2 border border-white/20 rounded-sm hover:bg-white/10 transition-colors">
+              LOGIN
             </button>
-
-            <button
-              id="mode-video"
-              class="w-full text-left mb-3 cursor-not-allowed opacity-40"
-              disabled
-            >
-              <p class="text-sm font-semibold text-white/30">NOVA-LIVE</p>
-              <p class="text-[9px] text-nova-cyan/30">COMING SOON</p>
+            <button onclick="navigateTo('page-2')" class="text-xs font-bold text-black bg-nova-cyan hover:bg-cyan-300 tracking-widest px-6 py-2.5 rounded-sm transition-all shadow-[0_0_15px_rgba(0,245,255,0.4)] hover:shadow-[0_0_25px_rgba(0,245,255,0.6)]">
+              START CREATING
             </button>
           </div>
-        </aside>
+        </nav>
 
-        <!-- First Screen: Full Viewport -->
-        <div class="min-h-screen flex items-center text-center px-4 relative">
-          <div
-            class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.03)_0%,transparent_60%)] pointer-events-none"
-          ></div>
-
-          <div
-            class="max-w-5xl mx-auto z-10 flex flex-col items-center w-full flex-1 justify-between pt-28 pb-10"
-          >
-            <!-- Image Placeholder Slot -->
-            <div
-              id="hero-image-slot"
-              class="w-72 h-80 md:w-96 md:h-[420px] rounded-2xl border border-white/10 flex items-center justify-center relative overflow-hidden group mb-6 bg-white/[0.02]"
-            >
-              <svg
-                viewBox="0 0 200 200"
-                class="w-48 h-48 md:w-64 md:h-64 drop-shadow-[0_0_25px_rgba(0,245,255,0.4)] opacity-20 group-hover:opacity-40 transition-opacity"
-                fill="none"
-              >
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="90"
-                  stroke="rgba(150,150,150,0.3)"
-                  stroke-width="1.5"
-                />
-                <polygon
-                  points="100,10 120,100 100,190 80,100"
-                  stroke="#00F5FF"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                />
-                <polygon
-                  points="10,100 100,80 190,100 100,120"
-                  stroke="#00F5FF"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                />
-                <polygon
-                  points="30,30 120,80 170,170 80,120"
-                  stroke="#00F5FF"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                />
-                <polygon
-                  points="170,30 120,120 30,170 80,80"
-                  stroke="#00F5FF"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <p
-                class="absolute bottom-3 text-[10px] text-gray-600 tracking-wider"
-              >
-                IMAGE SLOT
-              </p>
-            </div>
-
-            <!-- Text Content (빨간 영역 — 아래로 이동) -->
-            <div class="flex flex-col items-center">
-
-              <!-- DIGITAL GENESIS -->
-              <h1
-                class="text-3xl md:text-5xl font-light text-white tracking-widest mb-6"
-              >
-                NOVA-3D:
-              </h1>
-
-              <!-- Korean Tagline -->
-              <p
-                class="text-lg md:text-2xl font-bold text-nova-cyan mb-3 leading-relaxed"
-              >
-                사진을 <span class="text-white">3D</span>로 3D를
-                <span class="text-white">3D PRINTING</span>으로
-              </p>
-
-              <!-- Description -->
-              <p class="text-sm text-gray-500 mb-8 max-w-lg">
-                AI 기반의 혁신적인 3D 합성 솔루션이 당신의 창의적 한계를
-                넘어서게 합니다.
-              </p>
-
-              <!-- CTA Button -->
-              <button
-                onclick="navigateTo('page-2')"
-                class="px-12 py-4 border border-white/20 text-white font-bold tracking-wider rounded-sm hover:bg-white/5 hover:border-nova-cyan/50 transition-all duration-300 mb-10"
-              >
-                GENESIS
-              </button>
-
-              <!-- Scroll Indicator -->
-              <div
-                class="animate-bounce cursor-pointer"
-                onclick="
-                  document
-                    .getElementById('page1-below')
-                    .scrollIntoView({ behavior: 'smooth' })
-                "
-              >
-                <p class="text-[11px] text-nova-cyan tracking-[0.3em] mb-2">
-                  SCROLL TO EXPLORE
-                </p>
-                <svg
-                  class="w-5 h-5 text-nova-cyan mx-auto"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                  />
-                </svg>
-              </div>
-            </div>
+        <!-- Hero Section -->
+        <div class="w-full flex flex-col items-center pt-8 pb-16 px-4 relative">
+          <!-- The Glowing Star Background/Image -->
+          <div class="relative w-full max-w-4xl h-[340px] md:h-[500px] flex items-center justify-center mb-0 pointer-events-none">
+            <!-- Utilizing the identical star logic for hero -->
+            <img src="./assets/images/intro_light.png" class="absolute inset-0 w-full h-full object-contain filter brightness-125 md:scale-125 drop-shadow-[0_0_50px_rgba(0,245,255,0.4)] z-10" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(circle, black 30%, transparent 60%); mask-image: radial-gradient(circle, black 30%, transparent 60%);">
+            
+            <!-- Mock Floating objects -->
+            <div class="absolute top-[20%] left-[10%] drop-shadow-2xl z-20"><span class="text-3xl opacity-70">🗽</span></div>
+            <div class="absolute bottom-[20%] left-[20%] drop-shadow-2xl z-20"><span class="text-4xl opacity-70">🧠</span></div>
+            <div class="absolute top-[10%] right-[20%] drop-shadow-2xl opacity-60 z-20"><span class="text-3xl">🎥</span></div>
+            <div class="absolute bottom-[20%] right-[10%] drop-shadow-2xl opacity-80 z-20"><span class="text-5xl">📖</span></div>
           </div>
+
+          <!-- Hero Text -->
+          <h2 class="text-4xl md:text-5xl font-mono font-bold text-white tracking-widest mb-4 z-20 text-center">NOVA</h2>
+          <p class="text-xl md:text-3xl font-bold text-white mb-2 z-20 text-center">Stop asking questions.</p>
+          <p class="text-xl md:text-3xl font-bold text-white z-20 text-center">Start creating worlds.</p>
+          
+          <div class="w-[1px] h-16 bg-gradient-to-b from-nova-cyan to-transparent mt-12 mb-8 opacity-50 z-20"></div>
         </div>
 
-        <!-- Below the Fold: Video / Showcase Section -->
-        <div
-          id="page1-below"
-          class="min-h-screen flex flex-col items-center justify-center px-4 py-24"
-        >
-          <div class="max-w-5xl mx-auto w-full">
-            <h3
-              class="text-3xl md:text-4xl text-nova-cyan font-thin tracking-widest mb-3"
-            >
-              MOTION SYNTHESIS
-            </h3>
-            <div class="w-16 h-[2px] bg-nova-cyan/30 mb-6"></div>
-            <p class="text-gray-400 text-lg font-light mb-10 max-w-2xl">
-              Aunova의 모션 합성 기술은 정적인 이미지에 생명을 불어넣습니다.<br />단
-              한 번의 클릭으로 3D 공간에서의 움직임을 생성하세요.
-            </p>
+        <!-- Section 1: MODERN GRID LINES -->
+        <div class="w-full max-w-5xl mx-auto px-4 py-8 mb-10">
+          <h3 class="text-nova-cyan text-sm md:text-base font-bold tracking-[0.3em] mb-4">MODERN GRID LINES</h3>
+          <p class="text-gray-400 text-sm md:text-base mb-12 max-w-2xl leading-relaxed">
+            Aunova의 생성 AI 솔루션을 강력한 API형태로 제공합니다.<br/>
+            단 한 번의 바탕화면 드래그앤드롭으로 3D 공간에서의 놀라움을 상상하세요.
+          </p>
 
-            <!-- Video Placeholder -->
-            <div
-              class="w-full aspect-video liquid-glass rounded-2xl overflow-hidden relative group cursor-pointer border border-white/5"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
-                class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-700 group-hover:scale-105 transform"
-              />
-              <div
-                class="absolute inset-0 flex items-center justify-center pointer-events-none"
-              >
-                <div
-                  class="w-20 h-20 rounded-full border border-white/20 backdrop-blur-sm flex items-center justify-center group-hover:border-nova-cyan group-hover:shadow-[0_0_30px_rgba(0,245,255,0.3)] transition-all duration-500"
-                >
-                  <div
-                    class="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2 group-hover:border-l-nova-cyan transition-colors"
-                  ></div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div class="border border-nova-cyan bg-nova-cyan/[0.03] rounded-2xl p-6 relative overflow-hidden group cursor-pointer shadow-[0_0_20px_rgba(0,245,255,0.05)]">
+              <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-nova-cyan to-transparent opacity-50"></div>
+              <h4 class="text-white text-lg font-bold mb-1">Nova-Form</h4>
+              <p class="text-white/50 text-xs mb-8 tracking-wider">(3D 생성)</p>
+              
+              <div class="w-full aspect-square bg-black/40 rounded-xl border border-white/10 flex items-center justify-center mb-6 relative overflow-hidden group-hover:border-nova-cyan/50 transition-colors">
+                <div class="w-24 h-24 border border-nova-cyan/60 rounded-lg rotate-45 flex items-center justify-center">
+                  <div class="w-12 h-12 border border-nova-cyan rounded-sm -rotate-45 relative">
+                     <div class="absolute inset-0 bg-nova-cyan/20 blur-md"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <svg class="w-4 h-4 text-nova-cyan mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                <div class="flex-1">
+                  <p class="text-nova-cyan font-bold text-xs tracking-wider mb-1">Cyan Border Flow 에</p>
+                  <p class="text-gray-400 text-[10px] leading-tight">다가오는 딥 모델 업데이트에<br/>대해 상세히 알아보세요.</p>
                 </div>
               </div>
             </div>
 
-            <!-- Quick Links -->
-            <div class="flex gap-8 text-sm text-gray-500 mt-10 justify-center">
-              <a href="#" class="hover:text-nova-cyan transition-colors"
-                >User Gallery (a)</a
-              >
-              <a href="#" class="hover:text-nova-cyan transition-colors"
-                >Reviews (b)</a
-              >
+            <!-- Card 2 -->
+            <div class="border border-white/5 bg-[#0E0F12] rounded-2xl p-6 relative overflow-hidden hover:border-white/20 transition-colors cursor-pointer">
+              <h4 class="text-white text-lg font-bold mb-1">Nova-Motion</h4>
+              <p class="text-white/50 text-xs mb-8 tracking-wider">(영상 변환)</p>
+              
+              <div class="w-full aspect-square bg-[#0A0A0B] rounded-xl border border-white/5 flex flex-col items-center justify-center mb-6 overflow-hidden gap-1 p-1">
+                <div class="flex w-full h-1/2 gap-1">
+                  <div class="w-1/2 h-full bg-gradient-to-br from-purple-900 to-indigo-900 rounded-[4px] relative border border-white/5"><div class="absolute inset-0 flex items-center justify-center"><div class="w-4 h-4 rounded-full bg-white/40"></div></div></div>
+                  <div class="w-1/2 h-full bg-indigo-900 rounded-[4px] border border-white/5"></div>
+                </div>
+                <div class="flex w-full h-1/2 gap-1">
+                  <div class="w-1/3 h-full bg-gray-900 rounded-[4px] border border-white/5"></div>
+                  <div class="w-2/3 h-full bg-gradient-to-tr from-cyan-900 to-blue-900 rounded-[4px] border border-white/5"></div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                 <svg class="w-4 h-4 text-nova-cyan mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="flex-1">
+                  <p class="text-nova-cyan font-bold text-xs tracking-wider mb-1">Cyan Border Flow 에</p>
+                  <p class="text-gray-400 text-[10px] leading-tight">영상 합성 시스템의<br/>놀라운 성능을 확인하세요.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="border border-white/5 bg-[#0E0F12] rounded-2xl p-6 relative overflow-hidden hover:border-white/20 transition-colors cursor-pointer">
+              <h4 class="text-white text-lg font-bold mb-1">Nova-Object</h4>
+              <p class="text-white/50 text-xs mb-8 tracking-wider">(굿즈/상품)</p>
+              
+              <div class="w-full aspect-square bg-[#0A0A0B] rounded-xl border border-white/5 flex items-center justify-center mb-6">
+                <!-- Shopping bag / Mug mock shape -->
+                <div class="flex items-end gap-3 opacity-80 pt-4">
+                  <!-- Bag -->
+                  <div class="w-14 h-16 bg-white rounded-sm relative shadow-lg">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-4 border-[3px] border-white rounded-t-full"></div>
+                    <div class="absolute inset-0 flex items-center justify-center"><div class="text-nova-cyan text-xl font-black">✻</div></div>
+                  </div>
+                  <!-- Mug -->
+                  <div class="w-10 h-10 bg-white mt-6 rounded-b-md rounded-tl-md relative shadow-lg">
+                     <div class="absolute top-1 -right-3 w-3 h-6 border-[3px] border-white rounded-r-lg"></div>
+                     <div class="absolute inset-0 flex items-center justify-center"><div class="text-nova-cyan text-xs font-black scale-75">✻</div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <svg class="w-4 h-4 text-nova-cyan mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <div class="flex-1">
+                  <p class="text-nova-cyan font-bold text-xs tracking-wider mb-1">Cyan Border Flow 에</p>
+                  <p class="text-gray-400 text-[10px] leading-tight">실제 3D 프린팅 및 굿즈화<br/>상태를 확인하세요.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Section 2: MOTION SYNTHESIS Dashboard -->
+        <div class="w-full max-w-5xl mx-auto px-4 py-8 mb-20 bg-gradient-to-b from-[#0A0A0B] to-black">
+          <h3 class="text-nova-cyan text-sm md:text-base font-bold tracking-[0.3em] mb-4">MOTION SYNTHESIS</h3>
+          <p class="text-gray-400 text-sm md:text-base mb-12 max-w-2xl leading-relaxed">
+            Aunova의 분할 영상을 생성형 AI 공간으로 렌더링합니다.<br/>
+            단 한 번의 드래그앤드롭으로 놀라운 편의성을 경험하세요.
+          </p>
+
+          <!-- Dashboard Mockup -->
+          <div class="border border-white/10 bg-[#0E0F12] rounded-3xl p-6 md:p-8 flex flex-col relative overflow-hidden shadow-2xl">
+            <!-- Sidebar fake layout inside dashboard -->
+            <div class="absolute left-0 top-0 bottom-0 w-12 border-r border-white/5 bg-black/50 flex flex-col items-center py-6 gap-6 z-10">
+               <!-- Graph Icon -->
+               <div class="w-8 h-8 rounded-full border border-nova-cyan/50 flex items-center justify-center text-nova-cyan text-xs">✻</div>
+               <div class="w-5 h-5 opacity-40 hover:opacity-100 cursor-pointer rounded border border-white/30 grid grid-cols-2 gap-[2px] p-0.5"><div class="bg-white rounded-[1px]"></div><div class="bg-white rounded-[1px]"></div><div class="bg-white rounded-[1px]"></div><div class="bg-white rounded-[1px]"></div></div>
+               <div class="w-5 h-5 opacity-40 hover:opacity-100 cursor-pointer rounded border border-white/30 flex items-center justify-center text-[10px]">👤</div>
+               <div class="w-5 h-5 opacity-40 hover:opacity-100 cursor-pointer rounded border border-white/30 flex items-center justify-center text-[10px]">⚙</div>
+               
+               <div class="mt-auto opacity-40 hover:opacity-100 cursor-pointer">
+                 <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+               </div>
+            </div>
+
+            <!-- Main dash content -->
+            <div class="pl-8 md:pl-16 relative z-10">
+               <!-- Header -->
+              <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                  <h4 class="text-white text-xl font-bold tracking-wide flex items-center gap-2">Trust Metrics</h4>
+                  <p class="text-white/40 text-[10px] tracking-wider mt-1">Real-time API business intelligence dashboard</p>
+                </div>
+                <button class="px-5 py-2.5 border border-white/10 rounded-xl text-xs font-bold text-white/50 hover:text-white bg-white/[0.03] flex items-center gap-4 transition-colors">
+                  All Time Metrics <span class="text-[8px]">▼</span>
+                </button>
+              </div>
+
+              <!-- Top KPI Cards -->
+              <div class="flex flex-col md:flex-row gap-5 mb-10">
+                <!-- KPI 1 -->
+                <div class="flex-1 border border-white/5 bg-[#12141A] rounded-2xl p-6 relative overflow-hidden shadow-inner">
+                  <p class="text-white/50 text-xs mb-3 tracking-wider font-semibold">Average ROI</p>
+                  <p class="text-4xl font-black text-nova-cyan mb-8 border-b border-white/5 pb-8">+45%</p>
+                  <svg class="absolute bottom-0 left-0 w-full h-[70px] opacity-70" preserveAspectRatio="none" viewBox="0 0 200 40"><path d="M0,40 L0,30 C30,40 60,10 100,20 C140,30 170,10 200,15 L200,40 Z" fill="rgba(0,245,255,0.1)"></path><path d="M0,30 C30,40 60,10 100,20 C140,30 170,10 200,15" fill="none" stroke="#00F5FF" stroke-width="2" stroke-linecap="round"></path></svg>
+                </div>
+                <!-- KPI 2 -->
+                <div class="flex-1 border border-white/5 bg-[#12141A] rounded-2xl p-6 relative overflow-hidden shadow-inner">
+                  <p class="text-white/50 text-xs mb-3 tracking-wider font-semibold">Faster Speed to Intelligence</p>
+                  <p class="text-4xl font-black text-blue-400 mb-8 border-b border-white/5 pb-8">3x</p>
+                  <svg class="absolute bottom-0 left-0 w-full h-[70px] opacity-70" preserveAspectRatio="none" viewBox="0 0 200 40"><path d="M0,40 L0,20 C30,10 60,30 100,15 C140,0 170,20 200,10 L200,40 Z" fill="rgba(96,165,250,0.1)"></path><path d="M0,20 C30,10 60,30 100,15 C140,0 170,20 200,10" fill="none" stroke="#60A5FA" stroke-width="2" stroke-linecap="round"></path></svg>
+                </div>
+                <!-- KPI 3 -->
+                <div class="flex-1 border border-white/5 bg-[#12141A] rounded-2xl p-6 relative overflow-hidden shadow-inner">
+                  <p class="text-white/50 text-xs mb-3 tracking-wider font-semibold">Users</p>
+                  <p class="text-4xl font-black text-white mb-8 border-b border-white/5 pb-8">100K+</p>
+                  <svg class="absolute bottom-0 left-0 w-full h-[70px] opacity-60" preserveAspectRatio="none" viewBox="0 0 200 40"><path d="M0,40 L0,15 C40,5 60,25 100,10 C140,-5 160,15 200,10 L200,40 Z" fill="rgba(0,245,255,0.05)"></path><path d="M0,15 C40,5 60,25 100,10 C140,-5 160,15 200,10" fill="none" stroke="#00F5FF" stroke-width="2" stroke-linecap="round"></path></svg>
+                </div>
+              </div>
+
+              <!-- List/Table -->
+              <div class="mt-4">
+                <h5 class="text-white/80 text-sm font-bold tracking-widest mb-6">Raport Metrics</h5>
+                <div class="flex text-[10px] text-white/30 tracking-wider mb-3 px-2 font-bold uppercase">
+                  <div class="w-1/4">Periods</div>
+                  <div class="w-1/4">Average ROI</div>
+                  <div class="w-1/4">Intelligence</div>
+                  <div class="w-1/4 flex justify-between pr-4 gap-6"><span>Quality</span><span>Users</span><span class="text-right">% Change</span></div>
+                </div>
+
+                <!-- Row 1 -->
+                <div class="flex items-center text-xs text-white border-t border-white/5 py-5 hover:bg-white/[0.02] px-2 transition-colors">
+                  <div class="w-1/4 font-semibold text-white/70">Average ROI</div>
+                  <div class="w-1/4 text-nova-cyan font-mono font-bold">+45%</div>
+                  <div class="w-1/4 text-blue-400 font-mono font-bold">3x</div>
+                  <div class="w-1/4 flex justify-between pr-4 items-center gap-4">
+                     <div class="w-16 h-1 bg-white/10 rounded-full overflow-hidden"><div class="w-2/3 h-full bg-blue-400 rounded-full"></div></div>
+                     <span class="font-mono text-white/80 tracking-widest text-[11px] flex-1 text-center">15,200,000</span>
+                     <span class="text-nova-cyan font-mono font-bold text-[11px]">+ 88.5</span>
+                  </div>
+                </div>
+                <!-- Row 2 -->
+                <div class="flex items-center text-xs text-white border-t border-b border-white/5 py-5 hover:bg-white/[0.02] px-2 transition-colors">
+                  <div class="w-1/4 font-semibold text-white/70">Faster Speed</div>
+                  <div class="w-1/4 text-nova-cyan font-mono font-bold">+45%</div>
+                  <div class="w-1/4 text-white font-mono font-bold">+ 100K</div>
+                  <div class="w-1/4 flex justify-between pr-4 items-center gap-4">
+                     <div class="w-16 h-1 bg-white/10 rounded-full overflow-hidden"><div class="w-[85%] h-full bg-nova-cyan rounded-full"></div></div>
+                     <span class="font-mono text-white/80 tracking-widest text-[11px] flex-1 text-center">10,200,000</span>
+                     <span class="text-nova-cyan font-mono font-bold text-[11px]">+ 2.0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bottom Quick Actions Below Dashboard -->
+          <div class="flex justify-center gap-8 mt-10">
+             <button class="text-[11px] font-bold text-gray-500 hover:text-nova-cyan tracking-widest transition-colors py-2">User Gallery API</button>
+             <button class="text-[11px] font-bold text-gray-500 hover:text-nova-cyan tracking-widest transition-colors py-2">Remove API</button>
+          </div>
+        </div>
+
+      </section>
 
         <!-- Company Info Footer (Bottom, Full Width, High Z) -->
         <div id="company-footer" class="relative z-[50] bg-[#060609] border-t border-white/10 px-8 py-8">
@@ -1887,6 +1914,17 @@
           window.scrollTo(0, 0);
           currentPage = id;
         }
+        
+        // Hide global right sidebar on landing/intro to prevent overlap with navbar
+        const rightSidebar = document.getElementById("right-sidebar");
+        if (rightSidebar) {
+          if (id === "page-0" || id === "page-1") {
+            rightSidebar.style.display = "none";
+          } else {
+            rightSidebar.style.display = "flex";
+          }
+        }
+
         // Toggle pricing visibility (page-2 only)
         const pricing = document.getElementById("sidebar-pricing");
         if (pricing) {
