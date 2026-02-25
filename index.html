@@ -1235,39 +1235,39 @@
       <!-- ═══════════ ㄱP: THE FACTORY (ADMIN) ═══════════ -->
       <section
         id="page-admin-1"
-        class="spa-page min-h-screen flex-col pt-24 pb-8 px-6"
+        class="spa-page h-screen flex-col pt-0 pb-0 px-0 overflow-hidden"
       >
-        <div class="max-w-[1400px] mx-auto">
-          <div class="flex items-center justify-between mb-6 no-print">
-            <div>
-              <h1 class="text-2xl font-bold tracking-widest">THE FACTORY</h1>
-              <p class="text-nova-cyan text-xs mt-1">
-                관리자 운영 관제 — ㄱ페이지
-              </p>
+        <div class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen w-full">
+          <!-- LEFT: Order List -->
+          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5">
+            <div class="flex flex-col gap-2 mb-4 no-print">
+              <div>
+                <h1 class="text-2xl font-bold tracking-widest">THE FACTORY</h1>
+                <p class="text-nova-cyan text-xs mt-1">
+                  관리자 운영 관제 — ㄱ페이지
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-2 mt-2">
+                <button
+                  onclick="navigateTo('page-admin-2')"
+                  class="liquid-glass px-3 py-2 rounded-lg text-xs text-gray-400 hover:text-white"
+                >
+                  ㄴP Lab →
+                </button>
+                <button
+                  onclick="window.print()"
+                  class="px-3 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20"
+                >
+                  🖨 인쇄
+                </button>
+                <button
+                  onclick="handleLogout()"
+                  class="px-3 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10"
+                >
+                  로그아웃
+                </button>
+              </div>
             </div>
-            <div class="flex gap-3">
-              <button
-                onclick="navigateTo('page-admin-2')"
-                class="liquid-glass px-4 py-2 rounded-lg text-xs text-gray-400 hover:text-white"
-              >
-                ㄴP Lab →
-              </button>
-              <button
-                onclick="window.print()"
-                class="px-4 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20"
-              >
-                🖨 작업지시서 인쇄
-              </button>
-              <button
-                onclick="handleLogout()"
-                class="px-4 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10"
-              >
-                로그아웃
-              </button>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-6">
-            <!-- LEFT: Order List -->
             <div class="liquid-glass rounded-2xl p-5 overflow-x-auto">
               <h3
                 class="text-nova-cyan font-bold text-sm tracking-wider mb-4 no-print"
@@ -1322,8 +1322,10 @@
                 </tbody>
               </table>
             </div>
-            <!-- RIGHT: Cinema Viewer -->
-            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print">
+          </div>
+          <!-- RIGHT: Cinema Viewer -->
+          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B]">
+            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print h-full mx-auto max-w-[1000px]">
               <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
                 CINEMA VIEWER
               </h3>
@@ -1368,31 +1370,33 @@
       <!-- ═══════════ ㄴP: THE LAB (ADMIN) ═══════════ -->
       <section
         id="page-admin-2"
-        class="spa-page min-h-screen flex-col pt-24 pb-8 px-6"
+        class="spa-page h-screen flex-col pt-0 pb-0 px-0 overflow-hidden"
       >
-        <div class="max-w-[1400px] mx-auto">
-          <div class="flex items-center justify-between mb-6">
-            <div>
-              <h1 class="text-2xl font-bold tracking-widest">THE LAB</h1>
-              <p class="text-nova-cyan text-xs mt-1">전략 연구소 — ㄴ페이지</p>
+        <div class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen w-full">
+          <!-- LEFT: AI Model Cards -->
+          <div class="bg-[#0D1117] p-5 flex flex-col gap-4 overflow-y-auto hide-scrollbar border-r border-white/5">
+            <div class="flex flex-col gap-2 mb-4 no-print">
+              <div>
+                <h1 class="text-2xl font-bold tracking-widest">THE LAB</h1>
+                <p class="text-nova-cyan text-xs mt-1">
+                  전략 연구소 — ㄴ페이지
+                </p>
+              </div>
+              <div class="flex gap-2 mt-2">
+                <button
+                  onclick="navigateTo('page-admin-1')"
+                  class="liquid-glass px-3 py-2 rounded-lg text-xs text-gray-400 hover:text-white"
+                >
+                  ← ㄱP Factory
+                </button>
+                <button
+                  onclick="handleLogout()"
+                  class="px-3 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10"
+                >
+                  로그아웃
+                </button>
+              </div>
             </div>
-            <div class="flex gap-3">
-              <button
-                onclick="navigateTo('page-admin-1')"
-                class="liquid-glass px-4 py-2 rounded-lg text-xs text-gray-400 hover:text-white"
-              >
-                ← ㄱP Factory
-              </button>
-              <button
-                onclick="handleLogout()"
-                class="px-4 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10"
-              >
-                로그아웃
-              </button>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- LEFT: AI Model Cards -->
             <div class="liquid-glass rounded-2xl p-5">
               <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
                 AI MODEL DECK
@@ -1439,8 +1443,10 @@
                 </div>
               </div>
             </div>
-            <!-- RIGHT: Time Machine -->
-            <div class="liquid-glass rounded-2xl p-5">
+          </div>
+          <!-- RIGHT: Time Machine -->
+          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B]">
+            <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print h-full mx-auto max-w-[1000px]">
               <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
                 TIME MACHINE
               </h3>
