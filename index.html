@@ -1096,32 +1096,26 @@
                 E
               </div>
             </div>
-            <h4 class="text-xs text-gray-500 tracking-wider mt-4">
-              COLOR PALETTE
-            </h4>
-            <div class="flex gap-2">
-              <div
-                class="w-8 h-8 rounded-full bg-gray-500 cursor-pointer ring-2 ring-white/30"
-              ></div>
-              <div
-                class="w-8 h-8 rounded-full bg-cyan-600 cursor-pointer"
-              ></div>
-              <div
-                class="w-8 h-8 rounded-full bg-purple-600 cursor-pointer"
-              ></div>
-              <div
-                class="w-8 h-8 rounded-full bg-rose-600 cursor-pointer"
-              ></div>
-              <div
-                class="w-8 h-8 rounded-full bg-amber-600 cursor-pointer"
-              ></div>
-            </div>
+
           </div>
           <!-- CENTER: Clean Viewer -->
           <div
-            class="flex items-center justify-center w-full h-[85vh] relative sticky top-24"
+            class="flex items-center justify-center w-full h-[85vh] relative sticky top-24 bg-gradient-to-br from-gray-900 to-black rounded-2xl ring-1 ring-white/5 shadow-2xl overflow-hidden"
             style="cursor: default"
           >
+            <!-- Floating Color Palette overlay (Top-Left) -->
+            <div class="absolute top-6 left-6 z-40 bg-black/50 p-4 rounded-xl backdrop-blur-md border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
+              <h4 class="text-[10px] text-gray-400 font-bold tracking-widest mb-3 w-full text-center border-b border-gray-700/50 pb-2">
+                COLOR PALETTE
+              </h4>
+              <div class="flex flex-wrap gap-3 justify-center max-w-[120px]">
+                <div class="w-7 h-7 rounded-full bg-gray-500 cursor-pointer ring-2 ring-nova-cyan hover:scale-110 transition-transform shadow-[0_0_10px_rgba(0,245,255,0.3)]"></div>
+                <div class="w-7 h-7 rounded-full bg-[#00F5FF] cursor-pointer hover:scale-110 transition-transform"></div>
+                <div class="w-7 h-7 rounded-full bg-purple-500 cursor-pointer hover:scale-110 transition-transform"></div>
+                <div class="w-7 h-7 rounded-full bg-rose-500 cursor-pointer hover:scale-110 transition-transform"></div>
+                <div class="w-7 h-7 rounded-full bg-amber-500 cursor-pointer hover:scale-110 transition-transform"></div>
+              </div>
+            </div>
             <!-- Top Navigation Tabs (Process Flow - Page 5 Active) -->
             <div class="fixed top-5 left-1/2 -translate-x-1/2 flex justify-center gap-4 z-50 pointer-events-none">
               <!-- Previous Step (Red) -->
