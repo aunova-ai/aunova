@@ -361,22 +361,21 @@
             <h1 class="text-xl md:text-2xl font-black tracking-widest text-nova-cyan">ALINOVA</h1>
           </div>
           <!-- Center Links -->
-          <div class="hidden md:flex items-center gap-8 text-[11px] font-bold tracking-[0.2em] text-white/70">
-            <a href="#" onclick="navigateTo('page-2')" class="text-nova-cyan hover:text-white transition-colors cursor-pointer flex items-center gap-1 group">
+          <div class="hidden md:flex items-center gap-10 text-xs font-bold tracking-[0.2em] text-white/70">
+            <!-- Pulsing/Glowing CTA Links -->
+            <a href="#" onclick="navigateTo('page-2')" class="text-nova-cyan hover:text-white transition-colors cursor-pointer flex items-center gap-1 group relative animate-pulse-slow">
+              <span class="absolute inset-x-0 bottom-0 h-[1px] bg-nova-cyan shadow-[0_0_10px_rgba(0,245,255,0.8)]"></span>
               NOVA-3D
               <svg class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </a>
-            <a href="#" class="cursor-not-allowed opacity-40">NOVA-LIVE</a>
-            <a href="#" class="cursor-not-allowed opacity-40">NOVA-GOODS</a>
-            <a href="#" class="cursor-not-allowed opacity-40">NOVA-BOOKS</a>
+            <a href="#" class="text-white/40 hover:text-nova-cyan transition-colors cursor-pointer group animate-pulse-slow" onclick="alert('갤러리 페이지는 준비 중입니다.')">NOVA-LIVE</a>
+            <a href="#" class="text-white/40 hover:text-nova-cyan transition-colors cursor-pointer group animate-pulse-slow" onclick="alert('갤러리 페이지는 준비 중입니다.')">NOVA-GOODS</a>
           </div>
           <!-- Right Auth & CTA -->
           <div class="flex items-center gap-4">
-            <button onclick="openModal('auth-modal')" class="text-xs font-bold text-white/70 hover:text-white tracking-widest px-4 py-2 border border-white/20 rounded-sm hover:bg-white/10 transition-colors">
+            <button onclick="openModal('auth-modal')" class="text-xs font-bold text-black bg-nova-cyan hover:bg-cyan-300 tracking-widest px-8 py-2.5 flex items-center gap-2 rounded-sm transition-all shadow-[0_0_15px_rgba(0,245,255,0.4)] hover:shadow-[0_0_25px_rgba(0,245,255,0.6)]">
+              <svg fill="currentColor" viewBox="0 0 24 24" class="w-4 h-4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
               SIGN IN
-            </button>
-            <button onclick="navigateTo('page-2')" class="text-xs font-bold text-black bg-nova-cyan hover:bg-cyan-300 tracking-widest px-6 py-2.5 rounded-sm transition-all shadow-[0_0_15px_rgba(0,245,255,0.4)] hover:shadow-[0_0_25px_rgba(0,245,255,0.6)]">
-              START CREATING
             </button>
           </div>
         </nav>
