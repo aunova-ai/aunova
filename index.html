@@ -242,7 +242,7 @@
         <!-- Right Auth & CTA -->
         <div class="flex items-center gap-3">
           <!-- Auth State Handlers -->
-          <button id="btn-mypage" class="hidden text-xs font-bold text-white/70 hover:text-white tracking-widest px-6 py-2.5 border border-white/20 rounded-md hover:bg-white/10 transition-colors">
+          <button id="btn-mypage" onclick="openModal('mypage-modal')" class="hidden text-xs font-bold text-white/70 hover:text-white tracking-widest px-6 py-2.5 border border-white/20 rounded-md hover:bg-white/10 transition-colors">
             MY PAGE
           </button>
           <button id="btn-logout" onclick="handleLogout()" class="hidden text-xs font-bold text-red-400 hover:text-red-300 tracking-widest px-6 py-2.5 border border-red-500/20 rounded-md hover:bg-red-500/10 transition-colors">
@@ -264,29 +264,13 @@
       <section id="page-1" class="spa-page active flex flex-col relative w-full overflow-x-hidden pt-28 pb-0">
         
         <!-- Hero Section -->
-        <div class="w-full flex flex-col items-center pt-8 pb-16 px-4 relative">
+        <div id="hero-zero-g-area" class="w-full flex flex-col items-center pt-8 pb-16 px-4 relative overflow-hidden mt-[-40px] md:mt-[-60px]">
           <!-- The Glowing Star Background/Image -->
-          <div class="relative w-full max-w-5xl h-[450px] md:h-[650px] flex items-center justify-center mb-0 mt-4">
+          <div class="relative w-full max-w-5xl h-[450px] md:h-[650px] flex items-center justify-center mb-0 mt-4 pointer-events-none">
             <!-- Added a very soft radial mask to blend out the hard edges of the jpg image into the black background -->
-            <img src="./assets/images/intro_light_no_text.jpg" class="absolute inset-0 w-full h-full object-cover mix-blend-screen z-10 opacity-90" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);">
-            
-            <!-- Radiating High-Quality Sample Images (Pushed Outwards significantly) -->
-            <div class="absolute top-[10%] left-[5%] md:left-[10%] drop-shadow-2xl z-20 cursor-pointer hover:scale-110 transition-transform duration-500">
-               <img src="https://images.unsplash.com/photo-1633424669815-568b209d7df9?w=300&q=80" class="w-16 h-24 md:w-24 md:h-32 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 1" />
-            </div>
-            
-            <div class="absolute bottom-[20%] left-[2%] md:left-[8%] drop-shadow-2xl z-20 cursor-pointer hover:scale-110 transition-transform duration-500">
-               <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" class="w-20 h-20 md:w-28 md:h-28 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 2" />
-            </div>
-
-            <div class="absolute top-[15%] right-[5%] md:right-[10%] drop-shadow-2xl z-20 cursor-pointer hover:scale-110 transition-transform duration-500">
-               <img src="https://images.unsplash.com/photo-1633394334057-7977a452bf91?w=300&q=80" class="w-20 h-16 md:w-28 md:h-24 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 3" />
-            </div>
-
-            <div class="absolute bottom-[25%] right-[2%] md:right-[8%] drop-shadow-2xl z-20 cursor-pointer hover:scale-110 transition-transform duration-500">
-               <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=300&q=80" class="w-16 h-20 md:w-24 md:h-28 object-cover rounded-lg border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]" alt="Aunova Sample 4" />
-            </div>
+            <img id="star-bg-img" src="./assets/images/intro_light_no_text.jpg" class="absolute inset-0 w-full h-full object-cover mix-blend-screen z-10 opacity-90" alt="Aunova Star" style="-webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);">
           </div>
+          
           
           <!-- Red Box: Hero Text & Scroll Down Indicator (Moved much higher) -->
           <div class="z-20 flex flex-col items-center mt-[-100px] md:mt-[-140px] relative">
@@ -335,11 +319,7 @@
               <p class="text-white/50 text-xs mb-8 tracking-wider">(3D 생성)</p>
               
               <div class="w-full aspect-square bg-black/40 rounded-xl border border-white/10 flex items-center justify-center mb-6 relative overflow-hidden group-hover:border-nova-cyan/50 transition-colors">
-                <div class="w-24 h-24 border border-nova-cyan/60 rounded-lg rotate-45 flex items-center justify-center">
-                  <div class="w-12 h-12 border border-nova-cyan rounded-sm -rotate-45 relative">
-                     <div class="absolute inset-0 bg-nova-cyan/20 blur-md"></div>
-                  </div>
-                </div>
+                <img src="./asset/새 폴더/a.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="NOVA-3D Feature Image">
               </div>
 
               <div class="flex items-start gap-3">
@@ -356,14 +336,20 @@
               <h4 class="text-white text-lg font-bold mb-1 group-hover:text-nova-cyan transition-colors">NOVA-LIVE</h4>
               <p class="text-white/50 text-xs mb-8 tracking-wider">(영상 변환)</p>
               
-              <div class="w-full aspect-square bg-[#0A0A0B] rounded-xl border border-white/5 flex flex-col items-center justify-center mb-6 overflow-hidden gap-1 p-1">
-                <div class="flex w-full h-1/2 gap-1">
-                  <div class="w-1/2 h-full bg-gradient-to-br from-purple-900 to-indigo-900 rounded-[4px] relative border border-white/5"><div class="absolute inset-0 flex items-center justify-center"><div class="w-4 h-4 rounded-full bg-white/40"></div></div></div>
-                  <div class="w-1/2 h-full bg-indigo-900 rounded-[4px] border border-white/5"></div>
-                </div>
-                <div class="flex w-full h-1/2 gap-1">
-                  <div class="w-1/3 h-full bg-gray-900 rounded-[4px] border border-white/5"></div>
-                  <div class="w-2/3 h-full bg-gradient-to-tr from-cyan-900 to-blue-900 rounded-[4px] border border-white/5"></div>
+              <div class="w-full aspect-square bg-[#0A0A0B] rounded-xl border border-white/5 p-1 mb-6 relative overflow-hidden group-hover:border-white/20 transition-colors">
+                <div class="grid grid-cols-2 grid-rows-2 gap-1 w-full h-full">
+                  <div class="overflow-hidden rounded-[4px] relative border border-white/5">
+                    <img src="./asset/새 폴더/b.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="NOVA-LIVE Feature B">
+                  </div>
+                  <div class="overflow-hidden rounded-[4px] relative border border-white/5">
+                    <img src="./asset/새 폴더/c.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="NOVA-LIVE Feature C">
+                  </div>
+                  <div class="overflow-hidden rounded-[4px] relative border border-white/5">
+                    <img src="./asset/새 폴더/d.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="NOVA-LIVE Feature D">
+                  </div>
+                  <div class="overflow-hidden rounded-[4px] relative border border-white/5">
+                    <img src="./asset/새 폴더/e.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="NOVA-LIVE Feature E">
+                  </div>
                 </div>
               </div>
 
@@ -381,22 +367,9 @@
               <h4 class="text-white text-lg font-bold mb-1 group-hover:text-nova-cyan transition-colors">NOVA-GOODS</h4>
               <p class="text-white/50 text-xs mb-8 tracking-wider">(굿즈/상품)</p>
               
-              <div class="w-full aspect-square bg-[#0A0A0B] rounded-xl border border-white/5 flex items-center justify-center mb-6">
-                <!-- Shopping bag / Mug mock shape -->
-                <div class="flex items-end gap-3 opacity-80 pt-4">
-                  <!-- Bag -->
-                  <div class="w-14 h-16 bg-white rounded-sm relative shadow-lg">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-4 border-[3px] border-white rounded-t-full"></div>
-                    <div class="absolute inset-0 flex items-center justify-center"><div class="text-nova-cyan text-xl font-black">✻</div></div>
-                  </div>
-                  <!-- Mug -->
-                  <div class="w-10 h-10 bg-white mt-6 rounded-b-md rounded-tl-md relative shadow-lg">
-                     <div class="absolute top-1 -right-3 w-3 h-6 border-[3px] border-white rounded-r-lg"></div>
-                     <div class="absolute inset-0 flex items-center justify-center"><div class="text-nova-cyan text-xs font-black scale-75">✻</div></div>
-                  </div>
-                </div>
+              <div class="w-full aspect-square bg-gradient-to-b from-[#0A0B10] to-black rounded-xl border border-white/5 flex flex-col items-center justify-center mb-6 relative overflow-hidden group-hover:border-nova-cyan/30 transition-colors">
+                <img src="./asset/새 폴더/f.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="NOVA-GOODS Feature Image">
               </div>
-
               <div class="flex items-start gap-3">
                 <svg class="w-4 h-4 text-nova-cyan mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                 <div class="flex-1">
@@ -749,24 +722,19 @@
           <div class="flex-1 flex flex-col p-4">
             
             <div class="flex-1 flex flex-col items-center justify-center relative overflow-hidden border border-nova-cyan/20 bg-black/40 shadow-[0_0_30px_rgba(0,245,255,0.05)] rounded-xl min-h-0 w-full mb-4">
-              <!-- Top Navigation Tabs (Process Flow) -->
-              <div class="absolute top-5 left-1/2 -translate-x-1/2 flex justify-center gap-4 z-50 pointer-events-none">
-                <!-- Current Step (Red) -->
-                <div class="w-32 h-8 border border-red-500 bg-red-500/10 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-red-500/20" onclick="navigateTo('page-2')">
-                  <span class="text-[10px] font-bold text-red-500 tracking-widest text-shadow-sm shadow-red-500/50">SYNTHESIS</span>
-                </div>
-                <!-- Next Step (Blue) -->
-                <div class="w-32 h-8 border border-blue-500 bg-blue-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-blue-500/15" onclick="alert('결과 페이지는 생성 후 접근 가능합니다.')">
-                  <span class="text-[10px] font-bold text-blue-500 tracking-widest text-shadow-sm shadow-blue-500/50">RESULT</span>
-                </div>
-                <!-- Final Step (Purple) -->
-                <div class="w-32 h-8 border border-purple-500 bg-purple-500/5 rounded pointer-events-auto flex items-center justify-center cursor-pointer transition-all hover:bg-purple-500/15" onclick="alert('배송조회 및 3D 프린팅 결제 시 접근 가능합니다.')">
-                  <span class="text-[10px] font-bold text-purple-500 tracking-widest text-shadow-sm shadow-purple-500/50">DELIVERY</span>
-                </div>
-              </div>
+
 
               <!-- Animated Background -->
               <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.04)_0%,transparent_70%)]"></div>
+
+              <!-- Initial Default Image -->
+              <img
+                id="center-initial-img"
+                src="./assets/images/initial_overlay.png"
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 max-w-[50%] max-h-[50%] object-contain opacity-60 transition-all duration-500 pointer-events-none"
+                style="filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));"
+                alt="Initial Logo"
+              />
 
               <!-- Center Sample Image -->
               <img
@@ -784,9 +752,11 @@
                 <div class="absolute w-[140px] h-[140px] rounded-full border border-nova-cyan/20 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
                 <!-- Image Logo -->
                 <img id="center-logo" src="./assets/images/logo_glass_a.png" alt="Aunova Logo" class="w-16 h-16 object-contain drop-shadow-[0_0_15px_#00F5FF] transition-all duration-500 mb-2" />
-                <div class="flex items-center gap-4 ml-6">
+                <div class="relative flex items-center justify-center">
                   <p class="text-nova-cyan text-xl md:text-2xl font-black tracking-widest drop-shadow-[0_0_10px_#00F5FF]">AUNOVA</p>
-                  <span id="center-level-label" class="text-[12px] text-white/50 tracking-widest mt-1 uppercase font-mono px-2 py-0.5 border border-white/20 rounded">Lv.1</span>
+                  <div class="absolute left-full flex items-center">
+                    <span id="center-level-label" class="ml-3 whitespace-nowrap text-[12px] text-white/50 tracking-widest uppercase font-mono px-2 py-0.5 border border-white/20 rounded">Lv.1</span>
+                  </div>
                 </div>
               </div>
 
@@ -1099,12 +1069,17 @@
                 >
                   ㄴP Lab →
                 </button>
-                <button
-                  onclick="window.print()"
-                  class="px-3 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20"
-                >
-                  🖨 인쇄
-                </button>
+                <div class="relative group inline-block no-print">
+                  <button
+                    class="px-3 py-2 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20 flex items-center gap-1 transition-colors"
+                  >
+                    🖨 인쇄 설정 <span class="text-[8px] text-gray-400">▼</span>
+                  </button>
+                  <div class="absolute left-0 mt-2 w-32 bg-[#1A1A1A] border border-white/10 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 flex flex-col py-1 overflow-hidden">
+                    <button onclick="printVisible()" class="px-4 py-2 text-[11px] font-bold text-left text-gray-300 hover:bg-nova-cyan/20 hover:text-nova-cyan transition-colors">보이는 페이지</button>
+                    <button onclick="printAll()" class="px-4 py-2 text-[11px] font-bold text-left text-gray-300 hover:bg-nova-cyan/20 hover:text-nova-cyan transition-colors">당일 이후 전체</button>
+                  </div>
+                </div>
                 <button
                   onclick="handleLogout()"
                   class="px-3 py-2 border border-red-500/30 rounded-lg text-xs text-red-400 hover:bg-red-500/10"
@@ -1135,14 +1110,14 @@
                 <table class="w-full text-xs" id="order-table">
                   <thead class="sticky top-0 bg-[#0A0E13] z-10 shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
                     <tr class="text-left text-gray-400 border-b border-white/10 whitespace-nowrap">
-                      <th class="py-2 pr-2 bg-[#0A0E13]">No.</th>
-                      <th class="py-2 pr-2 bg-[#0A0E13]">접수일</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13] cursor-pointer hover:text-white transition-colors select-none" onclick="resetSort()">No.↕</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13] cursor-pointer hover:text-white transition-colors select-none" onclick="cycleSort('date')">접수일↕</th>
                       <th class="py-2 pr-2 bg-[#0A0E13]">고객명</th>
                       <th class="py-2 pr-2 bg-[#0A0E13]">제목</th>
-                      <th class="py-2 pr-2 bg-[#0A0E13]">사용 AI</th>
-                      <th class="py-2 pr-2 bg-[#0A0E13]">디테일(엔진)</th>
-                      <th class="py-2 pr-2 bg-[#0A0E13]">Lv</th>
-                      <th class="py-2 pr-2 bg-[#0A0E13]">상태</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13] cursor-pointer hover:text-white transition-colors select-none" onclick="cycleSort('ai')">사용 AI↕</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13] cursor-pointer hover:text-white transition-colors select-none" onclick="cycleSort('engine')">디테일(엔진)↕</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13] cursor-pointer hover:text-white transition-colors select-none" onclick="cycleSort('level')">Lv↕</th>
+                      <th class="py-2 pr-2 bg-[#0A0E13] cursor-pointer hover:text-white transition-colors select-none" onclick="cycleSort('status')">상태↕</th>
                       <th class="py-2 bg-[#0A0E13]">금액</th>
                     </tr>
                   </thead>
@@ -1453,6 +1428,104 @@
             >회원가입</a
           >
         </p>
+      </div>
+    </div>
+
+    <!-- ═══════════ MODAL: MY PAGE ═══════════ -->
+    <div id="mypage-modal" class="modal-overlay fixed inset-0 z-[200] hidden items-center justify-center p-4">
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-xl" onclick="closeModal('mypage-modal')"></div>
+      <div class="modal-content relative w-full max-w-2xl bg-[#0A0B10]/95 border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col max-h-[80vh]">
+        <!-- Modal Header -->
+        <div class="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">MY PAGE</h2>
+            <p class="text-[10px] text-gray-500 tracking-[0.2em] mt-1 uppercase">User Workspace & History</p>
+          </div>
+          <button onclick="closeModal('mypage-modal')" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <!-- Task List Content -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-nova-cyan tracking-widest">나의 작업 목록</span>
+            <span class="text-[10px] text-gray-500">Total: 4 Projects</span>
+          </div>
+
+          <!-- Mock Project Items -->
+          <div class="space-y-3">
+            <!-- Item 1 -->
+            <div class="bg-white/[0.03] border border-white/5 p-4 rounded-xl flex items-center justify-between group hover:border-nova-cyan/30 transition-all cursor-pointer">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-black/40 rounded-lg flex items-center justify-center border border-white/10 overflow-hidden">
+                  <img src="./asset/새 폴더/1.png" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white group-hover:text-nova-cyan transition-colors">NOVA-3D: Space Habitat</h4>
+                  <p class="text-[10px] text-gray-500 mt-1">2026-02-25 14:30 | ver 1.0.4</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="px-2 py-0.5 bg-green-500/10 text-green-400 border border-green-500/20 rounded text-[9px] font-bold">COMPLETED</span>
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="bg-white/[0.03] border border-white/5 p-4 rounded-xl flex items-center justify-between group hover:border-nova-cyan/30 transition-all cursor-pointer">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-black/40 rounded-lg flex items-center justify-center border border-white/10 overflow-hidden">
+                  <img src="./asset/새 폴더/2.png" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white group-hover:text-nova-cyan transition-colors">NOVA-3D: Cyberpunk Robot</h4>
+                  <p class="text-[10px] text-gray-500 mt-1">2026-02-25 10:15 | ver 1.0.2</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="px-2 py-0.5 bg-nova-cyan/10 text-nova-cyan border border-nova-cyan/20 rounded text-[9px] font-bold">PROCESSING</span>
+              </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="bg-white/[0.03] border border-white/5 p-4 rounded-xl flex items-center justify-between group hover:border-nova-cyan/30 transition-all cursor-pointer opacity-50">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-black/40 rounded-lg flex items-center justify-center border border-white/10 overflow-hidden">
+                  <img src="./asset/새 폴더/3.png" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white group-hover:text-nova-cyan transition-colors">NOVA-LIVE: Cinematic Intro</h4>
+                  <p class="text-[10px] text-gray-500 mt-1">2026-02-24 18:00 | ver 0.9.1</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="px-2 py-0.5 bg-gray-500/10 text-gray-400 border border-white/10 rounded text-[9px] font-bold">ARCHIVED</span>
+              </div>
+            </div>
+            
+             <!-- Item 4 -->
+             <div class="bg-white/[0.03] border border-white/5 p-4 rounded-xl flex items-center justify-between group hover:border-red-500/30 transition-all cursor-pointer">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-black/40 rounded-lg flex items-center justify-center border border-white/10 overflow-hidden">
+                  <img src="./asset/새 폴더/4.png" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white group-hover:text-red-400 transition-colors">FAILED GENERATION</h4>
+                  <p class="text-[10px] text-gray-500 mt-1">2026-02-24 12:00 | Error API-429</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="px-2 py-0.5 bg-red-500/10 text-red-500 border border-red-500/20 rounded text-[9px] font-bold">ERROR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-4 bg-white/[0.02] border-t border-white/5 flex gap-2">
+           <button class="flex-1 py-3 text-[10px] font-bold tracking-widest bg-white/5 hover:bg-white/10 text-white rounded-lg transition-all">REFRESH LIST</button>
+           <button class="flex-1 py-3 text-[10px] font-bold tracking-widest bg-nova-cyan text-black rounded-lg hover:bg-cyan-300 transition-all" onclick="closeModal('mypage-modal')">CLOSE WORKSPACE</button>
+        </div>
       </div>
     </div>
 
@@ -1893,16 +1966,10 @@
         ];
         logo.style.filter =
           filters[lv] + " drop-shadow(0 0 " + (10 + lv * 5) + "px #00F5FF)";
-        // Update sample images (both SAMPLE OUTPUT thumbnail and center display)
+        // Update sample images (thumbnail only, center display is handled by showSampleInCenter)
         const sampleUrl = levelSampleImages[lv];
         const preview = document.getElementById("center-preview");
-        const centerImg = document.getElementById("center-sample-img");
         if (preview) preview.src = sampleUrl;
-        if (centerImg) {
-          centerImg.src = sampleUrl;
-          centerImg.style.opacity = '1';
-          centerImg.style.pointerEvents = 'auto';
-        }
         // Update sample label
         const sampleLabels = ['', 'Lv.1 FDM Sample', 'Lv.2 Resin Sample', 'Lv.3 Color Sample', 'Lv.4 Assembly Sample', 'Lv.5 Master Sample'];
         const sampleLabel = document.querySelector('#center-preview + p, #center-preview ~ p');
@@ -1911,6 +1978,9 @@
         const levelPrices = ['', '25,000', '35,000', '150,000', '100,000', '300,000'];
         const priceEl = document.getElementById('total-price');
         if (priceEl) priceEl.innerHTML = levelPrices[lv] + '<span class="text-sm font-normal text-white/50">원</span>';
+        
+        // Show sample in center for 3 seconds just like when thumbnail is clicked
+        showSampleInCenter();
       }
 
       // === D&D / SAMPLE ===
@@ -1940,6 +2010,7 @@
           centerImg.style.pointerEvents = 'auto';
         }
       }
+      let sampleTimer = null;
       function showSampleInCenter() {
         const sampleUrl = levelSampleImages[currentLevel];
         if (!sampleUrl) return;
@@ -1948,6 +2019,17 @@
           centerImg.src = sampleUrl;
           centerImg.style.opacity = '1';
           centerImg.style.pointerEvents = 'auto';
+          
+          if (sampleTimer) clearTimeout(sampleTimer);
+          
+          sampleTimer = setTimeout(() => {
+            if (userRefImage) {
+              centerImg.src = userRefImage;
+            } else {
+              centerImg.style.opacity = '0';
+              centerImg.style.pointerEvents = 'none';
+            }
+          }, 2000);
         }
       }
       function selectSample(n) {
@@ -2102,10 +2184,55 @@
         { id: '#017', name: '김춘추', title: '왕관 디자인', level: 'Lv.2', status: '대기', price: '₩60,000', date: '2026-02-26', polygon: '95,000', engine: 'Nova v2', ai: '-', margin: '45.0%', img: 'asset/lv2.png', statusColor: 'text-gray-500' },
         { id: '#018', name: '선덕여왕', title: '천문대 모형', level: 'Lv.4', status: '진행중', price: '₩130,000', date: '2026-02-25', polygon: '400,000', engine: 'Nova v3', ai: 'Mesh Refiner v2', margin: '39.0%', img: 'asset/lv4.png', statusColor: 'text-yellow-400' }
       ];
+      
+      // Initial Sort orders by date ascending (oldest first). If same date, sort by No.
+      adminOrders.sort((a, b) => {
+        const dA = new Date(a.date);
+        const dB = new Date(b.date);
+        if (dA - dB !== 0) return dA - dB;
+        return a.id.localeCompare(b.id);
+      });
+      
+      const initialOrdersOrder = adminOrders.map(o => o.id);
+      let sortState = { col: null, uniqueValues: [], currentIndex: 0 };
 
       let currentSelectedOrder = -1;
 
-      function renderOrders() {
+      function resetSort() {
+        const selectedId = adminOrders[currentSelectedOrder]?.id;
+        sortState.col = null;
+        adminOrders.sort((a, b) => initialOrdersOrder.indexOf(a.id) - initialOrdersOrder.indexOf(b.id));
+        if (selectedId) currentSelectedOrder = adminOrders.findIndex(o => o.id === selectedId);
+        renderOrders();
+      }
+
+      function cycleSort(col) {
+        const selectedId = adminOrders[currentSelectedOrder]?.id;
+        if (sortState.col !== col) {
+          sortState.col = col;
+          sortState.uniqueValues = [...new Set(adminOrders.map(o => o[col]))].sort();
+          sortState.currentIndex = 0;
+        } else {
+          sortState.currentIndex = (sortState.currentIndex + 1) % sortState.uniqueValues.length;
+        }
+        
+        const targetVal = sortState.uniqueValues[sortState.currentIndex];
+        
+        adminOrders.sort((a, b) => {
+          const aMatch = a[col] === targetVal ? -1 : 1;
+          const bMatch = b[col] === targetVal ? -1 : 1;
+          if (aMatch !== bMatch) return aMatch - bMatch;
+          
+          return initialOrdersOrder.indexOf(a.id) - initialOrdersOrder.indexOf(b.id);
+        });
+        
+        if (selectedId) currentSelectedOrder = adminOrders.findIndex(o => o.id === selectedId);
+        
+        renderOrders();
+        showToast(targetVal + " 우선 정렬됨");
+      }
+
+      function renderOrders(isPrintAll = false) {
         const tbody = document.getElementById('order-tbody');
         if (!tbody) return;
         const dateFilter = document.getElementById('order-filter-date').value;
@@ -2114,9 +2241,16 @@
         
         tbody.innerHTML = '';
         adminOrders.forEach((order, index) => {
-          if (dateFilter && order.date !== dateFilter) return;
-          if (statusFilter && order.status !== statusFilter) return;
-          if (textFilter && !order.name.toLowerCase().includes(textFilter) && !order.title.toLowerCase().includes(textFilter) && !order.id.toLowerCase().includes(textFilter)) return;
+          if (!isPrintAll) {
+            if (dateFilter && order.date !== dateFilter) return;
+            if (statusFilter && order.status !== statusFilter) return;
+            if (textFilter && !order.name.toLowerCase().includes(textFilter) && !order.title.toLowerCase().includes(textFilter) && !order.id.toLowerCase().includes(textFilter)) return;
+          } else {
+            // For 'All from Today': filter by date >= today
+            const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+            const todayStr = (new Date(Date.now() - tzoffset)).toISOString().split('T')[0];
+            if (order.date < todayStr) return;
+          }
           
           tbody.innerHTML += `
             <tr class="border-b border-white/5 hover:bg-white/5 cursor-pointer selection-row transition-colors whitespace-nowrap" onclick="selectOrder(${index})">
@@ -2181,6 +2315,20 @@
             </div>
           `;
         });
+      }
+
+      function printVisible() {
+        window.print();
+      }
+
+      function printAll() {
+        // Temporarily render "All from Today"
+        renderOrders(true);
+        setTimeout(() => {
+          window.print();
+          // Restore back to original filters
+          renderOrders(false);
+        }, 100);
       }
 
       // === ADMIN LAB LOGIC ===
@@ -2689,6 +2837,126 @@ ${apiText}
         setTimeout(() => textarea.classList.remove('border-nova-cyan', 'shadow-[0_0_15px_rgba(0,245,255,0.2)]'), 500);
       }
 
+      // === ZERO GRAVITY FLOATING IMAGES (PAGE 1) ===
+      const activeZeroGravityIds = new Set();
+      let zeroGravityInterval = null;
+
+      function initZeroGravity() {
+        const container = document.getElementById("hero-zero-g-area");
+        if (!container) return;
+        const totalImages = 36;
+        
+        // Find center of the star
+        const getCenter = () => {
+          const star = document.getElementById("star-bg-img");
+          if(star) {
+            const rect = star.getBoundingClientRect();
+            const cRect = container.getBoundingClientRect();
+            return { x: (rect.left - cRect.left) + rect.width/2, y: (rect.top - cRect.top) + rect.height/2 };
+          }
+          return { x: container.clientWidth/2, y: container.clientHeight/2 };
+        };
+
+        // Spawn initial 6 images with sequentially staggered "drift" lifespans (1.5s, 3.0s, 4.5s...)
+        // so they don't all reach the center and disappear at once.
+        for(let i=0; i<6; i++) {
+          createFloatingImage(container, totalImages, getCenter, i % 4, (i + 1) * 1500);
+        }
+
+        // The first initial image will disappear at 1.5s + 3.0s (suck) = 4.5 seconds.
+        // at exactly 4.5s, we start spawning exactly 1 new image every 1.5s forever.
+        let spawnCount = 6;
+        if (zeroGravityInterval) clearInterval(zeroGravityInterval);
+        setTimeout(() => {
+          createFloatingImage(container, totalImages, getCenter, spawnCount % 4, 6000);
+          spawnCount++;
+          zeroGravityInterval = setInterval(() => {
+            createFloatingImage(container, totalImages, getCenter, spawnCount % 4, 6000);
+            spawnCount++;
+          }, 1500);
+        }, 4500);
+      }
+
+      function createFloatingImage(container, totalImages, getCenterFn, preferredEdge = -1, customDriftDuration = 6000) {
+        const imgEl = document.createElement("img");
+        
+        // Prevent duplicate images on screen
+        let id;
+        do {
+          id = Math.floor(Math.random() * totalImages) + 1;
+        } while (activeZeroGravityIds.has(id) && activeZeroGravityIds.size < totalImages);
+        activeZeroGravityIds.add(id);
+
+        imgEl.src = `./asset/새 폴더/${id}.png`;
+        // Removed border, shadow rects, and bg colors to allow PNG transparency
+        imgEl.className = "absolute z-[15] object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)] pointer-events-none";
+        
+        // Handle missing images gracefully to prevent "empty" spots on screen
+        imgEl.onerror = () => {
+          imgEl.remove();
+          activeZeroGravityIds.delete(id);
+          createFloatingImage(container, totalImages, getCenterFn, preferredEdge);
+        };
+        
+        // Phase 1: Drift (Start ONLY after image successfully loads)
+        imgEl.onload = () => {
+          // Size increased by 2x (from 60~120px to 120~240px)
+          const size = Math.floor(Math.random() * 120) + 120;
+          imgEl.style.width = size + "px";
+          imgEl.style.height = size + "px";
+          
+          // Spawn at random edge (or preferred edge if given)
+          const edge = preferredEdge !== -1 ? preferredEdge : Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
+          let x, y;
+          const w = container.clientWidth;
+          const h = container.clientHeight;
+          if(edge === 0) { x = Math.random() * w; y = -size; }
+          else if(edge === 1) { x = w + size; y = Math.random() * h; }
+          else if(edge === 2) { x = Math.random() * w; y = h + size; }
+          else { x = -size; y = Math.random() * h; }
+          
+          imgEl.style.left = x + "px";
+          imgEl.style.top = y + "px";
+          imgEl.style.opacity = "0";
+          // Start at full scale instead of 0.5 to prevent them from looking too small initially
+          imgEl.style.transform = `scale(1) rotate(${Math.random()*90 - 45}deg)`;
+          container.appendChild(imgEl);
+
+          // Force reflow so transition applies
+          void imgEl.offsetWidth;
+
+          const targetX = Math.random() * (w * 0.8) + (w * 0.1);
+          const targetY = Math.random() * (h * 0.8) + (h * 0.1);
+          
+          const driftDuration = customDriftDuration; 
+          
+          imgEl.style.transition = `left ${driftDuration}ms linear, top ${driftDuration}ms linear, opacity 1s ease, transform ${driftDuration}ms ease-out`;
+          imgEl.style.opacity = "0.8"; // Slightly increased opacity for better visibility
+          imgEl.style.left = targetX + "px";
+          imgEl.style.top = targetY + "px";
+          imgEl.style.transform = `scale(1) rotate(${Math.random()*180 - 90}deg)`;
+          
+          // Phase 2: Sucked to center
+          setTimeout(() => {
+            const center = getCenterFn();
+            const suckDuration = 3000; 
+            imgEl.style.transition = `all ${suckDuration}ms cubic-bezier(0.5, 0, 0.2, 1)`;
+            imgEl.style.left = (center.x - size/2) + "px";
+            imgEl.style.top = (center.y - size/2) + "px";
+            imgEl.style.opacity = "0";
+            imgEl.style.transform = `scale(0.1) rotate(${Math.random()*720}deg)`;
+            imgEl.style.filter = "blur(10px) brightness(2)";
+            
+            // Phase 3: Remove
+            setTimeout(() => {
+              imgEl.remove();
+              activeZeroGravityIds.delete(id); // Free up the ID for reuse
+            }, suckDuration);
+            
+          }, driftDuration);
+        };
+      }
+
       // Thumbnail Horizontal Scroll (Drag) implementation
       document.addEventListener("DOMContentLoaded", () => {
         renderOrders();
@@ -2696,6 +2964,7 @@ ${apiText}
         renderDecks(); // Render both AI decks on load
         renderVersionSlider(); // Initialize Time Machine slider and Editor readout
         renderPromptSlots(); // Initialize Prompt Slots
+        initZeroGravity(); // Start 0G animation on Page 1
 
         const slider = document.getElementById('cinema-thumbnails');
         if (!slider) return;
