@@ -129,3 +129,5 @@ function navigateTo(pageId) {
 - [ ] Global `appState` object initialized in `main.js`.
 - [ ] All `@media print` rules verified for work orders.
 - [ ] Font: 'Inter' or 'Geist' for Digital Genesis aesthetic.
+
+<!-- Contribution graph verification commit at 2026-03-02 19:16 -->
