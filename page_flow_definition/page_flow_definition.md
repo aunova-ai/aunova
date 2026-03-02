@@ -18,61 +18,74 @@ This document outlines the purpose, role, and visual representation of each page
 - **[빨간색 영역]** 로고 이미지
 - **[녹색 영역]** 로고명 및 설명
 
-## 1 메인 랜딩 페이지 (Genesis Main Page)
+## 1 메인 랜딩 히어로 (Genesis Hero)
 
-![1 메인 랜딩 페이지 (Genesis Main Page)](./1_Main_Page.png)
+![1 메인 랜딩 히어로 (Genesis Hero)](./1_Main_Page_Hero_Annotated.png)
 
-**페이지명 (Page Name):** 1 메인 랜딩 페이지 (Page 1)
+**페이지명 (Page Name):** 1 메인 랜딩 히어로 (Page 1 Hero)
 **역할 (Role):**
 
 - 사이트 진입 후 가장 먼저 만나게 되는 대문 역할을 합니다.
 - AUNOVA의 핵심 가치(사진을 3D로, 3D를 3D PRINTING으로)를 시각적으로 전달합니다.
-- 사용자가 본격적인 3D 합성(Synthesis) 워크스페이스(2페이지)로 진입할 수 있도록 유도하는 'GENESIS' 메인 버튼을 제공합니다.
-- 우측 상단 네비게이션을 통해 로그인/회원가입 모달창을 띄우거나 관리용 페이지(ㄱ, ㄴ)로 이동할 수 있는 진입점이기도 합니다.
+- 사용자가 본격적인 3D 합성(Synthesis) 워크스페이스(2페이지)로 진입할 수 있도록 유도하는 'START' 메인 버튼을 제공합니다.
 
 **화면 영역 (UI Regions):**
 
-- **[빨간색 영역]** 없음 (전체 배경 또는 여백 강조)
 - **[주황색 영역]** 상단 AUNOVA 로고 위치
-- **[노란색 영역]** 메인 카피라이트 타이틀 ('NOVA-3D:')
-- **[초록색 텍스트 하일라이트 영역]** 서브 슬로건 강조 텍스트 ('3D', '3D PRINTING')
-- **[파란색 텍스트 영역]** 상세 설명 서브 텍스트
-- **[보라/분홍색 박스 영역]** GENESIS (2페이지 진입) 버튼
-- **[하늘색 바텀 영역]** 우측 상단 네비게이션 (Gallery, Reviews 등)
-- **[흰색 얇은 박스 영역]** 우측 로그인/회원가입 진입 버튼
+- **[노란색 영역]** 메인 카피라이트 타이틀
+- **[초록색 영역]** 서브 슬로건 및 강조 텍스트
+- **[보라색 영역]** START (2페이지 진입) 버튼
 
 ---
 
-## 1_1 메인 랜딩 페이지 중간 (Motion Synthesis)
+## 1_1 메인 랜딩 기능 카드 (Modern Grid Lines)
 
-![1_1 메인 랜딩 중간 (Motion Synthesis)](./1_1_Main_Page.png)
+![1_1 메인 랜딩 기능 카드 (Modern Grid Lines)](./1_1_Main_Page_Grid_Annotated.png)
 
-**페이지명 (Page Name):** 1_1 메인 랜딩 페이지 (Motion Synthesis 영역)
+**페이지명 (Page Name):** 1_1 메인 랜딩 기능 카드 (Modern Grid Lines 영역)
 **역할 (Role):**
 
-- 1페이지에서 스크롤을 내렸을 때 보이는 서비스 소개 중간 영역입니다.
-- '모션 합성 기술'에 대한 소개 텍스트 및 대표 홍보(시연) 영상을 재생하는 플레이어 뷰어가 자리합니다.
-- 중앙에 영상/포트폴리오가 시각적으로 크게 자리잡아 기술력을 어필합니다.
+- AUNOVA의 3가지 핵심 솔루션(3D 생성, 영상 변환, 굿즈 제작)을 카드 형태로 소개합니다.
+- 각 솔루션의 특징을 시각적 이미지와 함께 직관적으로 보여줍니다.
 
 **화면 영역 (UI Regions):**
 
-- **[빨간색 영역]** 중앙 3D 비디오 재생 영역 (Motion Synthesis Video Player)
+- **[하늘색 영역]** 핵심 솔루션 기능 카드 (NOVA-3D, LIVE, GOODS)
+- **[파란색 영역]** 각 카드별 상세 설명 및 특징 안내 텍스트
 
 ---
 
-## 1_2 메인 랜딩 페이지 하단 (Footer)
+## 1_2 메인 랜딩 커뮤니티 & 영상 (Community & Video)
 
-![1_2 메인 랜딩 하단 (Footer)](./1_2_Main_Page.png)
+![1_2 메인 랜딩 커뮤니티 & 영상 (Community & Video)](./1_2_Main_Page_Community_Annotated.png)
 
-**페이지명 (Page Name):** 1_2 메인 랜딩 페이지 (Footer 영역)
+**페이지명 (Page Name):** 1_2 메인 랜딩 커뮤니티 & 영상 (Community & Video 영역)
+**역할 (Role):**
+
+- 실제 사용자들의 리뷰와 3D 출력 결과물을 갤러리 형태로 노출하여 신뢰도를 높입니다.
+- 하단에는 서비스 소개 영상을 재생할 수 있는 시네마틱 뷰어 공간이 자리합니다.
+
+**화면 영역 (UI Regions):**
+
+- **[빨간색 영역]** 사용자 커뮤니티 리뷰 카드 리스트
+- **[분홍색 영역]** AUNOVA SOLUTION 비디오 플레이어 영역
+
+---
+
+## 1_3 메인 랜딩 하단 (Footer)
+
+![1_3 메인 랜딩 하단 (Footer)](./1_3_Main_Page_Footer_Annotated.png)
+
+**페이지명 (Page Name):** 1_3 메인 랜딩 하단 (Footer 영역)
 **역할 (Role):**
 
 - 1페이지의 가장 아래쪽 푸터(Footer) 영역입니다.
-- 회사 소개, 서비스 바로가기 링크, 이용약관 등 법적/회사 기본 정보와 연락처(Contact)가 구성되어 있습니다.
+- 회사 소개, 서비스 바로가기 링크, 이용약관, 연락처(Contact) 정보를 제공합니다.
 
 **화면 영역 (UI Regions):**
 
-- **[주황색 영역]** 하단 AUNOVA 회사 정보, 서비스 바로가기 링크, 연락처(Contact) 종합 영역
+- **[주황색 영역]** 하단 AUNOVA 회사 정보 및 로고
+- **[초록색 영역]** 서비스 바로가기 링크 및 연락처 정보 영역
 
 ---
 
@@ -205,6 +218,24 @@ This document outlines the purpose, role, and visual representation of each page
 - **[주황색 영역]** SNS 간편 로그인 옵션 버튼들 (네이버, 구글, 카카오, Apple)
 - **[노란색 영역]** 하단 'CONNECT' (로그인 실행) 메인 버튼
 - **[초록색 영역]** 최하단 '회원가입' 텍스트 이동 링크
+
+## e 마이페이지 (My Page / Workspace History Modal)
+
+![e 마이페이지 (My Page / Workspace History Modal)](./mypage_view.png)
+
+**페이지명 (Page Name):** e 마이페이지 (My Page Modal)
+**역할 (Role):**
+
+- 로그인 후 사용자가 자신의 이전 작업 내역과 현재 진행 중인 프로젝트를 한눈에 확인할 수 있는 개인 워크스페이스 관리창입니다.
+- **배경 뿌옇게(Blur) 처리**: 요청된 디자인에 따라 강력한 `backdrop-blur-xl` 효과가 적용되어, 현재 작업 중인 메인 화면을 가리지 않으면서도 집중도 있는 UI를 제공합니다.
+- 각 프로젝트별로 상태(COMPLETED, PROCESSING, ERROR)와 썸네일을 제공하여 직관적인 관리가 가능합니다.
+
+**화면 영역 (UI Regions):**
+
+- **[상단 영역]** 'MY PAGE' 타이틀 및 사용자 워크스페이스 안내
+- **[중앙 리스트 영역]** 개별 작업 항목 (썸네일, 프로젝트명, 날짜, 버전 정보)
+- **[상태 배지 영역]** 작업 진행 상태 (Green: 완료, Cyan: 진행중, Red: 에러)
+- **[하단 버튼 영역]** 리스트 새로고침 및 워크스페이스 닫기 버튼
 
 ## b 회원가입 페이지 (Signup Page / Modal)
 

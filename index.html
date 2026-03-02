@@ -411,7 +411,7 @@
               <!-- Review Card 1 -->
               <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:-translate-y-2 hover:border-nova-cyan/50 transition-all duration-300 group cursor-pointer">
                 <div class="w-full aspect-square rounded-lg overflow-hidden mb-4 bg-black/50">
-                  <img src="https://images.unsplash.com/photo-1633424669815-568b209d7df9?w=300&q=80" alt="Review 1" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
+                  <img src="./asset/새 폴더/1.png" alt="Review 1" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
                 </div>
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-nova-cyan text-xs font-bold uppercase tracking-wider">Level 3</span>
@@ -425,7 +425,7 @@
               <!-- Review Card 2 -->
               <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:-translate-y-2 hover:border-nova-cyan/50 transition-all duration-300 group cursor-pointer">
                 <div class="w-full aspect-square rounded-lg overflow-hidden mb-4 bg-black/50">
-                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" alt="Review 2" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
+                  <img src="./asset/새 폴더/2.png" alt="Review 2" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
                 </div>
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-green-400 text-xs font-bold uppercase tracking-wider">Level 1</span>
@@ -439,7 +439,7 @@
               <!-- Review Card 3 -->
               <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:-translate-y-2 hover:border-nova-cyan/50 transition-all duration-300 group cursor-pointer hidden md:block">
                 <div class="w-full aspect-square rounded-lg overflow-hidden mb-4 bg-black/50">
-                  <img src="https://images.unsplash.com/photo-1633394334057-7977a452bf91?w=300&q=80" alt="Review 3" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
+                  <img src="./asset/새 폴더/3.png" alt="Review 3" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
                 </div>
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-purple-400 text-xs font-bold uppercase tracking-wider">Level 4</span>
@@ -453,7 +453,7 @@
               <!-- Review Card 4 -->
               <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:-translate-y-2 hover:border-nova-cyan/50 transition-all duration-300 group cursor-pointer hidden lg:block">
                 <div class="w-full aspect-square rounded-lg overflow-hidden mb-4 bg-black/50 border border-nova-cyan/20">
-                  <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=300&q=80" alt="Review 4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
+                  <img src="./asset/새 폴더/4.png" alt="Review 4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"/>
                 </div>
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-yellow-400 text-xs font-bold uppercase tracking-wider">Level 5</span>
@@ -784,13 +784,7 @@
             </div>
           </div>
 
-        </div>
       </div>
-      </div>
-
-
-      </section>
-
       <!-- ═══════════ 3P: PAYMENT WARNING ═══════════ -->
       <section
         id="page-3"
@@ -1887,20 +1881,27 @@
         const id = document.getElementById("login-id").value.trim();
         const pw = document.getElementById("login-pw").value.trim();
         const err = document.getElementById("login-error");
+        
+        if (!id || !pw) {
+          err.textContent = "아이디와 비밀번호를 모두 입력해 주세요.";
+          err.classList.remove("hidden");
+          return;
+        }
+
         err.classList.add("hidden");
+        
         if (id === "aunova" && pw === "aunova3123") {
           closeModal("auth-modal");
           navigateTo("page-admin-1");
           setLoggedIn("ADMIN");
+          showToast("관리자 권한으로 접속되었습니다.");
           return;
         }
-        if (id !== "" && pw !== "") {
-          err.textContent = "ID 또는 비밀번호가 올바르지 않습니다.";
-          err.classList.remove("hidden");
-          return;
-        }
+        
+        // General User login logic (Accept any ID/PW for prototype)
         closeModal("auth-modal");
         setLoggedIn("USER");
+        showToast(id + "님, 환영합니다!");
       }
       function setLoggedIn(role) {
         isLoggedIn = true;
@@ -1921,6 +1922,11 @@
         document.getElementById("btn-mypage").style.display = "none";
         document.getElementById("login-id").value = "";
         document.getElementById("login-pw").value = "";
+        
+        if (currentPage.startsWith('page-admin')) {
+          navigateTo('page-1');
+        }
+        showToast("로그아웃 되었습니다.");
       }
       document.getElementById("login-pw").addEventListener("keydown", (e) => {
         if (e.key === "Enter") handleLogin();
@@ -2099,25 +2105,9 @@
         }, 3500);
       }
 
-      // === ADMIN ===
-      function selectOrder(i) {
-        /* highlight row */
-      }
 
-      // === VERSION SLIDER ===
-      const versionData = [
-        '// v1.0\nengine: "nova-v1"\nmesh_quality: "low"\ntexture_mode: "basic"',
-        '// v2.0\nengine: "nova-v1"\nmesh_quality: "medium"\ntexture_mode: "basic"',
-        '// v3.0\nengine: "nova-v2"\nmesh_quality: "high"\ntexture_mode: "enhanced"',
-        '// v4.0\nengine: "nova-v3"\nmesh_quality: "ultra"\ntexture_mode: "neural"\npriority: 2',
-        '// v5.0 — Current Config\nengine: "nova-v3"\nmesh_quality: "ultra"\ntexture_mode: "neural"\npriority: 1',
-      ];
-      function updateVersion(v) {
-        document.getElementById("version-editor").innerHTML =
-          '<pre class="text-gray-300 text-sm">' + versionData[v - 1] + "</pre>";
-        document.getElementById("ver-label").textContent =
-          "v" + v + ".0" + (v == 5 ? " (현재)" : "");
-      }
+
+
 
       // === MERGE ANIMATION ===
       function mergeAnimation() {
