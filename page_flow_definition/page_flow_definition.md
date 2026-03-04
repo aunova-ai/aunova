@@ -20,7 +20,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 1 메인 랜딩 히어로 (Genesis Hero)
 
-![1 메인 랜딩 히어로 (Genesis Hero)](./1_Main_Page_Hero_Annotated.png)
+![1 메인 랜딩 히어로 (Genesis Hero)](./1_Main_Page.png)
 
 **페이지명 (Page Name):** 1 메인 랜딩 히어로 (Page 1 Hero)
 **역할 (Role):**
@@ -40,7 +40,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 ## 1_1 메인 랜딩 기능 카드 (Modern Grid Lines)
 
-![1_1 메인 랜딩 기능 카드 (Modern Grid Lines)](./1_1_Main_Page_Grid_Annotated.png)
+![1_1 메인 랜딩 기능 카드 (Modern Grid Lines)](./1_1_Main_Page.png)
 
 **페이지명 (Page Name):** 1_1 메인 랜딩 기능 카드 (Modern Grid Lines 영역)
 **역할 (Role):**
@@ -55,35 +55,36 @@ This document outlines the purpose, role, and visual representation of each page
 
 ---
 
-## 1_2 메인 랜딩 커뮤니티 & 영상 (Community & Video)
+## 1_2 메인 랜딩 커뮤니티 & 앱 소개 (Community)
 
-![1_2 메인 랜딩 커뮤니티 & 영상 (Community & Video)](./1_2_Main_Page_Community_Annotated.png)
+![1_2 메인 랜딩 커뮤니티 & 앱 소개 (Community)](./1_2_Main_Page.png)
 
-**페이지명 (Page Name):** 1_2 메인 랜딩 커뮤니티 & 영상 (Community & Video 영역)
+**페이지명 (Page Name):** 1_2 메인 랜딩 커뮤니티 (Community 영역)
 **역할 (Role):**
 
 - 실제 사용자들의 리뷰와 3D 출력 결과물을 갤러리 형태로 노출하여 신뢰도를 높입니다.
-- 하단에는 서비스 소개 영상을 재생할 수 있는 시네마틱 뷰어 공간이 자리합니다.
+- AUNOVA SOLUTION 에 대한 간략한 소개를 제공합니다.
 
 **화면 영역 (UI Regions):**
 
 - **[빨간색 영역]** 사용자 커뮤니티 리뷰 카드 리스트
-- **[분홍색 영역]** AUNOVA SOLUTION 비디오 플레이어 영역
+- **[분홍색 영역]** AUNOVA SOLUTION 소개 텍스트 및 이미지
 
 ---
 
 ## 1_3 메인 랜딩 하단 (Footer)
 
-![1_3 메인 랜딩 하단 (Footer)](./1_3_Main_Page_Footer_Annotated.png)
+![1_3 메인 랜딩 하단 (Footer)](./1_3_Main_Page.png)
 
-**페이지명 (Page Name):** 1_3 메인 랜딩 하단 (Footer 영역)
+**페이지명 (Page Name):** 1_3 메인 랜딩 하단 (Footer & Video)
 **역할 (Role):**
 
-- 1페이지의 가장 아래쪽 푸터(Footer) 영역입니다.
+- 서비스 소개 영상을 재생할 수 있는 시네마틱 뷰어 공간이 자리합니다.
 - 회사 소개, 서비스 바로가기 링크, 이용약관, 연락처(Contact) 정보를 제공합니다.
 
 **화면 영역 (UI Regions):**
 
+- **[분홍색 영역]** AUNOVA SOLUTION 비디오 플레이어 영역
 - **[주황색 영역]** 하단 AUNOVA 회사 정보 및 로고
 - **[초록색 영역]** 서비스 바로가기 링크 및 연락처 정보 영역
 
