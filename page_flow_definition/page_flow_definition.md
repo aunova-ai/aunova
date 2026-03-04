@@ -28,13 +28,17 @@ This document outlines the purpose, role, and visual representation of each page
 - 사이트 진입 후 가장 먼저 만나게 되는 대문 역할을 합니다.
 - AUNOVA의 핵심 가치(사진을 3D로, 3D를 3D PRINTING으로)를 시각적으로 전달합니다.
 - 사용자가 본격적인 3D 합성(Synthesis) 워크스페이스(2페이지)로 진입할 수 있도록 유도하는 'START' 메인 버튼을 제공합니다.
+- 우측 상단 네비게이션과 로그인/회원가입 진입점을 포함합니다.
 
 **화면 영역 (UI Regions):**
 
 - **[주황색 영역]** 상단 AUNOVA 로고 위치
-- **[노란색 영역]** 메인 카피라이트 타이틀
-- **[초록색 영역]** 서브 슬로건 및 강조 텍스트
+- **[노란색 영역]** 메인 카피라이트 타이틀 ('NOVA-3D:')
+- **[초록색 영역]** 서브 슬로건 강조 텍스트 ('3D', '3D PRINTING')
+- **[파란색 영역]** 상세 설명 서브 텍스트
 - **[보라색 영역]** START (2페이지 진입) 버튼
+- **[하늘색 영역]** 우측 상단 네비게이션 (Gallery, Reviews 등)
+- **[흰색 영역]** 우측 로그인/회원가입 진입 버튼
 
 ---
 
@@ -52,6 +56,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 - **[하늘색 영역]** 핵심 솔루션 기능 카드 (NOVA-3D, LIVE, GOODS)
 - **[파란색 영역]** 각 카드별 상세 설명 및 특징 안내 텍스트
+- **[연보라색 영역]** 배경 그리드 디자인 및 레이아웃 구조
 
 ---
 
@@ -69,6 +74,7 @@ This document outlines the purpose, role, and visual representation of each page
 
 - **[빨간색 영역]** 사용자 커뮤니티 리뷰 카드 리스트
 - **[분홍색 영역]** AUNOVA SOLUTION 소개 텍스트 및 이미지
+- **[오렌지색 영역]** 사용자 경험(UX) 강조 문구 및 갤러리 타이틀
 
 ---
 
@@ -87,8 +93,7 @@ This document outlines the purpose, role, and visual representation of each page
 - **[분홍색 영역]** AUNOVA SOLUTION 비디오 플레이어 영역
 - **[주황색 영역]** 하단 AUNOVA 회사 정보 및 로고
 - **[초록색 영역]** 서비스 바로가기 링크 및 연락처 정보 영역
-
----
+- **[하늘색 영역]** 저작권 표기 및 하단 약관 링크 (Privacy, Terms)
 
 ## 2 Nova3D 의뢰서작성 (Synthesis Workspace)
 
