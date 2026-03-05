@@ -903,24 +903,28 @@
             </h3>
             <div class="grid grid-cols-2 gap-2" id="model-thumbs">
               <div
-                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer ring-2 ring-nova-cyan flex items-center justify-center text-xs text-gray-400"
+                onclick="selectResultStyle('./assets/images/results/media__1772721402696.jpg', this)"
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer ring-2 ring-nova-cyan flex items-center justify-center overflow-hidden hover:opacity-80 transition-all result-thumb"
               >
-                A
+                <img src="./assets/images/results/media__1772721402696.jpg" alt="Option A" class="w-full h-full object-cover" />
               </div>
               <div
-                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400"
+                onclick="selectResultStyle('./assets/images/results/media__1772721402706.jpg', this)"
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-2 hover:ring-nova-cyan flex items-center justify-center overflow-hidden hover:opacity-80 transition-all result-thumb"
               >
-                B
+                <img src="./assets/images/results/media__1772721402706.jpg" alt="Option B" class="w-full h-full object-cover" />
               </div>
               <div
-                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400"
+                onclick="selectResultStyle('./assets/images/results/media__1772721402709.jpg', this)"
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-2 hover:ring-nova-cyan flex items-center justify-center overflow-hidden hover:opacity-80 transition-all result-thumb"
               >
-                C
+                <img src="./assets/images/results/media__1772721402709.jpg" alt="Option C" class="w-full h-full object-cover" />
               </div>
               <div
-                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-1 hover:ring-nova-cyan flex items-center justify-center text-xs text-gray-400"
+                onclick="selectResultStyle('./assets/images/results/media__1772721402715.jpg', this)"
+                class="aspect-square bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg cursor-pointer hover:ring-2 hover:ring-nova-cyan flex items-center justify-center overflow-hidden hover:opacity-80 transition-all result-thumb"
               >
-                D
+                <img src="./assets/images/results/media__1772721402715.jpg" alt="Option D" class="w-full h-full object-cover" />
               </div>
             </div>
 
@@ -1970,6 +1974,38 @@
         }
         showToast("의뢰서를 확인 중입니다...");
         setTimeout(() => navigateTo('page-3'), 500);
+      }
+
+      function selectResultStyle(imgSrc, thumbEl) {
+        // Update rings on thumbnails
+        document.querySelectorAll('.result-thumb').forEach(el => {
+          el.classList.remove('ring-2', 'ring-nova-cyan');
+          el.classList.add('hover:ring-2', 'hover:ring-nova-cyan');
+        });
+        thumbEl.classList.remove('hover:ring-2', 'hover:ring-nova-cyan');
+        thumbEl.classList.add('ring-2', 'ring-nova-cyan');
+
+        // Update central viewer
+        const viewer = document.getElementById("page-5-viewer");
+        let mainImg = document.getElementById("selected-result-img");
+        if (!mainImg) {
+          mainImg = document.createElement("img");
+          mainImg.id = "selected-result-img";
+          mainImg.className = "absolute inset-0 w-full h-full object-contain p-8 z-20 transition-opacity duration-300";
+          viewer.appendChild(mainImg);
+          
+          // Hide initial placeholder assets
+          const logoContainer = viewer.querySelector("div.opacity-40");
+          if(logoContainer) logoContainer.style.display = "none";
+          const textEl = viewer.querySelector("p.text-gray-500\\/50");
+          if(textEl) textEl.style.display = "none";
+        }
+        // Add a simple fade effect
+        mainImg.style.opacity = 0;
+        setTimeout(() => {
+          mainImg.src = imgSrc;
+          mainImg.style.opacity = 1;
+        }, 150);
       }
 
       // === LEVEL TABS ===
