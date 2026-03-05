@@ -937,16 +937,19 @@
               </h3>
               <div class="space-y-3 mt-4">
                 <button
+                  onclick="downloadMockFile('AUNOVA_Result.stl', 'solid AUNOVA_Result\n  facet normal 0 0 0\n    outer loop\n    endloop\n  endfacet\nendsolid AUNOVA_Result\n')"
                   class="w-full py-3 bg-nova-cyan/10 border border-nova-cyan/30 text-nova-cyan rounded-xl font-bold hover:bg-nova-cyan/20 transition-all text-sm"
                 >
                   ↓ Download STL
                 </button>
                 <button
+                  onclick="downloadMockFile('AUNOVA_Result.obj', '# AUNOVA Mock OBJ File\no AUNOVA_Result\nv 0.000000 0.000000 0.000000\n')"
                   class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm"
                 >
                   ↓ Download OBJ
                 </button>
                 <button
+                  onclick="downloadMockFile('AUNOVA_Result.ply', 'ply\nformat ascii 1.0\ncomment AUNOVA Mock PLY\nelement vertex 0\nelement face 0\nend_header\n')"
                   class="w-full py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/10 transition-all text-sm"
                 >
                   ↓ Download PLY
@@ -1782,6 +1785,38 @@
 
     <!-- ═══════════ JAVASCRIPT ═══════════ -->
     <script>
+      // ==========================================
+      // GLOBAL FUNCTIONS & UTILS
+      // ==========================================
+      
+      // Feature: Trigger a mock file download
+      function downloadMockFile(filename, content) {
+        const element = document.createElement('a');
+        const file = new Blob([content], {type: 'text/plain'});
+        element.href = URL.createObjectURL(file);
+        element.download = filename;
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
+        document.body.removeChild(element);
+        
+        showToast(filename + " 다운로드가 시작되었습니다.");
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById('global-toast');
+        const textNode = document.getElementById('global-toast-msg');
+        if (!toast || !textNode) return;
+        
+        textNode.textContent = message;
+        toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.classList.remove('opacity-100', 'translate-y-0');
+          toast.classList.add('opacity-0', 'translate-y-[-20px]');
+        }, 2000);
+      }
       // === State ===
       let currentPage = "page-1";
       let currentLevel = 1;
