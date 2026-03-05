@@ -1364,6 +1364,13 @@
         <h2 class="text-lg font-bold text-white mb-1 tracking-widest">
           로그인
         </h2>
+        <button 
+          onclick="closeModal('auth-modal')" 
+          class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
+          title="Close"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
         <p class="text-gray-500 text-xs mb-6">Aunova 계정으로 로그인하세요.</p>
         <div
           id="login-error"
@@ -1384,21 +1391,25 @@
         <!-- SNS Login -->
         <div class="grid grid-cols-2 gap-2 mb-4">
           <button
+            onclick="showToast('SNS Login is not available in prototype.')"
             class="py-2.5 bg-[#03C75A]/15 border border-[#03C75A]/30 rounded-lg text-xs text-[#03C75A] font-bold hover:bg-[#03C75A]/25 transition-all"
           >
             N 네이버
           </button>
           <button
+            onclick="showToast('SNS Login is not available in prototype.')"
             class="py-2.5 bg-[#4285F4]/15 border border-[#4285F4]/30 rounded-lg text-xs text-[#4285F4] font-bold hover:bg-[#4285F4]/25 transition-all"
           >
             G 구글
           </button>
           <button
+            onclick="showToast('SNS Login is not available in prototype.')"
             class="py-2.5 bg-[#FEE500]/10 border border-[#FEE500]/30 rounded-lg text-xs text-[#FEE500] font-bold hover:bg-[#FEE500]/20 transition-all"
           >
             K 카카오
           </button>
           <button
+            onclick="showToast('SNS Login is not available in prototype.')"
             class="py-2.5 bg-white/10 border border-white/20 rounded-lg text-xs text-white font-bold hover:bg-white/15 transition-all"
           >
             Apple
@@ -1539,6 +1550,13 @@
         <h2 class="text-lg font-bold text-white mb-1 tracking-widest">
           회원가입
         </h2>
+        <button 
+          onclick="closeModal('signup-modal')" 
+          class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
+          title="Close"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
         <p class="text-gray-500 text-xs mb-6">Aunova 계정을 생성하세요.</p>
 
         <!-- Name -->
@@ -1696,6 +1714,7 @@
 
         <!-- Submit -->
         <button
+          onclick="handleSignup()"
           class="w-full bg-nova-cyan text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition-all tracking-wider mb-3"
         >
           가입하기
@@ -1902,6 +1921,13 @@
         closeModal("auth-modal");
         setLoggedIn("USER");
         showToast(id + "님, 환영합니다!");
+      }
+
+      function handleSignup() {
+        // Simple mock signup logic
+        closeModal("signup-modal");
+        setLoggedIn("USER");
+        showToast("AUNOVA에 오신 것을 환영합니다! 회원가입이 완료되었습니다.");
       }
       function setLoggedIn(role) {
         isLoggedIn = true;

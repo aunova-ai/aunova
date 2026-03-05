@@ -263,24 +263,6 @@ This document outlines the purpose, role, and visual representation of each page
 - **[초록색 영역]** 외부 약관 동의 체크박스 및 전문 보기 링크 모음 패널
 - **[파란색 영역]** 개별 필수 약관 '보기' 링크 텍스트
 
-## c Nova3D 보증금 결제 페이지 (Deposit Payment Page / Modal)
-
-![c Nova3D 보증금 결제 페이지 (Deposit Payment Page / Modal)](./c_Deposit_Payment_Page.png)
-
-**페이지명 (Page Name):** c Nova3D 보증금 결제 페이지 (Deposit Payment Modal)
-**역할 (Role):**
-
-- 2페이지 워크스페이스에서 3D 모델 '생성(SYNTHESIS)' 버튼을 눌렀을 때 나타나는 중간 결제 승인 단계입니다.
-- 전액 결제가 아닌 '보증금(우선 결제)' 개념을 소비자에게 명확히 안내하며 결제 승인을 확인받습니다.
-- API 호출 등 뒷단 서버 연동을 위한 필수 확인 절차이며, '결제 및 생성' 클릭 시 대기/처리 화면(3페이지) 거쳐 결과 화면(4페이지)으로 사용자 플로우를 안전하게 이어줍니다.
-
-**화면 영역 (UI Regions):**
-
-- **[빨간색 영역]** 보증금 결제 경고/안내 모달 전체창 영역
-- **[주황색 영역]** 결제 금액 상세 정보 (총 금액, 보증금 우선 결제 안내) 패널
-- **[노란색 영역]** 이전 단계로 돌아가기 (Cancel/Back) 버튼
-- **[초록색 영역]** 결제 및 3D 모델 생성 진행 (Confirm & Pay) 버튼
-
 ## d Nova3D 최종 결제 페이지 (Final Payment Page / Modal)
 
 ![d Nova3D 최종 결제 페이지 (Final Payment Page / Modal)](./d_Final_Payment_Page.png)
