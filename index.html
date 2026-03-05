@@ -1810,6 +1810,7 @@
       document.getElementById("page-0").addEventListener("click", function () {
         if (this.dataset.played) return;
         this.dataset.played = "1";
+        this.style.pointerEvents = "none"; // Fix: Immediately allow interaction with underlying content
 
         // 1. Crossfade to light image
         const lightImg = document.getElementById("intro-light-img");
@@ -1921,6 +1922,11 @@
         closeModal("auth-modal");
         setLoggedIn("USER");
         showToast(id + "님, 환영합니다!");
+        
+        // Fix: Auto-navigate to workspace if on landing pages
+        if (currentPage === "page-1" || currentPage === "page-0") {
+          navigateTo("page-2");
+        }
       }
 
       function handleSignup() {
@@ -1928,6 +1934,11 @@
         closeModal("signup-modal");
         setLoggedIn("USER");
         showToast("AUNOVA에 오신 것을 환영합니다! 회원가입이 완료되었습니다.");
+        
+        // Fix: Auto-navigate to workspace if on landing pages
+        if (currentPage === "page-1" || currentPage === "page-0") {
+          navigateTo("page-2");
+        }
       }
       function setLoggedIn(role) {
         isLoggedIn = true;
@@ -1960,11 +1971,12 @@
 
       function handleGenerate() {
         if (!isLoggedIn) {
-          alert('로그인이 필요합니다.');
+          showToast("3D 생성을 위해 로그인이 필요합니다.");
           openModal('auth-modal');
           return;
         }
-        navigateTo('page-3');
+        showToast("의뢰서를 확인 중입니다...");
+        setTimeout(() => navigateTo('page-3'), 500);
       }
 
       // === LEVEL TABS ===
