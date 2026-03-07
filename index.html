@@ -1050,9 +1050,9 @@
       <!-- ═══════════ ㄱP: THE FACTORY (ADMIN) ═══════════ -->
       <section
         id="page-admin-1"
-        class="spa-page h-screen flex-col pt-0 pb-0 px-0 overflow-hidden"
+        class="spa-page h-screen flex-col pt-[100px] pb-0 px-0 overflow-hidden"
       >
-        <div class="grid grid-cols-1 xl:grid-cols-[850px_1fr] gap-0 h-screen w-full">
+        <div class="grid grid-cols-1 xl:grid-cols-[850px_1fr] gap-0 h-full w-full">
           <!-- LEFT: Order List -->
           <div class="bg-[#0D1117] p-5 flex flex-col gap-4 border-r border-white/5 relative overflow-hidden">
             <div class="flex flex-col gap-2 mb-4 no-print shrink-0">
@@ -1063,7 +1063,7 @@
               <div>
                 <h1 class="text-2xl font-bold tracking-widest mt-2">THE FACTORY</h1>
                 <p class="text-nova-cyan text-xs mt-1">
-                  관리자 운영 관제 — ㄱ페이지
+                  관리자 운영 관제
                 </p>
               </div>
               <div class="flex flex-wrap gap-2 mt-2">
@@ -1071,7 +1071,7 @@
                   onclick="navigateTo('page-admin-2')"
                   class="liquid-glass px-3 py-2 rounded-lg text-xs text-gray-400 hover:text-white"
                 >
-                  ㄴP Lab →
+                  Lab →
                 </button>
                 <div class="relative group inline-block no-print">
                   <button
@@ -1134,7 +1134,7 @@
           </div>
 
           <!-- RIGHT: Main Content Area (Viewer) -->
-          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B] flex flex-col gap-6">
+          <div class="p-6 overflow-y-auto h-full relative bg-[#0A0A0B] flex flex-col gap-6">
             <!-- TOP: Cinema Viewer -->
             <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print w-full h-full max-w-[1000px] mx-auto">
               <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
@@ -1161,11 +1161,11 @@
       <!-- ═══════════ ㄴP: THE LAB (ADMIN) ═══════════ -->
       <section
         id="page-admin-2"
-        class="spa-page h-screen flex-col pt-0 pb-0 px-0 overflow-hidden"
+        class="spa-page h-screen flex-col pt-[100px] pb-0 px-0 overflow-hidden"
       >
-        <div class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-screen w-full">
+        <div class="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-0 h-full w-full">
           <!-- LEFT: AI Model Cards -->
-          <div class="bg-[#0D1117] p-4 flex flex-col gap-3 border-r border-white/5 overflow-hidden h-screen">
+          <div class="bg-[#0D1117] p-4 flex flex-col gap-3 border-r border-white/5 overflow-hidden h-full">
             <div class="flex flex-col gap-2 no-print shrink-0">
               <!-- AUNOVA Title -->
               <div class="text-lg font-black tracking-tighter text-nova-cyan cursor-pointer" onclick="navigateTo('page-1')">
@@ -1174,7 +1174,7 @@
               <div>
                 <h1 class="text-2xl font-bold tracking-widest mt-2">THE LAB</h1>
                 <p class="text-nova-cyan text-xs mt-1">
-                  전략 연구소 — ㄴ페이지
+                  전략 연구소
                 </p>
               </div>
               <div class="flex gap-2 mt-2">
@@ -1182,7 +1182,7 @@
                   onclick="navigateTo('page-admin-1')"
                   class="liquid-glass px-3 py-2 rounded-lg text-xs text-gray-400 hover:text-white"
                 >
-                  ← ㄱP Factory
+                  ← Factory
                 </button>
                 <button
                   onclick="handleLogout()"
@@ -1230,7 +1230,7 @@
             </div>
           </div>
           <!-- RIGHT: Time Machine & Prompt Composer -->
-          <div class="p-6 overflow-y-auto h-screen relative bg-[#0A0A0B] flex flex-col gap-6">
+          <div class="p-6 overflow-y-auto h-full relative bg-[#0A0A0B] flex flex-col gap-6">
             <!-- TIME MACHINE BLOCK -->
             <div class="liquid-glass rounded-2xl p-5 flex flex-col no-print shrink-0">
               <h3 class="text-nova-cyan font-bold text-sm tracking-wider mb-4">
